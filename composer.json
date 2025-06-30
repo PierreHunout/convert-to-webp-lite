@@ -1,0 +1,47 @@
+{
+    "name": "pierrehunoutplugins/wpconverttowebp",
+    "type": "wordpress-plugin",
+    "description": "Basic Plugin with PSR-4 autoload.",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "webp",
+        "image",
+        "converter"
+    ],
+    "version": "1.0.0",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.4",
+        "composer/installers": "^2.0"
+    },
+    "extra": {
+        "installer-name": "wp-convert-to-webp",
+        "installer-paths": {
+            "wp-content/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ]
+        }
+    },
+    "bin": [
+        "vendor/bin/phpcs",
+        "vendor/bin/phpcbf",
+        "vendor/bin/phpunit"
+    ],
+    "authors": [
+        {
+            "name": "Pierre Hunout"
+        }
+    ],
+    "config": {
+        "vendor-dir": "lib",
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "WpConvertToWebp\\": "includes/"
+        }
+    }
+}

@@ -268,11 +268,15 @@ class Options
             wp_die(__('Not allowed', 'wp-convert-to-webp'));
         }
 
-        $files  = WpConvertToWebp\Tools::get_files();
+        try {
+            $files  = \WpConvertToWebp\Tools::get_files();
 
-        if ($files) {
             foreach ($files as $file) {
                 if ($file->isFile() && strtolower($file->getExtension()) === 'webp') {
+                    if (!@unlink($file->getPathname())) {
+                        error_log('[WP Convert to WebP] Failed to delete: ' . $file->getPathname());
+                    }
+
                     @unlink($file->getPathname());
                 }
             }
@@ -280,6 +284,8 @@ class Options
             // Redirect back to the options page with a success flag
             wp_redirect(add_query_arg('webp_deleted', '1', admin_url('admin.php?page=wp-convert-to-webp')));
             exit;
+        } catch (\Throwable $e) {
+            error_log('[WP Convert to WebP] Uninstall error: ' . $e->getMessage());
         }
     }
 }

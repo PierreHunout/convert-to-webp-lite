@@ -22,6 +22,8 @@ if ($delete_webp) {
                 if (!@unlink($file->getPathname())) {
                     error_log('[WP Convert to WebP] Failed to delete: ' . $file->getPathname());
                 }
+
+                @unlink($file->getPathname());
             }
         }
     } catch (Throwable $e) {

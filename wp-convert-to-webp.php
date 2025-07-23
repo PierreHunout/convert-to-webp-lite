@@ -154,7 +154,7 @@ class WpConvertToWebp
 	public static function run_files()
 	{
 		$path 			= WP_CONVERT_TO_WEBP_PATH . 'includes/';
-		$directories	=  array_diff(scandir($path), ['..'], ['.']);
+		$directories	= array_diff(scandir($path), ['..'], ['.']);
 		foreach ($directories as $directory) {
 			$dir 		= $path . $directory;
 			if (is_dir($dir)) {

@@ -192,8 +192,8 @@ class WpConvertToWebp
 	 */
 	public static function admin_enqueue()
 	{
-		wp_enqueue_style('admin-styles', WP_CONVERT_TO_WEBP_CSS . 'admin.css', [], WP_CONVERT_TO_WEBP_VERSION, 'all');
-		wp_enqueue_script('admin-scripts', WP_CONVERT_TO_WEBP_JS . 'admin.js', [], WP_CONVERT_TO_WEBP_VERSION, true);
+		wp_enqueue_style('wp-convert-to-webp', WP_CONVERT_TO_WEBP_CSS . 'styles.css', [], WP_CONVERT_TO_WEBP_VERSION, 'all');
+		wp_enqueue_script('wp-convert-to-webp', WP_CONVERT_TO_WEBP_JS . 'scripts.js', [], WP_CONVERT_TO_WEBP_VERSION, true);
 	}
 }
 

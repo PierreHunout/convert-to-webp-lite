@@ -78,15 +78,10 @@ class Converter
                 return;
         }
 
-        /**
-         * 
-         * (TODO: Add quality parameter to allow users to set the quality
-         * of the WebP conversion.)
-         * 
-         */
+        $webp_quality   = get_option('convert_to_webp_quality', 85);
 
         if ($webp) {
-            imagewebp($webp, $path, 85);
+            imagewebp($webp, $path, $webp_quality);
             imagedestroy($webp);
         }
     }

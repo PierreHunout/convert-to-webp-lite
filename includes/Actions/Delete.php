@@ -50,19 +50,22 @@ class Delete
      */
     public function delete_webp($post_id)
     {
-        $file = get_attached_file($post_id);
+        $file   = get_attached_file($post_id);
 
         if ($file) {
-            $cleaner = new Cleaner();
+            $cleaner    = new Cleaner();
+
             $cleaner->delete($file);
 
-            $meta = wp_get_attachment_metadata($post_id);
+            $meta       = wp_get_attachment_metadata($post_id);
+            
             if (!empty($meta['sizes'])) {
-                $file_info = pathinfo($meta['file']);
+                $file_info  = pathinfo($meta['file']);
                 $upload_dir = wp_upload_dir();
                 foreach ($meta['sizes'] as $size) {
                     if (!empty($size['file'])) {
-                        $crop_path = $upload_dir['basedir'] . '/' . $file_info['dirname'] . '/' . $size['file'];
+                        $crop_path  = $upload_dir['basedir'] . '/' . $file_info['dirname'] . '/' . $size['file'];
+
                         $cleaner->delete($crop_path);
                     }
                 }

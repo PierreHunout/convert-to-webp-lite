@@ -13,13 +13,7 @@ A simple and efficient WordPress plugin to convert your images to the WebP forma
 ## Installation
 
 1. Clone or download this repository to your `wp-content/plugins` directory.
-2. Run the following command in the plugin directory to install dependencies:
-
-```bash
-composer install
-```
-
-3. Activate the plugin from the WordPress admin dashboard.
+2. Activate the plugin from the WordPress admin dashboard.
 
 ## Usage
 

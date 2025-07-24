@@ -1,7 +1,8 @@
 <?php
-
 /**
- *
+ * This file is responsible for uninstalling the plugin
+ * and deleting WebP files if the option is set.
+ * 
  * @package WpConvertToWebp\Actions
  * @since 1.0.0
  */
@@ -24,13 +25,18 @@ if (!defined('WPINC')) {
 class Uninstall
 {
 
+	/**
+	 * Class Runner: We don't use the autoloader.
+	 *
+	 * @since 1.0.0
+	 */
 	public function run()
 	{
 		return;
 	}
 
 	/**
-	 * Uninstall the plugin.
+	 * On Uninstall.
 	 *
 	 * This method is called when the plugin is uninstalled.
 	 * It deletes WebP files if the option is set.

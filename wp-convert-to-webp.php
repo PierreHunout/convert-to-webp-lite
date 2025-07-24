@@ -137,6 +137,9 @@ class WpConvertToWebp
 	{
 		self::run_enqueue();
 		self::run_files();
+
+		register_deactivation_hook(__FILE__, ['\WpConvertToWebp\Actions\Deactivate', 'deactivate']);
+		register_uninstall_hook(__FILE__, ['\WpConvertToWebp\Actions\Uninstall', 'uninstall']);
 	}
 
 	/**	

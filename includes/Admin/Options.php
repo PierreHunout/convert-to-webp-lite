@@ -76,6 +76,7 @@ class Options
         wp_enqueue_media();
 
         $webp_quality           = get_option('convert_to_webp_quality', 85);
+        $delete_on_deactivate   = get_option('delete_webp_on_deactivate', false);
         $delete_on_uninstall    = get_option('delete_webp_on_uninstall', false);
 ?>
         <div class="wrap convert-to-webp">
@@ -94,11 +95,20 @@ class Options
                                 </div>
                                 <p class="description"><?php _e('Default: 85. Higher means better quality but larger files.', 'wp-convert-to-webp'); ?></p>
                             </div>
+
                             <div class="convert-to-webp__form--table__row">
-                                <h2><?php _e('Delete WebP files on uninstall', 'wp-convert-to-webp'); ?></h2>
+                                <h2><?php _e('Clean data on <strong>deactivate</strong>', 'wp-convert-to-webp'); ?></h2>
+                                <div class="convert-to-webp__form--table__row__input">
+                                    <input type="checkbox" name="delete_webp_on_deactivate" value="1" <?php checked($delete_on_deactivate, 1); ?> />
+                                    <?php _e('Delete all WebP files', 'wp-convert-to-webp'); ?>
+                                </div>
+                            </div>
+
+                            <div class="convert-to-webp__form--table__row">
+                                <h2><?php _e('Clean data on <strong>uninstall</strong>', 'wp-convert-to-webp'); ?></h2>
                                 <div class="convert-to-webp__form--table__row__input">
                                     <input type="checkbox" name="delete_webp_on_uninstall" value="1" <?php checked($delete_on_uninstall, 1); ?> />
-                                    <?php _e('Delete all WebP files when uninstalling the plugin', 'wp-convert-to-webp'); ?>
+                                    <?php _e('Delete all WebP files', 'wp-convert-to-webp'); ?>
                                 </div>
                             </div>
                         </div>
@@ -188,6 +198,7 @@ class Options
             }
 
             update_option('convert_to_webp_quality', $quality);
+            update_option('delete_webp_on_deactivate', isset($_POST['delete_webp_on_deactivate']) ? 1 : 0);
             update_option('delete_webp_on_uninstall', isset($_POST['delete_webp_on_uninstall']) ? 1 : 0);
         }
     }

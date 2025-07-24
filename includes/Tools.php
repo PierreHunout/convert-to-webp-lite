@@ -10,6 +10,9 @@
 
 namespace WpConvertToWebp;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
@@ -37,7 +40,7 @@ class Tools
     {
         $upload_dir = wp_upload_dir();
         $base_dir   = trailingslashit($upload_dir['basedir']);
-        $files      = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($base_dir));
+        $files      = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
 
         if ($files) {
             return $files;

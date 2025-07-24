@@ -11,6 +11,10 @@
 
 namespace WpConvertToWebp;
 
+use InvalidArgumentException;
+use RuntimeException;
+use Throwable;
+
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
@@ -48,14 +52,14 @@ class Cleaner
         try {
             // Validate the file path
             if (!is_string($filepath) || empty($filepath)) {
-                throw new \InvalidArgumentException('Invalid file path provided.');
+                throw new InvalidArgumentException('Invalid file path provided.');
             }
 
             $info   = pathinfo($filepath);
 
             // Ensure that the dirname and filename are not empty
             if (empty($info['dirname']) || empty($info['filename'])) {
-                throw new \RuntimeException('Unable to parse file path: ' . $filepath);
+                throw new RuntimeException('Unable to parse file path: ' . $filepath);
             }
 
             $webp   = $info['dirname'] . '/' . $info['filename'] . '.webp';
@@ -63,19 +67,19 @@ class Cleaner
             if (file_exists($webp)) {
                 // Check if the WebP file is writable before attempting to delete
                 if (!is_writable($webp)) {
-                    throw new \RuntimeException('WebP file is not writable: ' . $webp);
+                    throw new RuntimeException('WebP file is not writable: ' . $webp);
                 }
 
                 // Attempt to delete the WebP file
                 if (!unlink($webp)) {
-                    throw new \RuntimeException('Failed to delete WebP file: ' . $webp);
+                    throw new RuntimeException('Failed to delete WebP file: ' . $webp);
                 }
 
                 @unlink($webp);
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $error) {
             // Log the error message
-            error_log('[WebP Cleaner] ' . $e->getMessage());
+            error_log('[WebP Cleaner] ' . $error->getMessage());
         }
     }
 }

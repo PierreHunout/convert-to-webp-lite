@@ -11,7 +11,8 @@
 
 namespace WpConvertToWebp\Admin;
 
-use WpConvertToWebp;
+use WpConvertToWebp\Tools;
+use Throwable;
 
 /**
  * This check prevents direct access to the plugin file,
@@ -218,7 +219,7 @@ class Options
         }
 
         $quality    = get_option('convert_to_webp_quality', 85);
-        $files      = WpConvertToWebp\Tools::get_files();
+        $files      = Tools::get_files();
 
         if ($files) {
             foreach ($files as $file) {
@@ -280,7 +281,7 @@ class Options
         }
 
         try {
-            $files  = \WpConvertToWebp\Tools::get_files();
+            $files  = Tools::get_files();
 
             foreach ($files as $file) {
                 if ($file->isFile() && strtolower($file->getExtension()) === 'webp') {
@@ -295,8 +296,8 @@ class Options
             // Redirect back to the options page with a success flag
             wp_redirect(add_query_arg('webp_deleted', '1', admin_url('admin.php?page=wp-convert-to-webp')));
             exit;
-        } catch (\Throwable $e) {
-            error_log('[WP Convert to WebP] Uninstall error: ' . $e->getMessage());
+        } catch (Throwable $error) {
+            error_log('[WP Convert to WebP] Uninstall error: ' . $error->getMessage());
         }
     }
 }

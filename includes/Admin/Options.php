@@ -167,7 +167,12 @@ class Options
                         </div>
                         <input type="range" min="0" max="100" value="50" class="convert-to-webp__range">
                         <div class="convert-to-webp__handler"></div>
+                        <div class="convert-to-webp__compare--details">
+                        <p class="convert-to-webp__compare--size">Original image: <span id="comparison-original-size"></span></p>
+                        <p class="convert-to-webp__compare--size">WebP Image: <span id="comparison-webp-size"></span></p>
                     </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

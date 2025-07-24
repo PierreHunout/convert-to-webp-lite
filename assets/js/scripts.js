@@ -26,10 +26,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Update comparison UI
                     const original = document.getElementById('comparison-original');
                     const webp = document.getElementById('comparison-webp');
+                    const originalSize = document.getElementById('comparison-original-size');
+                    const webpSize = document.getElementById('comparison-webp-size');
                     if (original && webp) {
                         const url = attachment.url;
                         const width = attachment.width;
                         const height = attachment.height;
+                        const originalFilesize = attachment.filesizeHumanReadable;
                         const webpUrl = url.replace(/\.(jpe?g|png|gif)$/i, '.webp');
 
                         checkWebP(webpUrl, function () {
@@ -37,6 +40,21 @@ document.addEventListener('DOMContentLoaded', function () {
                             container.style.aspectRatio = width / height;
                             original.src = url;
                             webp.src = webpUrl;
+
+                            // Update size information
+                            originalSize.textContent = originalFilesize;
+                            webpSize.textContent = 'Loading...';
+
+                            // Check WebP file size
+                            fetch(webpUrl).then(response => {
+                                if (response.ok) {
+                                    const webpBytes = response.headers.get('Content-Length');
+                                    const webpFilesize = (webpBytes / 1024).toFixed(2) + ' Ko';
+                                    webpSize.textContent = webpFilesize;
+                                } else {
+                                    webpSize.textContent = 'Not available';
+                                }
+                            });
                         }, function () {
                             container.style.display = 'none';
                             window.alert("WebP version does not exist for this image. Please convert all previously uploaded images.");

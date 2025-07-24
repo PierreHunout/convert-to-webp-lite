@@ -1,7 +1,9 @@
 <?php
 
 /**
- *
+ * This file is responsible for deactivating the plugin
+ * and deleting WebP files if the option is set.
+ * 
  * @package WpConvertToWebp\Actions
  * @since 1.0.0
  */
@@ -24,13 +26,18 @@ if (!defined('WPINC')) {
 class Deactivate
 {
 
+    /**
+     * Class Runner: We don't use the autoloader.
+     *
+     * @since 1.0.0
+     */
     public function run()
     {
         return;
     }
 
     /**
-     * Deactivate the plugin.
+     * On Deactivate.
      *
      * This method is called when the plugin is deactivated.
      * It deletes WebP files if the option is set.
@@ -47,12 +54,12 @@ class Deactivate
 
                 foreach ($files as $file) {
                     if ($file->isFile() && strtolower($file->getExtension()) === 'webp') {
-						if (!@unlink($file->getPathname())) {
-							error_log('[WP Convert to WebP] Failed to delete: ' . $file->getPathname());
-						}
+                        if (!@unlink($file->getPathname())) {
+                            error_log('[WP Convert to WebP] Failed to delete: ' . $file->getPathname());
+                        }
 
-						@unlink($file->getPathname());
-					}
+                        @unlink($file->getPathname());
+                    }
                 }
             } catch (Throwable $error) {
                 error_log('[WP Convert to WebP] Deactivate error: ' . $error->getMessage());

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is responsible for managing the options page of the WebP conversion plugin.
  * It includes methods to add the options page, render the form, handle form submissions,

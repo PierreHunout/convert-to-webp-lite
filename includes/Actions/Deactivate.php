@@ -8,7 +8,8 @@
 
 namespace WpConvertToWebp\Actions;
 
-use WpConvertToWebp\Cleaner;
+use WpConvertToWebp\Tools;
+use Throwable;
 
 /**
  * This check prevents direct access to the plugin file,
@@ -42,7 +43,7 @@ class Deactivate
 
         if ($delete_webp) {
             try {
-                $files  = \WpConvertToWebp\Tools::get_files();
+                $files  = Tools::get_files();
 
                 foreach ($files as $file) {
                     if ($file->isFile() && strtolower($file->getExtension()) === 'webp') {
@@ -53,8 +54,8 @@ class Deactivate
 						@unlink($file->getPathname());
 					}
                 }
-            } catch (\Throwable $e) {
-                error_log('[WP Convert to WebP] Deactivate error: ' . $e->getMessage());
+            } catch (Throwable $error) {
+                error_log('[WP Convert to WebP] Deactivate error: ' . $error->getMessage());
             }
 
             delete_option('delete_webp_on_deactivate');

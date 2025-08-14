@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is responsible for uninstalling the plugin
  * and deleting WebP files if the option is set.
@@ -10,6 +11,8 @@
 namespace WpConvertToWebp\Actions;
 
 use WpConvertToWebp\Tools;
+use WpConvertToWebp\Cleaner;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -45,28 +48,27 @@ class Uninstall
 	 */
 	public static function uninstall()
 	{
-		$delete_webp    = get_option('delete_webp_on_uninstall', false);
+		$delete_webp	= get_option('delete_webp_on_uninstall', false);
 
-		if ($delete_webp) {
-			try {
-				$files  = Tools::get_files();
+		if (!$delete_webp) {
+			return;
+		}
 
-				foreach ($files as $file) {
-					if ($file->isFile() && strtolower($file->getExtension()) === 'webp') {
-						if (!@unlink($file->getPathname())) {
-							error_log('[WP Convert to WebP] Failed to delete: ' . $file->getPathname());
-						}
+		try {
+			$files		= Tools::get_files();
 
-						@unlink($file->getPathname());
-					}
-				}
-			} catch (Throwable $error) {
-				error_log('[WP Convert to WebP] Uninstall error: ' . $error->getMessage());
+			if (empty($files)) {
+				throw new RuntimeException('No files found for deletion.');
 			}
 
-			delete_option('delete_webp_on_uninstall');
-			delete_option('delete_webp_on_deactivate');
-			delete_option('convert_to_webp_quality');
+			$cleaner    = new Cleaner();
+            $cleaner->remove($files);
+		} catch (Throwable $error) {
+			error_log('[WP Convert to WebP] Uninstall error: ' . $error->getMessage());
 		}
+
+		delete_option('delete_webp_on_uninstall');
+		delete_option('delete_webp_on_deactivate');
+		delete_option('convert_to_webp_quality');
 	}
 }

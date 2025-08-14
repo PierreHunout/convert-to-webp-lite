@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WebP Utils
  * 
@@ -27,6 +28,22 @@ class Tools
 {
 
     /**
+     * Retrieves the base directory for uploads.
+     *
+     * This method returns the base directory for uploads,
+     * which is used for WebP conversion.
+     *
+     * @since 1.0.0
+     *
+     * @return string The base directory for uploads.
+     */
+    public static function get_basedir()
+    {
+        $upload_dir = wp_upload_dir();
+        return trailingslashit($upload_dir['basedir']);
+    }
+
+    /**
      * Retrieves all files in the uploads directory.
      *
      * This method uses a RecursiveDirectoryIterator to get all files
@@ -34,19 +51,18 @@ class Tools
      *
      * @since 1.0.0
      *
-     * @return \RecursiveIteratorIterator|void Returns an iterator for the files or void if no files found.
+     *  @return RecursiveIteratorIterator|void Returns an iterator for the files or void if no files are found.
      */
     public static function get_files()
     {
-        $upload_dir = wp_upload_dir();
-        $base_dir   = trailingslashit($upload_dir['basedir']);
+        $base_dir   = self::get_basedir();
         $files      = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
 
-        if ($files) {
-            return $files;
+        if (!$files) {
+            return;
         }
 
-        return;
+        return $files;
     }
 
     /**
@@ -59,7 +75,7 @@ class Tools
      * @param string $path The path to the file to check.
      * @return bool Returns true if the file exists, false otherwise.
      */
-    public static function check_file($path)
+    public static function is_file($path)
     {
         $upload_dir = wp_upload_dir();
         $basedir    = $upload_dir['basedir'];
@@ -67,6 +83,41 @@ class Tools
         $file       = str_replace($baseurl, $basedir, $path);
 
         if ((is_file($file)) && (file_exists($file))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the given file path is a WebP file.
+     *
+     * This method checks if the file at the given path is a WebP file
+     * by checking its extension and returning true or false accordingly.
+     *
+     * @since 1.0.0
+     *
+     * @param string $filepath The path to the file to check.
+     * @return bool Returns true if the file is a WebP file, false otherwise.
+     */
+    public static function is_webp($filepath)
+    {
+        // Get the url path from the file path
+        $filepath       = str_replace(wp_upload_dir()['basedir'], wp_upload_dir()['baseurl'], $filepath);
+        // Get the attachment ID from the file path
+        $attachment_id  = attachment_url_to_postid($filepath);
+
+        if (!$attachment_id || !is_int($attachment_id) || $attachment_id <= 0) {
+            return false;
+        }
+
+        // Get the file path from the attachment ID
+        $file           = get_attached_file($attachment_id);
+
+        // Check the image format
+        $pathinfo       = pathinfo($file);
+
+        if ($pathinfo['extension'] === 'webp') {
             return true;
         }
 

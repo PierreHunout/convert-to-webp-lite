@@ -9,8 +9,6 @@
 
 namespace WpConvertToWebp\Actions;
 
-use WpConvertToWebp\Replacer;
-
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
@@ -38,7 +36,6 @@ class Replace
     {
         add_filter('the_content', [static::class, 'replace_webp']);
         add_filter('post_thumbnail_html', [static::class, 'replace_webp']);
-        add_filter('wp_get_attachment_image', [static::class, 'replace_webp']);
         add_filter('widget_text', [static::class, 'replace_webp']);
     }
 
@@ -55,11 +52,9 @@ class Replace
      */
     public static function replace_webp($content)
     {
-        $replacer   = new Replacer();
-
         return preg_replace_callback(
             '/<img\s+[^>]*src=["\']([^"\']+)["\'][^>]*>/i',
-            [$replacer, 'replace'],
+            ['\\WpConvertToWebp\\Replacer', 'replace'],
             $content
         );
     }

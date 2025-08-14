@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is responsible for converting images to WebP format
  * when they are uploaded to the WordPress media library.
@@ -39,7 +40,7 @@ class Add
      */
     public function run()
     {
-        add_filter('wp_generate_attachment_metadata', [$this, 'convert_webp'], 20, 2);
+        add_filter('wp_generate_attachment_metadata', [$this, 'convert_webp'], 10, 2);
     }
 
     /**
@@ -53,28 +54,17 @@ class Add
      * @since 1.0.0
      *
      * @param array $metadata The attachment metadata.
-     * @param int $attachment_id The attachment ID.
-     * @return array The modified metadata.
+     * @param int $attachment_id The ID of the attachment.
+     * @return array The metadata.
      */
     public function convert_webp($metadata, $attachment_id)
     {
-        $upload_dir = wp_upload_dir();
-        $base_dir   = trailingslashit($upload_dir['basedir']);
-
-        if (!empty($metadata['file'])) {
-            $converter  = new Converter();
-            $converter->convert($base_dir . $metadata['file']);
+        if (empty($metadata) || !is_array($metadata)) {
+            return $metadata;
         }
 
-        if (!empty($metadata['sizes'])) {
-            $file_info  = pathinfo($metadata['file']);
-            foreach ($metadata['sizes'] as $size) {
-                if (!empty($size['file'])) {
-                    $crop_path  = $base_dir . $file_info['dirname'] . '/' . $size['file'];
-                    $converter->convert($crop_path);
-                }
-            }
-        }
+        $converter  = new Converter();
+        $converter->prepare($attachment_id, $metadata);
 
         return $metadata;
     }

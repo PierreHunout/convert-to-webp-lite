@@ -1,7 +1,7 @@
 {
     "name": "pierrehunoutplugins/wpconverttowebp",
     "type": "wordpress-plugin",
-    "description": "Basic Plugin with PSR-4 autoload.",
+    "description": "A WordPress plugin to convert images to WebP format.",
     "keywords": [
         "wordpress",
         "plugin",
@@ -10,7 +10,6 @@
         "converter"
     ],
     "version": "1.0.0",
-    "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=7.4",
         "composer/installers": "^2.0"
@@ -23,14 +22,10 @@
             ]
         }
     },
-    "bin": [
-        "vendor/bin/phpcs",
-        "vendor/bin/phpcbf",
-        "vendor/bin/phpunit"
-    ],
     "authors": [
         {
-            "name": "Pierre Hunout"
+            "name": "Pierre Hunout",
+            "email": "pierre.hunout@gmail.com"
         }
     ],
     "config": {

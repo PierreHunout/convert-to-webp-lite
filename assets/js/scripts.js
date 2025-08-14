@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     button.addEventListener('click', function (e) {
         e.preventDefault();
+        removeNotice();
 
         if (frame) {
             frame.open();
@@ -20,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         frame = wp.media();
         frame.on('select', function () {
-
             try {
                 const attachment = frame.state().get('selection').first().toJSON();
 
@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             } catch ({ message }) {
                 container.style.display = 'none';
+                removeNotice();
                 displayNotice(message);
                 return;
             }
@@ -100,12 +101,15 @@ document.addEventListener('DOMContentLoaded', function () {
         frame.open();
     });
 
-    /*
-    * This function displays a notice with the provided message.
-    * It creates a new div element, sets its class and content and appends it to the parent element of the "convert-to-webp" element.
-    * @param {string} message - The message to display in the notice.
-    * @return {void}
-    */
+    /**
+     * This function displays a notice with the provided message.
+     * It creates a new div element, sets its class and content and appends it to the parent element of the "convert-to-webp" element.
+     * 
+     * @param {string} message - The message to display in the notice.
+     * @return {void}
+     * @function displayNotice
+     * @description Displays a notice with the provided message.
+     */
     const displayNotice = (message) => {
         const notice = document.createElement('div');
         notice.className = `notice is-dismissible error convert-to-webp__notice`;
@@ -128,14 +132,38 @@ document.addEventListener('DOMContentLoaded', function () {
         parent.insertBefore(notice, parent.firstChild);
     }
 
-    /*
+    /**
+     * This function removes the notice element from the DOM.
+     * It selects the notice element with the class 'convert-to-webp__notice' and removes it if it exists.
+     * 
+     * @returns {void}
+     * @function removeNotice
+     * @description Removes the notice element from the DOM.
+     */
+    const removeNotice = () => {
+        const notice = document.querySelector('.convert-to-webp__notice');
+        if (notice) {
+            notice.remove();
+        }
+    };
+
+    /**
      * This function checks if the WebP image format is available.
      * It creates a new Image object, sets its onload and onerror handlers.
      * If the image loads successfully, it calls the success callback, otherwise it calls the error callback.
+     * 
      * @param {string} src - The source URL of the image to check.
      * @param {function} success - The callback function to call if the image loads successfully
      * @param {function} error - The callback function to call if the image fails to load
      * @returns {void}
+     * @function checkWebPCreated
+     * @description Checks if the WebP image format is available.
+     * @example
+     * checkWebPCreated('path/to/image.webp', () => {
+     *     console.log('WebP image is available.');
+     * }, () => {
+     *     console.error('WebP image is not available.');
+     * });
     */
     const checkWebPCreated = (src, success, error) => {
         const image = new Image();

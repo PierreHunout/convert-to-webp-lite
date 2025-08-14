@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is responsible for deleting WebP files when attachments are deleted in WordPress.
  * It hooks into the `delete_attachment` action to remove associated WebP files and cropped versions.
@@ -45,31 +46,13 @@ class Delete
      * This method checks if the attachment has a file and deletes the corresponding
      * WebP file, as well as any cropped versions if they exist.
      *
-     * @param int $post_id The ID of the attachment post.
+     * @param int $attachment_id The ID of the attachment post.
      * @return void
      */
-    public function delete_webp($post_id)
+    public function delete_webp($attachment_id)
     {
-        $file   = get_attached_file($post_id);
-
-        if ($file) {
-            $cleaner    = new Cleaner();
-
-            $cleaner->delete($file);
-
-            $meta       = wp_get_attachment_metadata($post_id);
-            
-            if (!empty($meta['sizes'])) {
-                $file_info  = pathinfo($meta['file']);
-                $upload_dir = wp_upload_dir();
-                foreach ($meta['sizes'] as $size) {
-                    if (!empty($size['file'])) {
-                        $crop_path  = $upload_dir['basedir'] . '/' . $file_info['dirname'] . '/' . $size['file'];
-
-                        $cleaner->delete($crop_path);
-                    }
-                }
-            }
-        }
+        $metadata   = wp_get_attachment_metadata($attachment_id);
+        $cleaner    = new Cleaner();
+        $cleaner->prepare($attachment_id, $metadata);
     }
 }

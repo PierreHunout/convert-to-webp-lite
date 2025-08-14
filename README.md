@@ -2,9 +2,13 @@
 
 A simple and efficient WordPress plugin to convert your images to the WebP format for better performance and reduced bandwidth.
 
+## Screenshot
+
+![Plugin Screenshot](./assets/images/screenshot.png?raw=true "WP Convert to WebP Screenshot")
+
 ## Features
 
-- Automatically converts uploaded images to WebP format
+- Automatically converts uploaded images from JPG, PNG or GIF to WebP format
 - Supports bulk conversion of existing images in the media library
 - Keeps original images as backup
 - Seamless integration with WordPress media management
@@ -19,7 +23,7 @@ A simple and efficient WordPress plugin to convert your images to the WebP forma
 
 - New images uploaded to the media library will be automatically converted to WebP.
 - To convert existing images, go to the plugin settings page and use the bulk conversion tool.
-- The original images are preserved for compatibility.
+- The original images are preserved for compatibility purpose
 
 ## Requirements
 
@@ -33,4 +37,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
+Special thanks to [Romain Preston](https://github.com/romain-preston) for his help, code review and insightful comments
+
+---
+
 Developed by Pierre Hunout
+Email: [pierre.hunout@gmail.com](mailto:pierre.hunout@gmail.com)

@@ -1,8 +1,7 @@
 <?php
 
 /**
- * This file is responsible for deleting WebP files when attachments are deleted in WordPress.
- * It hooks into the `delete_attachment` action to remove associated WebP files and cropped versions.
+ * Handles deletion of WebP files when attachments are deleted in WordPress.
  *
  * @package WpConvertToWebp\Actions
  * @since 1.0.0
@@ -26,11 +25,11 @@ class Delete
 {
 
     /**
-     * Class Runner for the WebP cleanup functionality.
-     * 
-     * This function is responsible for hooking into the WordPress media deletion process
-     * and deleting WebP files associated with attachments when they are deleted.
-     * 
+     * Registers the action for automatic WebP cleanup on attachment deletion.
+     *
+     * This method hooks into the 'delete_attachment' action,
+     * so that every time an attachment is deleted, its associated WebP files are also deleted.
+     *
      * @since 1.0.0
      * 
      * @return void
@@ -46,12 +45,17 @@ class Delete
      * This method checks if the attachment has a file and deletes the corresponding
      * WebP file, as well as any cropped versions if they exist.
      *
+     * @since 1.0.0
+     * 
      * @param int $attachment_id The ID of the attachment post.
      * @return void
      */
     public function delete_webp($attachment_id)
     {
+        // Get the attachment metadata
         $metadata   = wp_get_attachment_metadata($attachment_id);
+
+        // Instantiate the Cleaner and delete associated WebP files
         $cleaner    = new Cleaner();
         $cleaner->prepare($attachment_id, $metadata);
     }

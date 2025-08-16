@@ -1,8 +1,7 @@
 <?php
 
 /**
- * This file is responsible for converting images to WebP format
- * when they are uploaded to the WordPress media library.
+ * Handles automatic conversion of uploaded images to WebP format.
  *
  * @package WpConvertToWebp\Actions
  * @since 1.0.0
@@ -26,14 +25,11 @@ class Add
 {
 
     /**
-     * Class Runner for the WebP conversion functionality.
-     * 
-     * This function is responsible for hooking into the WordPress media upload process
-     * and converting all uploaded images to WebP format.
-     * 
-     * It uses the `wp_generate_attachment_metadata` filter to intercept the metadata
-     * and convert images to WebP after they are uploaded.
-     * 
+     * Registers the filter for automatic WebP conversion on media upload.
+     *
+     * This method hooks into the 'wp_generate_attachment_metadata' filter,
+     * so that every image uploaded to the media library is converted to WebP.
+     *
      * @since 1.0.0
      * 
      * @return void
@@ -55,17 +51,20 @@ class Add
      *
      * @param array $metadata The attachment metadata.
      * @param int $attachment_id The ID of the attachment.
-     * @return array The metadata.
+     * @return array The metadata (unchanged, only conversion is performed).
      */
     public function convert_webp($metadata, $attachment_id)
     {
+        // Validate metadata before conversion
         if (empty($metadata) || !is_array($metadata)) {
             return $metadata;
         }
 
+        // Instantiate the converter and convert the image and its sizes to WebP
         $converter  = new Converter();
         $converter->prepare($attachment_id, $metadata);
 
+        // Return the original metadata (conversion does not alter it)
         return $metadata;
     }
 }

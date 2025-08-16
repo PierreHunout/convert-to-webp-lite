@@ -11,9 +11,6 @@
 
 namespace WpConvertToWebp;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
@@ -26,6 +23,42 @@ if (!defined('WPINC')) {
 
 class Tools
 {
+
+    /**
+     * Centralizes and formats error/success messages for admin display.
+     *
+     * @since 1.0.0
+     * 
+     * @param bool $success True for success, false for error.
+     * @param string $message The message to display.
+     * @param string $context Optional context (e.g. 'delete', 'convert').
+     * @param string $size Optional image size context.
+     * @param array $classes Additional CSS classes for the message.
+     * @return array Array with 'message' and 'classes' keys.
+     */
+    public static function get_message($success, $message, $context = '', $size = '', $classes = [])
+    {
+        // Add success or error class
+        $classes[]  = $success ? 'success' : 'error';
+
+        // Add context class if provided
+        if ($context) {
+            $classes[]  = esc_attr($context);
+        }
+
+        // Add size class if provided
+        if ($size) {
+            $classes[]  = esc_attr($size);
+        }
+
+        // Return formatted message array
+        $result     = [
+            'message'   => $message,
+            'classes'   => $classes
+        ];
+
+        return $result;
+    }
 
     /**
      * Retrieves the base directory for uploads.
@@ -44,25 +77,29 @@ class Tools
     }
 
     /**
-     * Retrieves all files in the uploads directory.
-     *
-     * This method uses a RecursiveDirectoryIterator to get all files
-     * in the WordPress uploads directory, which is used for WebP conversion.
+     * Gets all image attachments from the WordPress database.
      *
      * @since 1.0.0
      *
-     *  @return RecursiveIteratorIterator|void Returns an iterator for the files or void if no files are found.
+     * @return array|void Array of attachment IDs or void if none found.
      */
-    public static function get_files()
+    public static function get_attachments()
     {
-        $base_dir   = self::get_basedir();
-        $files      = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
+        $args           = [
+            'post_type'         => 'attachment',
+            'post_status'       => 'inherit',
+            'posts_per_page'    => -1,
+            'post_mime_type'    => ['image/jpeg', 'image/png', 'image/gif'],
+            'fields'            => 'ids'
+        ];
 
-        if (!$files) {
+        $attachments    = get_posts($args);
+
+        if (empty($attachments)) {
             return;
         }
 
-        return $files;
+        return $attachments;
     }
 
     /**
@@ -100,10 +137,11 @@ class Tools
      * @param string $filepath The path to the file to check.
      * @return bool Returns true if the file is a WebP file, false otherwise.
      */
-    public static function is_webp($filepath)
+    public static function attachment_is_webp($filepath)
     {
         // Get the url path from the file path
         $filepath       = str_replace(wp_upload_dir()['basedir'], wp_upload_dir()['baseurl'], $filepath);
+
         // Get the attachment ID from the file path
         $attachment_id  = attachment_url_to_postid($filepath);
 

@@ -1,9 +1,8 @@
 <?php
 
 /**
- * This file is responsible for uninstalling the plugin
- * and deleting WebP files if the option is set.
- * 
+ * Handles plugin uninstallation and cleanup of WebP files and options.
+ *
  * @package WpConvertToWebp\Actions
  * @since 1.0.0
  */
@@ -12,11 +11,9 @@ namespace WpConvertToWebp\Actions;
 
 use WpConvertToWebp\Tools;
 use WpConvertToWebp\Cleaner;
-use RuntimeException;
-use Throwable;
 
 /**
- * This check prevents direct access to the plugin file,
+ * Prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
  * 
  * @since 1.0.0
@@ -29,9 +26,12 @@ class Uninstall
 {
 
 	/**
-	 * Class Runner: We don't use the autoloader.
+	 * Dummy runner.
+	 * Not used, but kept for consistency.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @return void
 	 */
 	public function run()
 	{
@@ -39,34 +39,40 @@ class Uninstall
 	}
 
 	/**
-	 * On Uninstall.
-	 *
-	 * This method is called when the plugin is uninstalled.
-	 * It deletes WebP files if the option is set.
+	 * Called when the plugin is uninstalled.
+	 * Deletes all WebP files if the option is enabled,
+	 * and removes plugin options from the database.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @return void
 	 */
 	public static function uninstall()
 	{
+		// Check if the user requested to delete WebP files on uninstall
 		$delete_webp	= get_option('delete_webp_on_uninstall', false);
 
 		if (!$delete_webp) {
+			// If not requested, exit without doing anything
 			return;
 		}
 
-		try {
-			$files		= Tools::get_files();
+		// Get all image attachments from the database
+		$attachments    = Tools::get_attachments();
 
-			if (empty($files)) {
-				throw new RuntimeException('No files found for deletion.');
-			}
-
-			$cleaner    = new Cleaner();
-            $cleaner->remove($files);
-		} catch (Throwable $error) {
-			error_log('[WP Convert to WebP] Uninstall error: ' . $error->getMessage());
+		if (empty($attachments)) {
+			// If no attachments found, exit without doing anything
+			return;
 		}
 
+		// Loop through all attachments and delete their WebP files
+		foreach ($attachments as $attachment_id) {
+			$metadata   = wp_get_attachment_metadata($attachment_id);
+			$cleaner    = new Cleaner();
+			$cleaner->prepare($attachment_id, $metadata);
+		}
+
+		// Remove plugin options from the database
 		delete_option('delete_webp_on_uninstall');
 		delete_option('delete_webp_on_deactivate');
 		delete_option('convert_to_webp_quality');

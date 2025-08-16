@@ -1,29 +1,59 @@
+/**
+ * Handles the UI logic for the WebP comparison tool in the WordPress admin.
+ *
+ * @package WpConvertToWebp
+ * @since 1.0.0
+ */
+
+// Get the comparison container and range slider elements
 const container = document.getElementById('comparison-container');
 const range = document.getElementById('comparison-range');
 
+/**
+ * Updates the position of the comparison slider.
+ *
+ * @param {Event} e - The input event from the range slider.
+ * @return {void}
+ */
 range.addEventListener('input', function (e) {
     container.style.setProperty('--position', e.target.value + '%');
 });
 
+/**
+ * Initializes the media frame and handles image selection for comparison.
+ *
+ * @since 1.0.0
+ */
 document.addEventListener('DOMContentLoaded', function () {
     const button = document.getElementById('comparison-button');
 
     let frame;
 
+    /**
+     * Handles the click event for the image selection button.
+     * Opens the WordPress media frame and processes the selected image.
+     *
+     * @param {Event} e - The click event.
+     * @return {void}
+     */
     button.addEventListener('click', function (e) {
         e.preventDefault();
         removeNotice();
 
+        // Reuse the frame if already created
         if (frame) {
             frame.open();
             return;
         }
 
+        // Create the WordPress media frame
         frame = wp.media();
         frame.on('select', function () {
             try {
+                // Get the selected attachment object
                 const attachment = frame.state().get('selection').first().toJSON();
 
+                // Validate the selected attachment
                 if (!attachment || !attachment.url) {
                     throw new Error('No image selected or image URL is missing.');
                 }
@@ -50,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw new Error('Comparison images not found.');
                 }
 
+                // Destructure attachment properties
                 const {
                     filesizeHumanReadable: originalFilesize,
                     height,
@@ -57,8 +88,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     width,
                 } = attachment;
 
+                // Build the WebP image URL
                 const webpUrl = url.replace(/\.(jpe?g|png|gif)$/i, '.webp');
 
+                // Check if the WebP image exists and update the UI
                 checkWebPCreated(webpUrl, function () {
                     container.style.display = 'block';
                     container.style.aspectRatio = width / height;
@@ -69,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     originalSize.textContent = originalFilesize;
                     webpSize.textContent = 'Loading...';
 
-                    // Check WebP file size
+                    // Fetch the WebP file size
                     fetch(webpUrl).then(response => {
                         if (response.ok) {
                             const webpBytes = response.headers.get('Content-Length');
@@ -80,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     });
                 }, function () {
+                    // Hide comparison UI if WebP does not exist
                     container.style.display = 'none';
 
                     original.src = '';
@@ -92,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 });
             } catch ({ message }) {
+                // Handle errors and display notice
                 container.style.display = 'none';
                 removeNotice();
                 displayNotice(message);
@@ -102,13 +137,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /**
-     * This function displays a notice with the provided message.
-     * It creates a new div element, sets its class and content and appends it to the parent element of the "convert-to-webp" element.
-     * 
+     * Displays a notice with the provided message.
+     * Creates a new div element, sets its class and content, and appends it to the parent element of "convert-to-webp".
+     *
      * @param {string} message - The message to display in the notice.
      * @return {void}
-     * @function displayNotice
-     * @description Displays a notice with the provided message.
      */
     const displayNotice = (message) => {
         const notice = document.createElement('div');
@@ -128,17 +161,18 @@ document.addEventListener('DOMContentLoaded', function () {
         notice.appendChild(dismiss);
         notice.appendChild(child);
 
-        const parent = document.getElementById("convert-to-webp").parentNode;
-        parent.insertBefore(notice, parent.firstChild);
+        const grid = document.getElementById('convert-to-webp-grid');
+        
+        if (grid && grid.parentNode) {
+            grid.parentNode.insertBefore(notice, grid);
+        }
     }
 
     /**
-     * This function removes the notice element from the DOM.
-     * It selects the notice element with the class 'convert-to-webp__notice' and removes it if it exists.
-     * 
+     * Removes the notice element from the DOM.
+     * Selects the notice element with the class 'convert-to-webp__notice' and removes it if it exists.
+     *
      * @returns {void}
-     * @function removeNotice
-     * @description Removes the notice element from the DOM.
      */
     const removeNotice = () => {
         const notice = document.querySelector('.convert-to-webp__notice');
@@ -148,23 +182,21 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     /**
-     * This function checks if the WebP image format is available.
-     * It creates a new Image object, sets its onload and onerror handlers.
+     * Checks if the WebP image format is available.
+     * Creates a new Image object, sets its onload and onerror handlers.
      * If the image loads successfully, it calls the success callback, otherwise it calls the error callback.
-     * 
+     *
      * @param {string} src - The source URL of the image to check.
-     * @param {function} success - The callback function to call if the image loads successfully
-     * @param {function} error - The callback function to call if the image fails to load
+     * @param {function} success - The callback function to call if the image loads successfully.
+     * @param {function} error - The callback function to call if the image fails to load.
      * @returns {void}
-     * @function checkWebPCreated
-     * @description Checks if the WebP image format is available.
      * @example
      * checkWebPCreated('path/to/image.webp', () => {
      *     console.log('WebP image is available.');
      * }, () => {
      *     console.error('WebP image is not available.');
      * });
-    */
+     */
     const checkWebPCreated = (src, success, error) => {
         const image = new Image();
         image.onload = () => success();

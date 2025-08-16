@@ -4,9 +4,10 @@
  * WebP Cleaner Class
  *
  * This class handles the deletion of WebP files
- * when the original image file is deleted.
+ * when the original image file is deleted or when cleaning up the uploads directory.
  *
  * @package WpConvertToWebp
+ * 
  * @since 1.0.0
  */
 
@@ -30,6 +31,13 @@ class Cleaner
 {
 
     /**
+     * The process type for message formatting.
+     *
+     * @var string
+     */
+    private $process = 'delete';
+
+    /**
      * Prepares the deletion of WebP files associated with the given attachment ID.
      *
      * This method retrieves the file path of the attachment,
@@ -40,46 +48,45 @@ class Cleaner
      *
      * @param int $attachment_id The ID of the attachment.
      * @param array $metadata The attachment metadata.
-     * @return void
+     * @param array $result Used for recursion, do not pass manually.
+     * @return array Array of result messages for each processed file.
      */
-    public function prepare($attachment_id, $metadata)
+    public function prepare($attachment_id, $metadata, $result = [])
     {
         try {
             // Validate the attachment ID and metadata
             if (!is_int($attachment_id) || $attachment_id <= 0) {
-                throw new InvalidArgumentException('Invalid attachment ID provided.');
+                throw new InvalidArgumentException(__('Invalid attachment ID provided.', 'wp-convert-to-webp'));
             }
 
             // Check if metadata is an array and not empty
             if (!is_array($metadata) || empty($metadata)) {
-                throw new InvalidArgumentException('Invalid metadata provided.');
+                throw new InvalidArgumentException(__('Invalid metadata provided.', 'wp-convert-to-webp'));
             }
 
+            // Get the main file path for the attachment
             $file       = get_attached_file($attachment_id);
+            $pathinfo   = pathinfo($file);
 
+            // Check if the file exists
             if (empty($file) || !file_exists($file)) {
-                throw new RuntimeException('File does not exist for attachment ID: ' . $attachment_id);
+                throw new RuntimeException(__('File does not exist for attachment ID: ', 'wp-convert-to-webp') . '<span>' . $attachment_id . '</span>');
             }
 
             // Check if the file is writable before attempting to delete
             if (!is_writable($file)) {
-                throw new RuntimeException('File is not writable: ' . $file);
+                throw new RuntimeException(__('File is not writable: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>');
             }
 
-            // Check the image format
-            $pathinfo   = pathinfo($file);
+            // Delete the main file's WebP version
+            $result[]   = $this->delete($file);
 
-            if ($pathinfo['extension'] === 'webp') {
-                // If the original file is already a WebP file, we do not need to delete it
-                return;
-            }
-
-            $this->delete($file);
-
+            // If there are no additional sizes, return the result
             if (empty($metadata['sizes']) || !is_array($metadata['sizes'])) {
-                return;
+                return $result;
             }
 
+            // Loop through all cropped/resized versions and delete their WebP files
             $sizes      = $metadata['sizes'];
             $base_dir   = Tools::get_basedir();
             $pathinfo   = pathinfo($metadata['file']);
@@ -95,49 +102,19 @@ class Cleaner
                     continue;
                 }
 
-                $this->delete($filepath);
+                $result[]   = $this->delete($filepath, 'size');
             }
         } catch (Throwable $error) {
-            error_log('[WP Convert to WebP] Error preparing deletion: ' . $error->getMessage());
-            return;
-        }
-    }
-
-    /**
-     * Removes WebP files from the given files iterator.
-     *
-     * This method iterates through the provided files,
-     * checks if each file is a WebP file, and deletes it if it is not.
-     * 
-     * It is typically called when an attachment is deleted
-     * to clean up the associated WebP files.
-     * 
-     * @since 1.0.0
-     *
-     * @param \RecursiveIteratorIterator $files The iterator containing files to check.
-     * @return void
-     */
-    public function remove($files)
-    {
-        if (empty($files)) {
-            return;
-        }
-
-        foreach ($files as $file) {
-            if ($file->isDir()) {
-                continue;
+            // Log error if WP_DEBUG is enabled
+            if (true === WP_DEBUG) {
+                error_log(__('[WP Convert to WebP] Error preparing deletion: ', 'wp-convert-to-webp') . $error->getMessage());
             }
 
-            $filepath       = $file->getPathname();
-            $is_webp        = Tools::is_webp($filepath);
-
-            if ($is_webp) {
-                // If the file is already a WebP file, we don't want to delete it
-                continue;
-            }
-
-            $this->delete($filepath);
+            // Add error message to results
+            $result[]   = Tools::get_message(false, $error->getMessage(), $this->process);
         }
+
+        return $result;
     }
 
     /**
@@ -157,49 +134,74 @@ class Cleaner
      * @since 1.0.0
      *
      * @param string $filepath The path to the original image file.
-     * @return void
+     * @param string|null $size Optional. The image size context.
+     * @return array Formatted result message.
      */
-    public function delete($filepath)
+    public function delete($filepath, $size = null)
     {
         try {
             // Validate the file path
             if (!is_string($filepath) || empty($filepath)) {
-                throw new InvalidArgumentException('Invalid file path provided.');
+                throw new InvalidArgumentException(__('Invalid file path provided.', 'wp-convert-to-webp'));
             }
 
-            $info   = pathinfo($filepath);
+            // Check if the file exists
+            if (!file_exists($filepath)) {
+                throw new RuntimeException(__('File does not exist: ', 'wp-convert-to-webp') . '<span>' . $filepath . '</span>');
+            }
+
+            $pathinfo   = pathinfo($filepath);
 
             // Ensure that the dirname and filename are not empty
-            if (empty($info['dirname']) || empty($info['filename'])) {
-                throw new RuntimeException('Unable to parse file path: ' . $filepath);
+            if (empty($pathinfo['dirname']) || empty($pathinfo['filename'])) {
+                throw new RuntimeException(__('Unable to parse file path: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>');
             }
 
-            if ($info['extension'] === 'webp') {
-                // If the original file is already a WebP file, we do not need to delete it
-                return;
+            // If the original file is already a WebP file, nothing to delete
+            if ($pathinfo['extension'] === 'webp') {
+                $message = __('File is already a WebP file, nothing to delete: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>';
+                return Tools::get_message(true, $message, $this->process);
             }
 
-            $webp   = $info['dirname'] . '/' . $info['filename'] . '.webp';
+            // Check supported mime types
+            $mime_type  = mime_content_type($filepath);
 
+            if (!in_array($mime_type, ['image/jpeg', 'image/png', 'image/gif'])) {
+                throw new RuntimeException(__('Unsupported file type: ', 'wp-convert-to-webp') . '<span>' . $mime_type . '</span>');
+            }
+
+            // Build the WebP file path
+            $webp       = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '.webp';
+
+            // If the WebP file does not exist, nothing to delete
             if (!file_exists($webp)) {
-                // If the WebP file does not exist, we do not need to delete it
-                return;
+                $message = __('WebP file does not exist, nothing to delete: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>';
+                return Tools::get_message(false, $message, $this->process, $size);
             }
 
             // Check if the WebP file is writable before attempting to delete
             if (!is_writable($webp)) {
-                throw new RuntimeException('WebP file is not writable: ' . $webp);
+                throw new RuntimeException(__('WebP file is not writable: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['filename'] . '.webp</span>');
             }
 
             // Attempt to delete the WebP file
             if (!unlink($webp)) {
-                throw new RuntimeException('Failed to delete WebP file: ' . $webp);
+                throw new RuntimeException(__('Failed to delete WebP file: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['filename'] . '.webp</span>');
             }
 
             @unlink($webp);
+
+            $message = __('Successfully deleted WebP file: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['filename'] . '.webp</span>';
+
+            return Tools::get_message(true, $message, $this->process, $size);
         } catch (Throwable $error) {
-            // Log the error message
-            error_log('[WP Convert to WebP] Error deleting WebP file: ' . $error->getMessage());
+            // Log error if WP_DEBUG is enabled
+            if (true === WP_DEBUG) {
+                error_log(__('[WP Convert to WebP] Error deleting WebP file: ', 'wp-convert-to-webp') . $error->getMessage());
+            }
+
+            // Return error message
+            return Tools::get_message(false, $error->getMessage(), $this->process, $size);
         }
     }
 }

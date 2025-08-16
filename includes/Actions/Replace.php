@@ -1,7 +1,6 @@
 <?php
 /**
- * This file is responsible for replacing image tags in WordPress content
- * with their WebP equivalents using the <picture> element.
+ * Handles replacement of <img> tags in WordPress content with <picture> elements including WebP sources.
  *
  * @package WpConvertToWebp\Actions
  * @since 1.0.0
@@ -23,13 +22,13 @@ class Replace
 {
 
     /**
-     * Class Runner for the WebP replacement functionality.
+     * Registers filters for automatic WebP replacement in content.
      *
-     * This function is responsible for hooking into the WordPress content filters
-     * to replace image tags with their WebP equivalents.
+     * This method hooks into 'the_content', 'post_thumbnail_html', and 'widget_text'
+     * to replace <img> tags with <picture> elements containing WebP sources.
      *
      * @since 1.0.0
-     *
+     * 
      * @return void
      */
     public function run()

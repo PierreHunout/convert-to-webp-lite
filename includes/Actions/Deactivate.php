@@ -26,19 +26,6 @@ class Deactivate
 {
 
     /**
-     * Dummy runner.
-     * Not used, but kept for consistency.
-     *
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public function run()
-    {
-        return;
-    }
-
-    /**
      * Called when the plugin is deactivated.
      * Deletes all WebP files if the option is enabled,
      * and removes plugin options from the database.

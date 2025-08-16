@@ -84,7 +84,7 @@ class Options
         $delete_on_uninstall    = get_option('delete_webp_on_uninstall', false);
 ?>
         <div class="wrap convert-to-webp">
-            <h1 id="convert-to-webp-title" class="convert-to-webp__title"><?php _e('WebP Conversion Options', 'wp-convert-to-webp'); ?></h1>
+            <h1 class="convert-to-webp__title"><?php _e('WebP Conversion Options', 'wp-convert-to-webp'); ?></h1>
             <div id="convert-to-webp-grid" class="convert-to-webp__grid">
                 <div class="convert-to-webp__forms">
                     <!-- Options form -->

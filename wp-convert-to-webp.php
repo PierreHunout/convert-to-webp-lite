@@ -129,7 +129,7 @@ class WpConvertToWebp
 			$dir 		= $path . $directory;
 
 			// Only process if it's a directory
-			if (!is_dir($path)) {
+			if (!is_dir($dir)) {
 				continue;
 			}
 

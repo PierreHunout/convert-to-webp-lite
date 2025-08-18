@@ -21,6 +21,9 @@
 
 namespace WpConvertToWebp;
 
+use RuntimeException;
+use Throwable;
+
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
@@ -115,40 +118,84 @@ class WpConvertToWebp
 	 */
 	public static function run_files()
 	{
-		$path 			= WP_CONVERT_TO_WEBP_PATH . 'includes/';
+		try {
+			$path 			= WP_CONVERT_TO_WEBP_PATH . 'includes/';
 
-		// Check if the includes directory exists
-		if (!is_dir($path)) {
-			return;
-		}
-
-		// Get all subdirectories in the includes folder
-		$directories	= array_diff(scandir($path), ['..'], ['.']);
-
-		foreach ($directories as $directory) {
-			$dir 		= $path . $directory;
-
-			// Only process if it's a directory
-			if (!is_dir($dir)) {
-				continue;
+			// Check if the includes directory exists
+			if (!is_dir($path)) {
+				throw new RuntimeException(__("The folder at {$path} does not exist.", 'wp-convert-to-webp'));
+				return;
 			}
 
-			// Get all files in the subdirectory
-			$files 	= array_diff(scandir($dir), ['..'], ['.']);
+			// Get all subdirectories in the includes folder
+			$directories	= array_diff(scandir($path), ['.', '..']);
 
-			foreach ($files as $file) {
-				// Only process files with .php extension
-				if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+			foreach ($directories as $directory) {
+				if (!preg_match('/^[a-zA-Z0-9_-]+$/', $directory)) {
+					continue;
+				}
+
+				$dir 		= $path . $directory;
+
+				// Only process if it's a directory
+				if (!is_dir($dir)) {
+					continue;
+				}
+
+				// Get all files in the subdirectory
+				$files		= array_diff(scandir($dir), ['.', '..']);
+
+				foreach ($files as $file) {
+					// Only process files with .php extension
+					if (!preg_match('/^[a-zA-Z0-9_-]+\.php$/', $file)) {
+						continue;
+					}
+
+					$filepath	= $dir . DIRECTORY_SEPARATOR . $file;
+
+					if (!is_readable($filepath)) {
+						continue;
+					}
+
 					// Get the class name based on folder and file name
 					$name 		= basename($file, '.php');
 					$class		= 'WpConvertToWebp\\' . $directory . '\\' . $name;
-					$instance	= new $class;
 
-					// If the class has a run() method, call it
-					if (method_exists($instance, 'run')) {
-						$instance->run();
+					if (!class_exists($class) || strpos($class, 'WpConvertToWebp\\') !== 0) {
+						continue;
+					}
+
+					try {
+						$instance	= new $class;
+						if (method_exists($instance, 'run')) {
+							$instance->run();
+						}
+					} catch (Throwable $innerError) {
+						if (defined('WP_DEBUG') && WP_DEBUG === true) {
+							error_log(
+								sprintf(
+									__('[WP Convert to WebP] Error running %s: %s in %s on line %d', 'wp-convert-to-webp'),
+									$class,
+									$innerError->getMessage(),
+									basename($innerError->getFile()),
+									$innerError->getLine()
+								)
+							);
+						}
 					}
 				}
+			}
+		} catch (Throwable $error) {
+			// Log error if WP_DEBUG is enabled
+			if (defined('WP_DEBUG') && WP_DEBUG === true) {
+				error_log(
+					sprintf(
+						__('[WP Convert to WebP] Error in run_files(): %s in %s on line %d', 'wp-convert-to-webp'),
+						$error->getMessage(),
+						basename($error->getFile()),
+						$error->getLine()
+					)
+				);
 			}
 		}
 	}

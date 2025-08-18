@@ -106,9 +106,16 @@ class Cleaner
             }
         } catch (Throwable $error) {
             // Log error if WP_DEBUG is enabled
-            if (true === WP_DEBUG) {
-                error_log(__('[WP Convert to WebP] Error preparing deletion: ', 'wp-convert-to-webp') . $error->getMessage());
-            }
+            if (defined('WP_DEBUG') && WP_DEBUG === true) {
+				error_log(
+					sprintf(
+						__('[WP Convert to WebP] Error preparing deletion: %s in %s on line %d', 'wp-convert-to-webp'),
+						$error->getMessage(),
+						basename($error->getFile()),
+						$error->getLine()
+					)
+				);
+			}
 
             // Add error message to results
             $result[]   = Tools::get_message(false, $error->getMessage(), $this->process);
@@ -196,9 +203,16 @@ class Cleaner
             return Tools::get_message(true, $message, $this->process, $size);
         } catch (Throwable $error) {
             // Log error if WP_DEBUG is enabled
-            if (true === WP_DEBUG) {
-                error_log(__('[WP Convert to WebP] Error deleting WebP file: ', 'wp-convert-to-webp') . $error->getMessage());
-            }
+            if (defined('WP_DEBUG') && WP_DEBUG === true) {
+				error_log(
+					sprintf(
+						__('[WP Convert to WebP] Error deleting WebP file: %s in %s on line %d', 'wp-convert-to-webp'),
+						$error->getMessage(),
+						basename($error->getFile()),
+						$error->getLine()
+					)
+				);
+			}
 
             // Return error message
             return Tools::get_message(false, $error->getMessage(), $this->process, $size);

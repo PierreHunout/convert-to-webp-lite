@@ -123,7 +123,7 @@ class WpConvertToWebp
 
 			// Check if the includes directory exists
 			if (!is_dir($path)) {
-				throw new RuntimeException(__("The folder at {$path} does not exist.", 'wp-convert-to-webp'));
+				throw new RuntimeException(sprintf(__('The folder at %s does not exist', 'wp-convert-to-webp'), $path));
 				return;
 			}
 

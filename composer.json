@@ -15,7 +15,7 @@
             "email": "pierre.hunout@gmail.com"
         }
     ],
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-or-later",
     "version": "1.0.0",
     "require": {
         "php": ">=7.4",

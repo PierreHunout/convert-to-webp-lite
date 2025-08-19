@@ -9,6 +9,13 @@
         "image",
         "converter"
     ],
+    "authors": [
+        {
+            "name": "Pierre Hunout",
+            "email": "pierre.hunout@gmail.com"
+        }
+    ],
+    "license": "GPL-3.0",
     "version": "1.0.0",
     "require": {
         "php": ">=7.4",
@@ -22,12 +29,6 @@
             ]
         }
     },
-    "authors": [
-        {
-            "name": "Pierre Hunout",
-            "email": "pierre.hunout@gmail.com"
-        }
-    ],
     "config": {
         "vendor-dir": "lib",
         "allow-plugins": {

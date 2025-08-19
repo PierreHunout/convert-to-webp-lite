@@ -618,10 +618,12 @@ reviewing courts shall apply local law that most closely approximates
 an absolute waiver of all civil liability in connection with the
 Program, unless a warranty or assumption of liability accompanies a
 copy of the Program in return for a fee.
+_____
 
 END OF TERMS AND CONDITIONS
+_____
 
-How to Apply These Terms to Your New Programs
+## How to Apply These Terms to Your New Programs
 
 If you develop a new program, and you want it to be of the greatest
 possible use to the public, the best way to achieve this is to make it

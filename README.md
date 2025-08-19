@@ -33,7 +33,7 @@ A simple and efficient WordPress plugin to convert your images to the WebP forma
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the [GPL-3.0](LICENSE).
 
 ---
 

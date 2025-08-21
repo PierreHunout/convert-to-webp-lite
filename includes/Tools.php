@@ -103,6 +103,50 @@ class Tools
     }
 
     /**
+     * Tries to get the attachment ID from any image URL (original or crop).
+     *
+     * @since 1.0.0
+     *
+     * @param string $url The image URL.
+     * @return int|false The attachment ID or false if not found.
+     */
+    public static function get_attachment_id_from_url($url)
+    {
+        global $wpdb;
+
+        // Try the default method first
+        $attachment_id  = attachment_url_to_postid($url);
+
+        if ($attachment_id) {
+            return $attachment_id;
+        }
+
+        // Extract the file name from the URL
+        $file           = basename($url);
+
+        // Search for attachments with matching meta
+        $query          = $wpdb->prepare("SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s", '%' . $wpdb->esc_like($file) . '%');
+        $data           = $wpdb->get_col($query);
+
+        foreach ($data as $post_id) {
+            $metadata   = wp_get_attachment_metadata($post_id);
+
+            if (empty($metadata) || empty($metadata['sizes'])) {
+                continue;
+            }
+
+            // Check all sizes
+            foreach ($metadata['sizes'] as $size) {
+                if (isset($size['file']) && $size['file'] === $file) {
+                    return $post_id;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if a file exists in the uploads directory.
      *
      * This method checks if a file with the given path exists in the uploads directory.

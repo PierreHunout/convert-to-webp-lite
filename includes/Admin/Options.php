@@ -39,11 +39,7 @@ class Options
         add_action('admin_init', [self::class, 'save_options']);
 
         // Register custom admin actions for legacy conversion and deletion
-        add_action('admin_post_convert_to_webp_legacy', [self::class, 'convert_to_webp_legacy']);
         add_action('admin_post_delete_all_webp', [self::class, 'delete_all_webp']);
-
-        // Display admin notices for conversion/deletion results
-        add_action('admin_notices', [self::class, 'display_notices']);
     }
 
     /**
@@ -85,7 +81,7 @@ class Options
 ?>
         <div class="wrap convert-to-webp">
             <h1 class="convert-to-webp__title"><?php _e('WebP Conversion Options', 'wp-convert-to-webp'); ?></h1>
-            <div id="convert-to-webp-grid" class="convert-to-webp__grid">
+            <div id="convert-to-webp-grid" class="convert-to-webp__grid convert-to-webp__grid--main">
                 <div class="convert-to-webp__forms">
                     <!-- Options form -->
                     <form method="post" action="" class="convert-to-webp__form convert-to-webp__form--options">
@@ -123,18 +119,17 @@ class Options
                     </form>
 
                     <!-- Legacy conversion form -->
-                    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="convert-to-webp__form convert-to-webp__form--legacy">
-                        <?php wp_nonce_field('convert_webp_legacy'); ?>
+                    <div class="convert-to-webp__form convert-to-webp__form--legacy">
                         <div class="convert-to-webp__table">
                             <div class="convert-to-webp__row">
                                 <h2 class="convert-to-webp__subtitle"><?php _e('Convert old images', 'wp-convert-to-webp'); ?></h2>
                                 <div class="convert-to-webp__submit convert-to-webp__submit--secondary">
                                     <input type="hidden" name="action" value="convert_to_webp_legacy">
-                                    <button type="submit" class="button convert-to-webp__button"><?php _e('Convert all previously uploaded images', 'wp-convert-to-webp'); ?></button>
+                                    <button type="submit" id="convert-to-webp-legacy" class="button convert-to-webp__button"><?php _e('Convert old images', 'wp-convert-to-webp'); ?></button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
 
                     <!-- Delete all WebP files form -->
                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="convert-to-webp__form convert-to-webp__form--delete" onsubmit="return confirm('<?php echo esc_js(__('Are you sure you want to delete all WebP files?', 'wp-convert-to-webp')); ?>');">
@@ -144,7 +139,7 @@ class Options
                                 <h2 class="convert-to-webp__subtitle"><?php _e('Delete all WebP files', 'wp-convert-to-webp'); ?></h2>
                                 <div class="convert-to-webp__submit convert-to-webp__submit--secondary">
                                     <input type="hidden" name="action" value="delete_all_webp">
-                                    <button type="submit" class="button button-danger convert-to-webp__button convert-to-webp__button--danger"><?php _e('Delete all WebP files', 'wp-convert-to-webp'); ?></button>
+                                    <button type="submit" id="convert-to-webp-delete-all" class="button button-danger convert-to-webp__button convert-to-webp__button--danger"><?php _e('Delete all WebP files', 'wp-convert-to-webp'); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -178,6 +173,26 @@ class Options
                     </div>
                 </div>
             </div>
+
+            <!-- Popup for conversion progress -->
+            <div id="convert-to-webp-progress-popup" class="convert-to-webp__popup convert-to-webp__popup--progress">
+                <div class="convert-to-webp__container">
+                    <div class="convert-to-webp__inner convert-to-webp__grid">
+                        <div class="convert-to-webp__header">
+                            <h2 class="convert-to-webp__subtitle"><?php _e('Conversion Progress', 'wp-convert-to-webp'); ?></h2>
+                        </div>
+                        <div class="convert-to-webp__content">
+                            <ul id="convert-to-webp-progress-messages" class="convert-to-webp__messages convert-to-webp__messages--progress"></ul>
+                        </div>
+                        <div class="convert-to-webp__sidebar">
+                            <div class="convert-to-webp__chart convert-to-webp__chart--donut">
+                                <canvas id="convert-to-webp-progress-donut" width="120" height="120" style="display:block;margin:auto;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="convert-to-webp-progress-close" class="convert-to-webp__button convert-to-webp__button--close"><?php _e('Close', 'wp-convert-to-webp'); ?></div>
+            </div>
         </div>
 <?php
     }
@@ -210,132 +225,6 @@ class Options
             update_option('delete_webp_on_deactivate', isset($_POST['delete_webp_on_deactivate']) ? 1 : 0);
             update_option('delete_webp_on_uninstall', isset($_POST['delete_webp_on_uninstall']) ? 1 : 0);
         }
-    }
-
-    /**
-     * Displays admin notices for conversion and deletion results.
-     * Shows details for each processed file.
-     *
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function display_notices()
-    {
-        $title      = __('No files found to process.', 'wp-convert-to-webp');
-
-        // No files found notice
-        if (isset($_GET['no_files']) && $_GET['no_files'] == '1') {
-            $html   = <<<HTML
-            <div class="notice is-dismissible convert-to-webp__notice convert-to-webp__notice--nofiles">
-                <p>{$title}</p>
-            </div>
-            HTML;
-
-            echo $html;
-        }
-
-        // Conversion notice
-        if (isset($_GET['converted']) && $_GET['converted'] == '1') {
-            $title  = __('Images converted to WebP', 'wp-convert-to-webp');
-            $data   = get_transient('wp_convert_to_webp_conversion_data');
-            delete_transient('wp_convert_to_webp_conversion_data');
-        }
-
-        // Deletion notice
-        if (isset($_GET['deleted']) && $_GET['deleted'] == '1') {
-            $title  = __('Deleted WebP files', 'wp-convert-to-webp');
-            $data   = get_transient('wp_convert_to_webp_deletion_data');
-            delete_transient('wp_convert_to_webp_deletion_data');
-        }
-
-        // Display notice if there is data
-        if (isset($data) && is_array($data)) {
-            $count = count($data);
-            $html   = <<<HTML
-            <div class="notice is-dismissible convert-to-webp__notice">
-                <p class="convert-to-webp__subtitle">{$title}: <strong>{$count}</strong></p>
-                <div class="convert-to-webp__container">
-            HTML;
-            foreach ($data as $images) {
-                $html  .= <<<HTML
-                    <ul class="convert-to-webp__messages">       
-                HTML;
-
-                foreach ($images as $image) {
-                    $message    = $image['message'];
-                    $classes    = $image['classes'];
-
-                    $class_list = [];
-                    foreach ($classes as $class) {
-                        $class          = 'convert-to-webp__message--' . $class;
-                        $class_list[]   = $class;
-                    }
-
-                    $classes    = implode(' ', $class_list);
-
-                    $html      .= <<<HTML
-                        <li class="convert-to-webp__message {$classes}">{$message}</li>
-                    HTML;
-                }
-
-                $html  .= <<<HTML
-                    </ul> 
-                HTML;
-            }
-
-            $html  .= <<<HTML
-                </div>
-            </div>      
-            HTML;
-
-            echo $html;
-        }
-    }
-
-    /**
-     * Converts all existing images in the uploads directory to WebP format.
-     * Stores conversion results for admin notice.
-     * 
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function convert_to_webp_legacy()
-    {
-        if (!current_user_can('manage_options') || !check_admin_referer('convert_webp_legacy')) {
-            wp_die(__('Not allowed', 'wp-convert-to-webp'));
-        }
-
-        $attachments    = Tools::get_attachments();
-
-        if (empty($attachments)) {
-            wp_safe_redirect(add_query_arg('no_files', '1', admin_url('admin.php?page=wp-convert-to-webp')));
-            exit;
-        }
-
-        $result = [];
-
-        // Loop through all attachments and convert them
-        foreach ($attachments as $attachment_id) {
-            $metadata   = wp_get_attachment_metadata($attachment_id);
-            $converter  = new Converter();
-            $result[]   = $converter->prepare($attachment_id, $metadata);
-        }
-
-        // Store details for notice
-        set_transient('wp_convert_to_webp_conversion_data', $result, 60);
-
-        // Clear the cache to ensure the new WebP files are recognized
-        wp_cache_flush();
-
-        // Clear also the media library cache
-        wp_update_attachment_metadata(0, []);
-
-        // Redirect back to the options page with a success flag
-        wp_safe_redirect(add_query_arg('converted', '1', admin_url('admin.php?page=wp-convert-to-webp')));
-
-        exit;
     }
 
     /**

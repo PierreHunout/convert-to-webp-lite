@@ -223,6 +223,9 @@ class WpConvertToWebp
 	{
 		wp_enqueue_style('wp-convert-to-webp', WP_CONVERT_TO_WEBP_CSS . 'styles.css', [], WP_CONVERT_TO_WEBP_VERSION, 'all');
 		wp_enqueue_script('wp-convert-to-webp', WP_CONVERT_TO_WEBP_JS . 'scripts.js', [], WP_CONVERT_TO_WEBP_VERSION, true);
+		wp_enqueue_script('wp-convert-to-webp-ajax', WP_CONVERT_TO_WEBP_JS . 'ajax.js', [], WP_CONVERT_TO_WEBP_VERSION, true);
+
+		wp_localize_script('wp-convert-to-webp-ajax', 'wpConvertToWebp', ['nonce' => wp_create_nonce('convert_to_webp_ajax')]);
 	}
 }
 

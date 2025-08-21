@@ -121,9 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     originalSize.textContent = '';
                     webpSize.textContent = '';
 
-                    const message = 'WebP version does not exist for this image. Please convert all previously uploaded images.';
+                    const message = 'WebP version does not exist for this image. Please convert your old images.';
                     displayNotice(message);
-
                 });
             } catch ({ message }) {
                 // Handle errors and display notice
@@ -135,72 +134,72 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         frame.open();
     });
-
-    /**
-     * Displays a notice with the provided message.
-     * Creates a new div element, sets its class and content, and appends it to the parent element of "convert-to-webp".
-     *
-     * @param {string} message - The message to display in the notice.
-     * @return {void}
-     */
-    const displayNotice = (message) => {
-        const notice = document.createElement('div');
-        notice.className = `notice is-dismissible error convert-to-webp__notice`;
-
-        const child = document.createElement('p');
-        child.textContent = message;
-
-        const dismiss = document.createElement('button');
-        dismiss.className = 'notice-dismiss';
-        dismiss.setAttribute('type', 'button');
-        dismiss.addEventListener('click', function () {
-            notice.remove();
-        });
-        dismiss.innerHTML = '<span class="screen-reader-text">Dismiss this notice.</span>';
-
-        notice.appendChild(dismiss);
-        notice.appendChild(child);
-
-        const grid = document.getElementById('convert-to-webp-grid');
-        
-        if (grid && grid.parentNode) {
-            grid.parentNode.insertBefore(notice, grid);
-        }
-    }
-
-    /**
-     * Removes the notice element from the DOM.
-     * Selects the notice element with the class 'convert-to-webp__notice' and removes it if it exists.
-     *
-     * @returns {void}
-     */
-    const removeNotice = () => {
-        const notice = document.querySelector('.convert-to-webp__notice');
-        if (notice) {
-            notice.remove();
-        }
-    };
-
-    /**
-     * Checks if the WebP image format is available.
-     * Creates a new Image object, sets its onload and onerror handlers.
-     * If the image loads successfully, it calls the success callback, otherwise it calls the error callback.
-     *
-     * @param {string} src - The source URL of the image to check.
-     * @param {function} success - The callback function to call if the image loads successfully.
-     * @param {function} error - The callback function to call if the image fails to load.
-     * @returns {void}
-     * @example
-     * checkWebPCreated('path/to/image.webp', () => {
-     *     console.log('WebP image is available.');
-     * }, () => {
-     *     console.error('WebP image is not available.');
-     * });
-     */
-    const checkWebPCreated = (src, success, error) => {
-        const image = new Image();
-        image.onload = () => success();
-        image.onerror = () => error();
-        image.src = src;
-    };
 });
+
+/**
+ * Displays a notice with the provided message.
+ * Creates a new div element, sets its class and content, and appends it to the parent element of "convert-to-webp".
+ *
+ * @param {string} message - The message to display in the notice.
+ * @return {void}
+ */
+const displayNotice = (message) => {
+    const notice = document.createElement('div');
+    notice.className = `notice is-dismissible error convert-to-webp__notice`;
+
+    const child = document.createElement('p');
+    child.textContent = message;
+
+    const dismiss = document.createElement('button');
+    dismiss.className = 'notice-dismiss';
+    dismiss.setAttribute('type', 'button');
+    dismiss.addEventListener('click', function () {
+        notice.remove();
+    });
+    dismiss.innerHTML = '<span class="screen-reader-text">Dismiss this notice.</span>';
+
+    notice.appendChild(dismiss);
+    notice.appendChild(child);
+
+    const grid = document.getElementById('convert-to-webp-grid');
+
+    if (grid && grid.parentNode) {
+        grid.parentNode.insertBefore(notice, grid);
+    }
+}
+
+/**
+ * Removes the notice element from the DOM.
+ * Selects the notice element with the class 'convert-to-webp__notice' and removes it if it exists.
+ *
+ * @returns {void}
+ */
+const removeNotice = () => {
+    const notice = document.querySelector('.convert-to-webp__notice');
+    if (notice) {
+        notice.remove();
+    }
+};
+
+/**
+ * Checks if the WebP image format is available.
+ * Creates a new Image object, sets its onload and onerror handlers.
+ * If the image loads successfully, it calls the success callback, otherwise it calls the error callback.
+ *
+ * @param {string} src - The source URL of the image to check.
+ * @param {function} success - The callback function to call if the image loads successfully.
+ * @param {function} error - The callback function to call if the image fails to load.
+ * @returns {void}
+ * @example
+ * checkWebPCreated('path/to/image.webp', () => {
+ *     console.log('WebP image is available.');
+ * }, () => {
+ *     console.error('WebP image is not available.');
+ * });
+ */
+const checkWebPCreated = (src, success, error) => {
+    const image = new Image();
+    image.onload = () => success();
+    image.onerror = () => error();
+    image.src = src;
+};

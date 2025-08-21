@@ -53,7 +53,7 @@ class Replace
     {
         return preg_replace_callback(
             '/<img\s+[^>]*src=["\']([^"\']+)["\'][^>]*>/i',
-            ['\\WpConvertToWebp\\Replacer', 'replace'],
+            ['\\WpConvertToWebp\\Replacer', 'prepare'],
             $content
         );
     }

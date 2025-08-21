@@ -37,6 +37,13 @@ class Replacer
         $image          = $matches[0];
         $src            = $matches[1];
 
+        $support        = self::browser_support();
+
+        // If the browser does not support WebP, return original image
+        if (empty($support)) {
+            return $image;
+        }
+
         // Build WebP file path from original src
         $webp           = preg_replace('/\.(jpe?g|png|gif)$/i', '.webp', $src);
         $is_webp        = Tools::is_file($webp);
@@ -125,6 +132,140 @@ class Replacer
         );
 
         return $image;
+    }
+
+    /**
+     * Checks if the browser supports WebP using the HTTP ACCEPT header.
+     *
+     * @since 1.0.0
+     * 
+     * @return bool True if WebP is supported, false otherwise.
+     */
+    private static function browser_support()
+    {
+        // Check HTTP Accept header for WebP support
+        $http_accept    = isset($_SERVER['HTTP_ACCEPT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT'])) : '';
+        
+        if (strpos($http_accept, 'image/webp') !== false) {
+            return true;
+        }
+
+        // Get browser info from User-Agent
+        $browser        = self::get_browser();
+        $name           = strtolower($browser['name']);
+        $version        = $browser['version'];
+
+        // Internet Explorer never supports WebP
+        if ($name === 'ie') {
+            return false;
+        }
+
+        // List of browsers and minimum versions supporting WebP
+        $matrix         = [
+            'chrome'        => '32.0',
+            'firefox'       => '65.0',
+            'edge'          => '18.0',
+            'opera'         => '19.0',
+            'safari'        => '16.0', // iOS Safari 16+, macOS Safari 16+
+            'android'       => '4.0',  // Android Browser 4.0+
+            'samsung'       => '4.0',  // Samsung Internet 4+
+        ];
+        
+        // Check support for known browsers
+        foreach ($matrix as $key => $min) {
+            if (strpos($name, $key) !== false) {
+                // If version is unknown, assume no support
+                if ($version === '?' || $version === '') {
+                    return false;
+                }
+                // Compare only the major version
+                $major = intval(explode('.', $version)[0]);
+                if ($min !== false && $major >= $min) {
+                    // WebP is supported by this browser
+                    return true;
+                }
+            }
+        }
+
+        // Fallback: not supported
+        return false;
+    }
+
+    /**
+     * Gets the browser name and version from the User-Agent string.
+     *
+     * @since 1.0.0
+     * 
+     * @return array An associative array with 'name' and 'version' keys.
+     */
+    private static function get_browser()
+    {
+        $user_agent = sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'] ?? ''));
+        $name       = 'Unknown';
+        $version    = '';
+
+        // List of browsers to check
+        $browsers   = [
+            'Edge'              => 'Edge',
+            'OPR'               => 'Opera',
+            'Opera'             => 'Opera',
+            'Chrome'            => 'Chrome',
+            'Safari'            => 'Safari',
+            'Firefox'           => 'Firefox',
+            'MSIE'              => 'IE',
+            'Trident'           => 'IE',
+            'SamsungBrowser'    => 'Samsung',
+            'Android'           => 'Android'
+        ];
+
+        foreach ($browsers as $key => $browser_name) {
+            if (stripos($user_agent, $key) !== false) {
+                $name   = $browser_name;
+                // Build regex for version extraction
+                if ($key === 'Trident') {
+                    // IE 11+
+                    if (preg_match('/rv:([0-9\.]+)/', $user_agent, $matches)) {
+                        $version    = $matches[1];
+                    }
+                } elseif ($key === 'OPR') {
+                    // Opera (Chromium)
+                    if (preg_match('/OPR\/([0-9\.]+)/', $user_agent, $matches)) {
+                        $version    = $matches[1];
+                    }
+                } elseif ($key === 'SamsungBrowser') {
+                    if (preg_match('/SamsungBrowser\/([0-9\.]+)/', $user_agent, $matches)) {
+                        $version    = $matches[1];
+                    }
+                } elseif ($key === 'Android') {
+                    if (preg_match('/Android\s([0-9\.]+)/', $user_agent, $matches)) {
+                        $version    = $matches[1];
+                    }
+                } else {
+                    if (preg_match('/' . preg_quote($key, '/') . '[\/ ]([0-9\.]+)/', $user_agent, $matches)) {
+                        $version    = $matches[1];
+                    }
+                }
+                break;
+            }
+        }
+
+        // Special case for Safari (exclude Chrome)
+        if ($name === 'Safari' && stripos($user_agent, 'Chrome') !== false) {
+            $name   = 'Chrome';
+            if (preg_match('/Chrome\/([0-9\.]+)/', $user_agent, $matches)) {
+                $version    = $matches[1];
+            }
+        }
+
+        // Fallback if no version found
+        if ($version === '') {
+            $version    = '?';
+        }
+
+        return [
+            'name'      => $name,
+            'version'   => $version
+        ];
     }
 
     /**

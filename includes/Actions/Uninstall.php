@@ -63,5 +63,6 @@ class Uninstall
 		delete_option('delete_webp_on_uninstall');
 		delete_option('delete_webp_on_deactivate');
 		delete_option('convert_to_webp_quality');
+		delete_option('convert_to_webp_replace_mode');
 	}
 }

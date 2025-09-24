@@ -205,6 +205,7 @@ class Converter
                     break;
                 case 'gif':
                     $webp       = imagecreatefromgif($filepath);
+                    imagepalettetotruecolor($webp);
                     break;
                 default:
                     $message    = __('Unsupported file type: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>';

@@ -10,7 +10,6 @@
 namespace WpConvertToWebp\Admin;
 
 use WpConvertToWebp\Tools;
-use WpConvertToWebp\Converter;
 use WpConvertToWebp\Cleaner;
 
 /**
@@ -76,11 +75,12 @@ class Options
         wp_enqueue_media();
 
         $webp_quality           = get_option('convert_to_webp_quality', 85);
+        $replace_mode           = get_option('convert_to_webp_replace_mode', false);
         $delete_on_deactivate   = get_option('delete_webp_on_deactivate', false);
         $delete_on_uninstall    = get_option('delete_webp_on_uninstall', false);
 ?>
         <div class="wrap convert-to-webp">
-            <h1 class="convert-to-webp__title"><?php _e('WebP Conversion Options', 'wp-convert-to-webp'); ?></h1>
+            <h1 class="convert-to-webp__title"><?php _e('Manage WebP Conversion', 'wp-convert-to-webp'); ?></h1>
             <div id="convert-to-webp-grid" class="convert-to-webp__grid convert-to-webp__grid--main">
                 <div class="convert-to-webp__forms">
                     <!-- Options form -->
@@ -93,14 +93,32 @@ class Options
                                     <input type="number" id="convert_to_webp_quality" class="convert-to-webp__input convert-to-webp__input--number" name="convert_to_webp_quality" min="0" max="100" value="<?php echo esc_attr($webp_quality); ?>">
                                     <input type="range" id="convert_to_webp_quality_slider" class="convert-to-webp__input convert-to-webp__input--range" min="0" max="100" value="<?php echo esc_attr($webp_quality); ?>" oninput="document.getElementById('convert_to_webp_quality').value = this.value;">
                                 </div>
-                                <p class="convert-to-webp__description"><?php _e('Default: 85. Higher means better quality but larger files.', 'wp-convert-to-webp'); ?></p>
+                                <p class="convert-to-webp__description">
+                                    <?php _e('Higher means better quality but larger files.', 'wp-convert-to-webp'); ?>
+                                </p>
+                            </div>
+
+                            <div class="convert-to-webp__row">
+                                <h2 class="convert-to-webp__subtitle"><?php _e('Replace mode', 'wp-convert-to-webp'); ?></h2>
+                                <p class="convert-to-webp__description">
+                                    <?php _e('Enable replacement of <strong>&#60;img&#62;</strong> tags with <strong>&#60;picture&#62;</strong> tags.', 'wp-convert-to-webp'); ?>
+                                </p>
+                                <div class="convert-to-webp__inputs">
+                                    <input type="checkbox" class="convert-to-webp__input convert-to-webp__input--toggle" name="convert_to_webp_replace_mode" value="1" <?php checked($replace_mode, 1); ?> />
+                                    <label class="convert-to-webp__label">
+                                        <?php _e('Use <strong>&#60;picture&#62;</strong> tags', 'wp-convert-to-webp'); ?>
+                                    </label>
+                                </div>
+                                <p class="convert-to-webp__description">
+                                    <?php _e('If enabled, all images will be replaced by their WebP versions inside the <strong>&#60;picture&#62;</strong> tags. Otherwise, the original <strong>&#60;img&#62;</strong> tags will be used.', 'wp-convert-to-webp'); ?>
+                                </p>
                             </div>
 
                             <div class="convert-to-webp__row">
                                 <h2 class="convert-to-webp__subtitle"><?php _e('Clean data on <strong>deactivate</strong>', 'wp-convert-to-webp'); ?></h2>
                                 <div class="convert-to-webp__inputs">
                                     <input type="checkbox" class="convert-to-webp__input convert-to-webp__input--toggle" name="delete_webp_on_deactivate" value="1" <?php checked($delete_on_deactivate, 1); ?> />
-                                    <label class="convert-to-webp__label"><?php _e('Delete all WebP files', 'wp-convert-to-webp'); ?></label>
+                                    <label class="convert-to-webp__label"><?php _e('Delete WebP files and options', 'wp-convert-to-webp'); ?></label>
                                 </div>
                             </div>
 
@@ -108,7 +126,7 @@ class Options
                                 <h2 class="convert-to-webp__subtitle"><?php _e('Clean data on <strong>uninstall</strong>', 'wp-convert-to-webp'); ?></h2>
                                 <div class="convert-to-webp__inputs">
                                     <input type="checkbox" class="convert-to-webp__input convert-to-webp__input--toggle" name="delete_webp_on_uninstall" value="1" <?php checked($delete_on_uninstall, 1); ?> />
-                                    <label class="convert-to-webp__label"><?php _e('Delete all WebP files', 'wp-convert-to-webp'); ?></label>
+                                    <label class="convert-to-webp__label"><?php _e('Delete WebP files and options', 'wp-convert-to-webp'); ?></label>
                                 </div>
                             </div>
                         </div>
@@ -123,9 +141,12 @@ class Options
                         <div class="convert-to-webp__table">
                             <div class="convert-to-webp__row">
                                 <h2 class="convert-to-webp__subtitle"><?php _e('Convert old images', 'wp-convert-to-webp'); ?></h2>
+                                <p class="convert-to-webp__description">
+                                    <?php _e('This will convert all existing images in your media library to WebP format. New images will be converted automatically upon upload.', 'wp-convert-to-webp'); ?>
+                                </p>
                                 <div class="convert-to-webp__submit convert-to-webp__submit--secondary">
                                     <input type="hidden" name="action" value="convert_to_webp_legacy">
-                                    <button type="submit" id="convert-to-webp-legacy" class="button convert-to-webp__button"><?php _e('Convert old images', 'wp-convert-to-webp'); ?></button>
+                                    <button type="submit" id="convert-to-webp-legacy" class="button convert-to-webp__button"><?php _e('Convert previously uploaded images', 'wp-convert-to-webp'); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -211,19 +232,29 @@ class Options
             isset($_POST['action']) && $_POST['action'] === 'save_options'
             && check_admin_referer('convert_to_webp_save_options')
         ) {
-            $quality = isset($_POST['convert_to_webp_quality']) ? intval($_POST['convert_to_webp_quality']) : 85;
+            $quality    = isset($_POST['convert_to_webp_quality']) ? intval(sanitize_text_field($_POST['convert_to_webp_quality'])) : 85;
 
             // Ensure quality is within bounds
             if ($quality < 0) {
-                $quality = 0;
+                $quality    = 0;
             }
             if ($quality > 100) {
-                $quality = 100;
+                $quality    = 100;
             }
 
+            $mode       = isset($_POST['convert_to_webp_replace_mode']) ? sanitize_text_field($_POST['convert_to_webp_replace_mode']) : 0;
+            $deactivate = isset($_POST['delete_webp_on_deactivate']) ? sanitize_text_field($_POST['delete_webp_on_deactivate']) : 0;
+            $uninstall  = isset($_POST['delete_webp_on_uninstall']) ? sanitize_text_field($_POST['delete_webp_on_uninstall']) : 0;
+
             update_option('convert_to_webp_quality', $quality);
-            update_option('delete_webp_on_deactivate', isset($_POST['delete_webp_on_deactivate']) ? 1 : 0);
-            update_option('delete_webp_on_uninstall', isset($_POST['delete_webp_on_uninstall']) ? 1 : 0);
+            update_option('convert_to_webp_replace_mode', $mode);
+            update_option('delete_webp_on_deactivate', $deactivate);
+            update_option('delete_webp_on_uninstall', $uninstall);
+
+            // Add admin notice for successful save
+            add_action('admin_notices', function () {
+                echo '<div class="notice notice-success is-dismissible"><p>' . __('Options saved successfully.', 'wp-convert-to-webp') . '</p></div>';
+            });
         }
     }
 

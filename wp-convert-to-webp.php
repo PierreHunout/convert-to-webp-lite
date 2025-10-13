@@ -52,8 +52,8 @@ define('WP_CONVERT_TO_WEBP_JS', plugins_url('assets/js/', __FILE__));
  *
  * @since 1.0.0
  */
-if (file_exists(__DIR__ . '/lib/autoload.php')) {
-	require_once __DIR__ . '/lib/autoload.php';
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+	require_once __DIR__ . '/vendor/autoload.php';
 }
 
 /**

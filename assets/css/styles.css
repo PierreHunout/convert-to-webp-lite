@@ -109,7 +109,7 @@
 
 .convert-to-webp__popup {display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 240, 240, .95); justify-content: center; z-index: 9999;}
 .convert-to-webp__popup.is-active {display: flex;}
-.convert-to-webp__popup .convert-to-webp__container {width: 50%; min-width: 600px; height: 50%; background: var(--background-color); border: 2px dashed var(--primary-color); margin-top: var(--xxl); border-radius: var(--xxs); overflow: hidden;}
+.convert-to-webp__popup .convert-to-webp__container {position: sticky; top: 25%; min-width: 600px; height: 50%; background: var(--background-color); border: 2px dashed var(--primary-color); border-radius: var(--xxs); overflow: hidden;}
 .convert-to-webp__popup .convert-to-webp__inner {position: relative; width: 100%; height: 100%;}
 .convert-to-webp__popup .convert-to-webp__grid {grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(8, 1fr);}
 .convert-to-webp__popup .convert-to-webp__header {grid-area: 1 / 1 / 2 / 5; background: var(--background-color); text-align: center; padding: var(--s) 0 var(--xs); border-bottom: 2px dashed var(--primary-color)}

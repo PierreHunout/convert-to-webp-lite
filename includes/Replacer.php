@@ -60,7 +60,7 @@ class Replacer
         }
 
         // If WebP is larger than original file, return original image
-        $is_larger     = Tools::is_larger($src, $webp);
+        $is_larger      = Tools::is_larger($src, $webp);
         
         if ($is_larger) {
             return $image;

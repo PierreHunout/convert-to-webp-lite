@@ -12,7 +12,8 @@
  * Author:            Pierre Hunout
  * Author URI:        https://pierrehunout.com/
  * Text Domain:       wp-convert-to-webp
- * License:           GPL-2.0-or-later
+ * Domain Path:      /languages
+ * License:           GPL-3.0
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 5.0
  * Requires PHP:      7.4
@@ -123,6 +124,7 @@ class WpConvertToWebp
 
 			// Check if the includes directory exists
 			if (!is_dir($path)) {
+				// translators: %s is the folder path that doesn't exist
 				throw new RuntimeException(sprintf(__('The folder at %s does not exist', 'wp-convert-to-webp'), $path));
 				return;
 			}
@@ -174,7 +176,8 @@ class WpConvertToWebp
 						if (defined('WP_DEBUG') && WP_DEBUG === true) {
 							error_log(
 								sprintf(
-									__('[WP Convert to WebP] Error running %s: %s in %s on line %d', 'wp-convert-to-webp'),
+									// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
+									__('[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp'),
 									$class,
 									$innerError->getMessage(),
 									basename($innerError->getFile()),
@@ -190,7 +193,8 @@ class WpConvertToWebp
 			if (defined('WP_DEBUG') && WP_DEBUG === true) {
 				error_log(
 					sprintf(
-						__('[WP Convert to WebP] Error in run_files(): %s in %s on line %d', 'wp-convert-to-webp'),
+						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+						__('[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d', 'wp-convert-to-webp'),
 						$error->getMessage(),
 						basename($error->getFile()),
 						$error->getLine()

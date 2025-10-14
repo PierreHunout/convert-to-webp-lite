@@ -227,7 +227,7 @@ class Tools
             'fields'            => 'ids'
         ];
 
-        $attachments    = get_posts($args);
+        $attachments   = get_posts($args);
 
         if (empty($attachments)) {
             return;
@@ -246,21 +246,47 @@ class Tools
      */
     public static function get_attachment_id_from_url($url)
     {
-        global $wpdb;
+        if (empty($url) || !is_string($url)) {
+            return false;
+        }
+
+        // Create cache key based on URL
+        $cache_key      = 'wp_convert_to_webp_attachment_id_' . md5($url);
+        
+        // Try to get from cache first
+        $result         = wp_cache_get($cache_key, 'wp_convert_to_webp');
+
+        if ($result !== false) {
+            return $result;
+        }
 
         // Try the default method first
         $attachment_id  = attachment_url_to_postid($url);
 
         if ($attachment_id) {
+            // Cache the result for 1 hour (3600 seconds)
+            wp_cache_set($cache_key, $attachment_id, 'wp_convert_to_webp', 3600);
             return $attachment_id;
         }
 
         // Extract the file name from the URL
         $file           = basename($url);
-
-        // Search for attachments with matching meta
-        $query          = $wpdb->prepare("SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s", '%' . $wpdb->esc_like($file) . '%');
-        $data           = $wpdb->get_col($query);
+        
+        // Create cache key for file-based lookup
+        $file_cache_key = 'wp_convert_to_webp_file_lookup_' . md5($file);
+        
+        // Try to get file lookup from cache
+        $data           = wp_cache_get($file_cache_key, 'wp_convert_to_webp');
+        
+        if ($data === false) {
+            global $wpdb;
+            
+            // Search for attachments with matching meta
+            $data       = $wpdb->get_col($wpdb->prepare("SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s", '%' . $wpdb->esc_like($file) . '%'));
+            
+            // Cache the database result for 1 hour
+            wp_cache_set($file_cache_key, $data, 'wp_convert_to_webp', 3600);
+        }
 
         foreach ($data as $post_id) {
             $metadata   = wp_get_attachment_metadata($post_id);
@@ -272,12 +298,66 @@ class Tools
             // Check all sizes
             foreach ($metadata['sizes'] as $size) {
                 if (isset($size['file']) && $size['file'] === $file) {
+                    // Cache the positive result for 1 hour
+                    wp_cache_set($cache_key, $post_id, 'wp_convert_to_webp', 3600);
                     return $post_id;
                 }
             }
         }
 
+        // Cache the negative result for 30 minutes (to avoid repeated failed lookups)
+        wp_cache_set($cache_key, false, 'wp_convert_to_webp', 1800);
         return false;
+    }
+
+    /**
+     * Clear attachment URL cache.
+     * 
+     * This method should be called when attachments are added, modified, or deleted
+     * to ensure cache consistency.
+     *
+     * @since 1.0.0
+     * 
+     * @param string|null $url Optional. Specific URL to clear from cache.
+     * @return void
+     */
+    public static function clear_attachment_cache($url = null)
+    {
+        if ($url !== null) {
+            // Clear specific URL cache
+            $cache_key      = 'wp_convert_to_webp_attachment_id_' . md5($url);
+            wp_cache_delete($cache_key, 'wp_convert_to_webp');
+            
+            // Also clear file-based cache
+            $file           = basename($url);
+            $file_cache_key = 'wp_convert_to_webp_file_lookup_' . md5($file);
+            wp_cache_delete($file_cache_key, 'wp_convert_to_webp');
+        } else {
+            // Clear all attachment cache for this plugin
+            wp_cache_flush_group('wp_convert_to_webp');
+        }
+    }
+
+    /**
+     * Initialize the WordPress filesystem.
+     *
+     * @since 1.0.0
+     * 
+     * @return WP_Filesystem_Base|false The filesystem instance on success, false on failure.
+     */
+    public static function get_filesystem()
+    {
+        global $wp_filesystem;
+
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        if (!WP_Filesystem()) {
+            return false;
+        }
+
+        return $wp_filesystem;
     }
 
     /**
@@ -297,11 +377,12 @@ class Tools
         $baseurl    = $upload_dir['baseurl'];
         $file       = str_replace($baseurl, $basedir, $path);
 
-        if ((is_file($file)) && (file_exists($file))) {
-            return true;
+        $filesystem = self::get_filesystem();
+        if (!$filesystem) {
+            return false;
         }
 
-        return false;
+        return $filesystem->exists($file) && $filesystem->is_file($file);
     }
 
     /**
@@ -323,12 +404,20 @@ class Tools
         $image      = str_replace($baseurl, $basedir, $image);
         $webp       = str_replace($baseurl, $basedir, $webp);
 
-        if (!is_file($image) || !is_file($webp)) {
+        $filesystem = self::get_filesystem();
+        if (!$filesystem) {
             return false;
         }
 
-        $image_size = filesize($image);
-        $webp_size  = filesize($webp);
+        if (
+            !($filesystem->exists($image) && $filesystem->is_file($image)) ||
+            !($filesystem->exists($webp) && $filesystem->is_file($webp))
+        ) {
+            return false;
+        }
+
+        $image_size = $filesystem->size($image);
+        $webp_size  = $filesystem->size($webp);
 
         if ($webp_size > $image_size) {
             return true;

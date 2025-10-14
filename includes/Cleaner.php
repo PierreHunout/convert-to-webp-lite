@@ -35,7 +35,7 @@ class Cleaner
      *
      * @var string
      */
-    private $process = 'delete';
+    private $process    = 'delete';
 
     /**
      * Prepares the deletion of WebP files associated with the given attachment ID.
@@ -53,6 +53,9 @@ class Cleaner
      */
     public function prepare($attachment_id, $metadata, $result = [])
     {
+        // Define allowed HTML tags for wp_kses once
+        $allowed_html   = ['span' => []];
+        
         try {
             // Validate the attachment ID and metadata
             if (!is_int($attachment_id) || $attachment_id <= 0) {
@@ -68,14 +71,23 @@ class Cleaner
             $file       = get_attached_file($attachment_id);
             $pathinfo   = pathinfo($file);
 
+            // Initialize filesystem
+            $filesystem = Tools::get_filesystem();
+
+            if (!$filesystem) {
+                throw new RuntimeException(__('Failed to initialize WordPress filesystem.', 'wp-convert-to-webp'));
+            }
+
             // Check if the file exists
-            if (empty($file) || !file_exists($file)) {
-                throw new RuntimeException(__('File does not exist for attachment ID: ', 'wp-convert-to-webp') . '<span>' . $attachment_id . '</span>');
+            if (empty($file) || !$filesystem->exists($file)) {
+                // translators: %s is the attachment ID of the file that doesn't exist
+                throw new RuntimeException(wp_kses(sprintf(__('File does not exist for attachment ID: %s', 'wp-convert-to-webp'), '<span>' . esc_html($attachment_id) . '</span>'), $allowed_html));
             }
 
             // Check if the file is writable before attempting to delete
-            if (!is_writable($file)) {
-                throw new RuntimeException(__('File is not writable: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>');
+            if (!$filesystem->is_writable($file)) {
+                // translators: %s is the basename of the file that is not writable
+                throw new RuntimeException(wp_kses(sprintf(__('File is not writable: %s', 'wp-convert-to-webp'), '<span>' . esc_html($pathinfo['basename']) . '</span>'), $allowed_html));
             }
 
             // Delete the main file's WebP version
@@ -92,24 +104,25 @@ class Cleaner
             $pathinfo   = pathinfo($metadata['file']);
 
             foreach ($sizes as $size) {
-                if (empty($size['file']) || !file_exists($base_dir . $pathinfo['dirname'] . '/' . $size['file'])) {
+                if (empty($size['file'])) {
                     continue;
                 }
 
-                $filepath   = $base_dir . $pathinfo['dirname'] . '/' . $size['file'];
+                $filepath = $base_dir . $pathinfo['dirname'] . '/' . $size['file'];
 
-                if (!file_exists($filepath)) {
+                if (!$filesystem->exists($filepath)) {
                     continue;
                 }
 
-                $result[]   = $this->delete($filepath, 'size');
+                $result[] = $this->delete($filepath, 'size');
             }
         } catch (Throwable $error) {
             // Log error if WP_DEBUG is enabled
             if (defined('WP_DEBUG') && WP_DEBUG === true) {
 				error_log(
 					sprintf(
-						__('[WP Convert to WebP] Error preparing deletion: %s in %s on line %d', 'wp-convert-to-webp'),
+						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+						__('[WP Convert to WebP] Error preparing deletion: %1$s in %2$s on line %3$d', 'wp-convert-to-webp'),
 						$error->getMessage(),
 						basename($error->getFile()),
 						$error->getLine()
@@ -146,27 +159,40 @@ class Cleaner
      */
     public function delete($filepath, $size = null)
     {
+        // Define allowed HTML tags for wp_kses once
+        $allowed_html   = ['span' => []];
+        
         try {
             // Validate the file path
             if (!is_string($filepath) || empty($filepath)) {
                 throw new InvalidArgumentException(__('Invalid file path provided.', 'wp-convert-to-webp'));
             }
 
+            // Initialize filesystem
+            $filesystem = Tools::get_filesystem();
+
+            if (!$filesystem) {
+                throw new RuntimeException(__('Failed to initialize WordPress filesystem.', 'wp-convert-to-webp'));
+            }
+
             // Check if the file exists
-            if (!file_exists($filepath)) {
-                throw new RuntimeException(__('File does not exist: ', 'wp-convert-to-webp') . '<span>' . $filepath . '</span>');
+            if (!$filesystem->exists($filepath)) {
+                // translators: %s is the file path that does not exist
+                throw new RuntimeException(wp_kses(sprintf(__('File does not exist: %s', 'wp-convert-to-webp'), '<span>' . esc_html($filepath) . '</span>'), $allowed_html));
             }
 
             $pathinfo   = pathinfo($filepath);
 
             // Ensure that the dirname and filename are not empty
             if (empty($pathinfo['dirname']) || empty($pathinfo['filename'])) {
-                throw new RuntimeException(__('Unable to parse file path: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>');
+                // translators: %s is the basename of the file for which path parsing failed
+                throw new RuntimeException(wp_kses(sprintf(__('Unable to parse file path: %s', 'wp-convert-to-webp'), '<span>' . esc_html($pathinfo['basename']) . '</span>'), $allowed_html));
             }
 
             // If the original file is already a WebP file, nothing to delete
             if ($pathinfo['extension'] === 'webp') {
-                $message = __('File is already a WebP file, nothing to delete: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>';
+                // translators: %s is the basename of the WebP file that cannot be deleted because it's already WebP
+                $message    = wp_kses(sprintf(__('File is already a WebP file, nothing to delete: %s', 'wp-convert-to-webp'), '<span>' . esc_html($pathinfo['basename']) . '</span>'), $allowed_html);
                 return Tools::get_message(true, $message, $this->process);
             }
 
@@ -174,31 +200,34 @@ class Cleaner
             $mime_type  = mime_content_type($filepath);
 
             if (!in_array($mime_type, ['image/jpeg', 'image/png', 'image/gif'])) {
-                throw new RuntimeException(__('Unsupported file type: ', 'wp-convert-to-webp') . '<span>' . $mime_type . '</span>');
+                // translators: %s is the MIME type of the file that is not supported
+                throw new RuntimeException(wp_kses(sprintf(__('Unsupported file type: %s', 'wp-convert-to-webp'), '<span>' . esc_html($mime_type) . '</span>'), $allowed_html));
             }
 
             // Build the WebP file path
             $webp       = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '.webp';
 
             // If the WebP file does not exist, nothing to delete
-            if (!file_exists($webp)) {
-                $message = __('WebP file does not exist, nothing to delete: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['basename'] . '</span>';
+            if (!$filesystem->exists($webp)) {
+                // translators: %s is the basename of the original file for which no WebP version exists
+                $message    = wp_kses(sprintf(__('WebP file does not exist, nothing to delete: %s', 'wp-convert-to-webp'), '<span>' . esc_html($pathinfo['basename']) . '</span>'), $allowed_html);
                 return Tools::get_message(false, $message, $this->process, $size);
             }
 
             // Check if the WebP file is writable before attempting to delete
-            if (!is_writable($webp)) {
-                throw new RuntimeException(__('WebP file is not writable: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['filename'] . '.webp</span>');
+            if (!$filesystem->is_writable($webp)) {
+                // translators: %s is the filename of the WebP file that is not writable and cannot be deleted
+                throw new RuntimeException(wp_kses(sprintf(__('WebP file is not writable: %s', 'wp-convert-to-webp'), '<span>' . esc_html($pathinfo['filename']) . '.webp</span>'), $allowed_html));
             }
 
             // Attempt to delete the WebP file
-            if (!unlink($webp)) {
-                throw new RuntimeException(__('Failed to delete WebP file: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['filename'] . '.webp</span>');
+            if (!$filesystem->delete($webp)) {
+                // translators: %s is the filename of the WebP file that could not be deleted
+                throw new RuntimeException(wp_kses(sprintf(__('Failed to delete WebP file: %s', 'wp-convert-to-webp'), '<span>' . esc_html($pathinfo['filename']) . '.webp</span>'), $allowed_html));
             }
 
-            @unlink($webp);
-
-            $message = __('Successfully deleted WebP file: ', 'wp-convert-to-webp') . '<span>' . $pathinfo['filename'] . '.webp</span>';
+            // translators: %s is the filename of the WebP file that was successfully deleted
+            $message    = wp_kses(sprintf(__('Successfully deleted WebP file: %s', 'wp-convert-to-webp'), '<span>' . esc_html($pathinfo['filename']) . '.webp</span>'), $allowed_html);
 
             return Tools::get_message(true, $message, $this->process, $size);
         } catch (Throwable $error) {
@@ -206,7 +235,8 @@ class Cleaner
             if (defined('WP_DEBUG') && WP_DEBUG === true) {
 				error_log(
 					sprintf(
-						__('[WP Convert to WebP] Error deleting WebP file: %s in %s on line %d', 'wp-convert-to-webp'),
+						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+						__('[WP Convert to WebP] Error deleting WebP file: %1$s in %2$s on line %3$d', 'wp-convert-to-webp'),
 						$error->getMessage(),
 						basename($error->getFile()),
 						$error->getLine()

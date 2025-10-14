@@ -102,16 +102,16 @@ class Picture
             $webp_url       = preg_replace('/\.(jpe?g|png|gif)$/i', '.webp', $parts[0]);
 
             if (Tools::is_file($webp_url)) {
-                $srcset[]   = esc_url($webp_url) . (isset($parts[1]) ? ' ' . $parts[1] : '');
+                $srcset[]   = esc_url($webp_url) . (isset($parts[1]) ? ' ' . esc_attr($parts[1]) : '');
             } else {
-                $srcset[]   = $parts[0] . (isset($parts[1]) ? ' ' . $parts[1] : '');
+                $srcset[]   = esc_url($parts[0]) . (isset($parts[1]) ? ' ' . esc_attr($parts[1]) : '');
             }
         }
 
         $srcset     = implode(', ', $srcset);
 
         // Add the WebP source with srcset and sizes attributes
-        $picture   .= sprintf('<source type="image/webp" srcset="%s" sizes="%s" />', $srcset, esc_attr($sizes));
+        $picture   .= sprintf('<source type="image/webp" srcset="%s" sizes="%s" />', esc_attr($srcset), esc_attr($sizes));
 
         // Add the fallback <img> tag
         $picture   .= $fallback;

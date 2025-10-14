@@ -53,7 +53,7 @@ class Image
         $attributes    .= sprintf(' height="%s"', esc_attr($height));
 
         // Get srcset for the attachment
-        $srcset        = wp_get_attachment_image_srcset($attachment_id);
+        $srcset         = wp_get_attachment_image_srcset($attachment_id);
 
         if (empty($srcset) || !is_string($srcset)) {
             return preg_replace('/<img ([^>]+?)[\/ ]*>/', '<img $1' . $attributes . ' />', $image);
@@ -113,7 +113,7 @@ class Image
         }
 
         // Replace each srcset item with its .webp equivalent if available
-        $image = preg_replace_callback(
+        $image  = preg_replace_callback(
             '/srcset=["\']([^"\']+)["\']/i',
             function ($matches) {
                 $array   = explode(',', $matches[1]);
@@ -129,9 +129,9 @@ class Image
                     $webp_url       = preg_replace('/\.(jpe?g|png|gif)$/i', '.webp', $parts[0]);
 
                     if (Tools::is_file($webp_url)) {
-                        $srcset[]   = esc_url($webp_url) . (isset($parts[1]) ? ' ' . $parts[1] : '');
+                        $srcset[]   = esc_url($webp_url) . (isset($parts[1]) ? ' ' . esc_attr($parts[1]) : '');
                     } else {
-                        $srcset[]   = $parts[0] . (isset($parts[1]) ? ' ' . $parts[1] : '');
+                        $srcset[]   = esc_url($parts[0]) . (isset($parts[1]) ? ' ' . esc_attr($parts[1]) : '');
                     }
                 }
 

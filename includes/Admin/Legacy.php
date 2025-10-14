@@ -50,8 +50,13 @@ class Legacy
      */
     public static function get_attachments()
     {
+        // Verify user capabilities
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => esc_html__('Access denied.', 'wp-convert-to-webp')]);
+        }
+
         check_ajax_referer('convert_to_webp_ajax');
-        $attachments    = Tools::get_attachments();
+        $attachments = Tools::get_attachments();
         wp_send_json_success(['attachments' => $attachments]);
     }
 
@@ -67,21 +72,36 @@ class Legacy
      */
     public static function convert()
     {
+        // Verify user capabilities
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => esc_html__('Access denied.', 'wp-convert-to-webp')]);
+        }
+
         check_ajax_referer('convert_to_webp_ajax');
 
-        $attachment_id  = intval($_POST['attachment_id']);
+        // Validate and sanitize the attachment ID
+        if (!isset($_POST['attachment_id'])) {
+            wp_send_json_error(['message' => esc_html__('Invalid attachment ID.', 'wp-convert-to-webp')]);
+        }
+
+        $attachment_id  = intval(sanitize_text_field(wp_unslash($_POST['attachment_id'])));
+        
+        if ($attachment_id <= 0) {
+            wp_send_json_error(['message' => esc_html__('Invalid attachment ID.', 'wp-convert-to-webp')]);
+        }
+
         $metadata       = wp_get_attachment_metadata($attachment_id);
 
         $converter      = new Converter();
         $result         = $converter->prepare($attachment_id, $metadata);
 
         // Get message and classes from converter result for frontend display
-        $message        = isset($result[0]['message']) ? $result[0]['message'] : __('Done', 'wp-convert-to-webp');
+        $message        = isset($result[0]['message']) ? $result[0]['message'] : esc_html__('Done', 'wp-convert-to-webp');
         $classes        = isset($result[0]['classes']) ? $result[0]['classes'] : [];
 
         wp_send_json_success([
-            'message' => $message,
-            'classes' => $classes
+            'message'   => $message,
+            'classes'   => $classes
         ]);
     }
 }

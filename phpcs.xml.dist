@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<ruleset name="Convert to WebP">
+    <description>PHPCS ruleset for Convert to WebP</description>
+
+    <!-- Include WordPress Coding Standards -->
+    <rule ref="WordPress"/>
+    <rule ref="WordPress-Extra"/>
+    <rule ref="WordPress-Docs"/>
+
+    <!-- Include additional rulesets -->
+    <rule ref="VariableAnalysis"/>
+
+    <!-- Set the minimum PHP version -->
+    <config name="minimum_supported_wp_version" value="5.0"/>
+    <config name="testVersion" value="7.4-"/>
+
+    <!-- Files and directories to check -->
+    <file>./wp-convert-to-webp.php</file>
+    <file>./includes</file>
+
+    <!-- Exclude patterns -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/languages/*</exclude-pattern>
+    <exclude-pattern>*/assets/*</exclude-pattern>
+
+    <!-- Arguments -->
+    <arg value="sp"/>
+    <arg name="basepath" value="./"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+
+    <!-- Rules configuration -->
+    <rule ref="WordPress.Files.FileName">
+        <properties>
+            <property name="strict_class_file_names" value="false"/>
+        </properties>
+    </rule>
+
+    <!-- Allow short prefixes for hook names -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="wp_convert_to_webp"/>
+                <element value="WP_CONVERT_TO_WEBP"/>
+                <element value="WpConvertToWebp"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Customizations -->
+
+    <!-- Increase line length limit -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="300"/>
+            <property name="absoluteLineLimit" value="300"/>
+        </properties>
+    </rule>
+
+    <!-- Allow multiple assignments on same line -->
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Allow concatenation without spaces (personal preference) -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Allow yoda conditions to be optional -->
+    <rule ref="WordPress.PHP.YodaConditions.NotYoda">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Allow non-hyphenated lowercase file names -->
+    <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Allow inline comments to end with any character -->
+    <rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Allow short array syntax [] instead of array() -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    
+    <!-- Disable conflicting rule that disallows short array syntax -->
+    <rule ref="Universal.Arrays.DisallowShortArraySyntax">
+        <severity>0</severity>
+    </rule>
+</ruleset>

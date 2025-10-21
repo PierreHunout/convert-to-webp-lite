@@ -1,6 +1,7 @@
 <?php
-
 /**
+ * Main plugin file that contains the plugin header and basic documentation.
+ *
  * @since             1.0.0
  * @package           WPConvertToWebp
  *
@@ -24,14 +25,15 @@ namespace WpConvertToWebp;
 
 use RuntimeException;
 use Throwable;
+use ReflectionClass;
 
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
- * 
+ *
  * @since 1.0.0
  */
-if (!defined('WPINC')) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
@@ -40,20 +42,20 @@ if (!defined('WPINC')) {
  *
  * @since 1.0.0
  */
-define('WP_CONVERT_TO_WEBP_VERSION', '1.0.0');
-define('WP_CONVERT_TO_WEBP_FILE', __FILE__);
-define('WP_CONVERT_TO_WEBP_PATH', plugin_dir_path(WP_CONVERT_TO_WEBP_FILE));
-define('WP_CONVERT_TO_WEBP_BASENAME', plugin_basename(WP_CONVERT_TO_WEBP_FILE));
-define('WP_CONVERT_TO_WEBP_SLUG', dirname(WP_CONVERT_TO_WEBP_BASENAME));
-define('WP_CONVERT_TO_WEBP_CSS', plugins_url('assets/css/', __FILE__));
-define('WP_CONVERT_TO_WEBP_JS', plugins_url('assets/js/', __FILE__));
+define( 'WP_CONVERT_TO_WEBP_VERSION', '1.0.0' );
+define( 'WP_CONVERT_TO_WEBP_FILE', __FILE__ );
+define( 'WP_CONVERT_TO_WEBP_PATH', plugin_dir_path( WP_CONVERT_TO_WEBP_FILE ) );
+define( 'WP_CONVERT_TO_WEBP_BASENAME', plugin_basename( WP_CONVERT_TO_WEBP_FILE ) );
+define( 'WP_CONVERT_TO_WEBP_SLUG', dirname( WP_CONVERT_TO_WEBP_BASENAME ) );
+define( 'WP_CONVERT_TO_WEBP_CSS', plugins_url( 'assets/css/', __FILE__ ) );
+define( 'WP_CONVERT_TO_WEBP_JS', plugins_url( 'assets/js/', __FILE__ ) );
 
 /**
  * Optionally include Composer autoload if available.
  *
  * @since 1.0.0
  */
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
@@ -63,27 +65,51 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
  * Implements the Singleton pattern to ensure a single instance.
  * Handles plugin loading, file inclusion, and asset enqueueing.
  */
-class WpConvertToWebp
-{
+class WpConvertToWebp {
 
 	/**
 	 * Holds the Singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @var WpConvertToWebp|null
+	 * @var WpConvertToWebp|null The Singleton instance.
 	 */
-	private static $instance = null;
+	protected static ?WpConvertToWebp $instance = null;
+
+	/**
+	 * Private constructor to prevent direct instantiation.
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct() {
+		$this->init();
+	}
+
+	/**
+	 * Prevent cloning of the class
+	 *
+	 * @since 1.0.0
+	 */
+	private function __clone() {}
+
+	/**
+	 * Prevent unserialization of the class
+	 *
+	 * @since 1.0.0
+	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 */
+	public function __wakeup() {
+		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
 
 	/**
 	 * Returns the Singleton instance of the plugin.
 	 *
 	 * @since 1.0.0
-	 * @return WpConvertToWebp
+	 * @return WpConvertToWebp The Singleton instance.
 	 */
-	public static function get_instance()
-	{
-		if (null === self::$instance) {
-			self::$instance	= new self();
+	public static function get_instance(): WpConvertToWebp {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -94,17 +120,15 @@ class WpConvertToWebp
 	 * Sets up actions, enqueues assets, and loads plugin files.
 	 *
 	 * @since 1.0.0
-	 * 
 	 * @return void
 	 */
-	public function plugin_loaded()
-	{
-		self::run_enqueue();
-		self::run_files();
+	public function init(): void {
+		self::enqueue();
+		self::autoload();
 
 		// Register hooks for deactivation and uninstall
-		register_deactivation_hook(__FILE__, ['\WpConvertToWebp\Actions\Deactivate', 'deactivate']);
-		register_uninstall_hook(__FILE__, ['\WpConvertToWebp\Actions\Uninstall', 'uninstall']);
+		register_deactivation_hook( __FILE__, [ '\WpConvertToWebp\Actions\Deactivate', 'deactivate' ] );
+		register_uninstall_hook( __FILE__, [ '\WpConvertToWebp\Actions\Uninstall', 'uninstall' ] );
 	}
 
 	/**
@@ -114,89 +138,145 @@ class WpConvertToWebp
 	 * and calls its `run` method if available.
 	 *
 	 * @since 1.0.0
-	 * 
+	 * @throws RuntimeException If the includes directory doesn't exist.
 	 * @return void
 	 */
-	public static function run_files()
-	{
+	public static function autoload(): void {
 		try {
-			$path 			= WP_CONVERT_TO_WEBP_PATH . 'includes/';
+			$path = (string) WP_CONVERT_TO_WEBP_PATH . 'includes/';
 
 			// Check if the includes directory exists
-			if (!is_dir($path)) {
+			if ( ! is_dir( $path ) ) {
 				// translators: %s is the folder path that doesn't exist
-				throw new RuntimeException(sprintf(__('The folder at %s does not exist', 'wp-convert-to-webp'), $path));
-				return;
+				throw new RuntimeException( sprintf( __( 'The folder at %s does not exist', 'wp-convert-to-webp' ), $path ) );
+			}
+
+			// Normalize the base path for security checks.
+			$normalized_base = (string) realpath( $path );
+
+			if ( false === $normalized_base ) {
+				throw new RuntimeException( __( 'Unable to resolve includes directory path', 'wp-convert-to-webp' ) );
 			}
 
 			// Get all subdirectories in the includes folder
-			$directories	= array_diff(scandir($path), ['.', '..']);
+			$directories = (array) array_diff( scandir( $path ), [ '.', '..' ] );
 
-			foreach ($directories as $directory) {
-				if (!preg_match('/^[a-zA-Z0-9_-]+$/', $directory)) {
+			foreach ( $directories as $directory ) {
+				$dir = (string) $path . $directory;
+
+				// Only process if it's a directory.
+				if ( ! is_dir( $dir ) ) {
 					continue;
 				}
 
-				$dir 		= $path . $directory;
-
-				// Only process if it's a directory
-				if (!is_dir($dir)) {
+				// Security check: ensure we're still within the plugin directory.
+				$normalized_dir = (string) realpath( $dir );
+				if ( false === $normalized_dir || 0 !== strpos( $normalized_dir, $normalized_base ) ) {
 					continue;
 				}
 
-				// Get all files in the subdirectory
-				$files		= array_diff(scandir($dir), ['.', '..']);
+				// Get all files in the subdirectory.
+				$files = (array) array_diff( scandir( $dir ), [ '.', '..' ] );
 
-				foreach ($files as $file) {
-					// Only process files with .php extension
-					if (!preg_match('/^[a-zA-Z0-9_-]+\.php$/', $file)) {
+				// Loop through each file in the directory.
+				foreach ( $files as $file ) {
+					// Enhanced validation: only allow proper PHP class files.
+					if ( ! preg_match( '/^[A-Z][a-zA-Z0-9]*\.php$/', $file ) ) {
 						continue;
 					}
 
-					$filepath	= $dir . DIRECTORY_SEPARATOR . $file;
+					$filepath = (string) $dir . DIRECTORY_SEPARATOR . $file;
 
-					if (!is_readable($filepath)) {
+					// Security check: ensure file is within expected directory.
+					$normalized_file = (string) realpath( $filepath );
+					if ( false === $normalized_file || 0 !== strpos( $normalized_file, $normalized_dir ) ) {
 						continue;
 					}
 
-					// Get the class name based on folder and file name
-					$name 		= basename($file, '.php');
-					$class		= 'WpConvertToWebp\\' . $directory . '\\' . $name;
+					// Check if file is readable.
+					if ( ! is_readable( $filepath ) ) {
+						continue;
+					}
 
-					if (!class_exists($class) || strpos($class, 'WpConvertToWebp\\') !== 0) {
+					// Get the class name based on folder and file name.
+					$name  = (string) basename( $file, '.php' );
+					$class = (string) 'WpConvertToWebp\\' . $directory . '\\' . $name;
+
+					// Enhanced class validation.
+					if ( ! class_exists( $class ) || 0 !== strpos( $class, 'WpConvertToWebp' ) ) {
+						continue;
+					}
+
+					// Check if class is safe to instantiate (avoid utility classes).
+					$reflection = (object) new ReflectionClass( $class );
+					if ( $reflection->isAbstract() || $reflection->isTrait() || $reflection->isInterface() ) {
+						continue;
+					}
+
+					// Check if constructor is private (utility classes).
+					$constructor = (object) $reflection->getConstructor();
+
+					if ( null !== $constructor && ! $constructor->isPublic() ) {
 						continue;
 					}
 
 					try {
-						$instance	= new $class;
-						if (method_exists($instance, 'run')) {
-							$instance->run();
+						$instance = (object) new $class();
+						if ( method_exists( $instance, 'init' ) && is_callable( [ $instance, 'init' ] ) ) {
+							// Call the init method of the class.
+							$instance->init();
 						}
-					} catch (Throwable $innerError) {
-						if (defined('WP_DEBUG') && WP_DEBUG === true) {
+					} catch ( Throwable $inner_error ) {
+						Utils\Debug::log(
+							__CLASS__,
+							sprintf(
+								// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
+								__( '[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp' ),
+								$class,
+								$inner_error->getMessage(),
+								basename( $inner_error->getFile() ),
+								$inner_error->getLine()
+							)
+						);
+
+						if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+							// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 							error_log(
 								sprintf(
 									// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-									__('[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp'),
+									__( '[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp' ),
 									$class,
-									$innerError->getMessage(),
-									basename($innerError->getFile()),
-									$innerError->getLine()
+									$inner_error->getMessage(),
+									basename( $inner_error->getFile() ),
+									$inner_error->getLine()
 								)
 							);
 						}
 					}
 				}
 			}
-		} catch (Throwable $error) {
+		} catch ( Throwable $error ) {
+			Utils\Debug::log(
+				__CLASS__,
+				sprintf(
+					// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
+					__( '[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp' ),
+					$class,
+					$error->getMessage(),
+					basename( $error->getFile() ),
+					$error->getLine()
+				)
+			);
+
 			// Log error if WP_DEBUG is enabled
-			if (defined('WP_DEBUG') && WP_DEBUG === true) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug logging when WP_DEBUG is enabled
 				error_log(
 					sprintf(
 						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-						__('[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d', 'wp-convert-to-webp'),
+						__( '[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
 						$error->getMessage(),
-						basename($error->getFile()),
+						basename( $error->getFile() ),
 						$error->getLine()
 					)
 				);
@@ -208,28 +288,24 @@ class WpConvertToWebp
 	 * Hooks into 'admin_enqueue_scripts' to enqueue plugin styles and scripts.
 	 *
 	 * @since 1.0.0
-	 * 
 	 * @return void
 	 */
-	public static function run_enqueue()
-	{
-		add_action('admin_enqueue_scripts', [self::class, 'admin_enqueue'], 1);
+	public static function enqueue(): void {
+		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue' ], 1 );
 	}
 
 	/**
 	 * Enqueues the plugin's CSS and JS files for the admin area.
 	 *
 	 * @since 1.0.0
-	 * 
 	 * @return void
 	 */
-	public static function admin_enqueue()
-	{
-		wp_enqueue_style('wp-convert-to-webp', WP_CONVERT_TO_WEBP_CSS . 'styles.css', [], WP_CONVERT_TO_WEBP_VERSION, 'all');
-		wp_enqueue_script('wp-convert-to-webp', WP_CONVERT_TO_WEBP_JS . 'scripts.js', [], WP_CONVERT_TO_WEBP_VERSION, true);
-		wp_enqueue_script('wp-convert-to-webp-ajax', WP_CONVERT_TO_WEBP_JS . 'ajax.js', [], WP_CONVERT_TO_WEBP_VERSION, true);
+	public static function admin_enqueue(): void {
+		wp_enqueue_style( 'wp-convert-to-webp', WP_CONVERT_TO_WEBP_CSS . 'styles.css', [], WP_CONVERT_TO_WEBP_VERSION, 'all' );
+		wp_enqueue_script( 'wp-convert-to-webp', WP_CONVERT_TO_WEBP_JS . 'scripts.js', [], WP_CONVERT_TO_WEBP_VERSION, true );
+		wp_enqueue_script( 'wp-convert-to-webp-ajax', WP_CONVERT_TO_WEBP_JS . 'ajax.js', [], WP_CONVERT_TO_WEBP_VERSION, true );
 
-		wp_localize_script('wp-convert-to-webp-ajax', 'wpConvertToWebp', ['nonce' => wp_create_nonce('convert_to_webp_ajax')]);
+		wp_localize_script( 'wp-convert-to-webp-ajax', 'wpConvertToWebp', [ 'nonce' => wp_create_nonce( 'convert_to_webp_ajax' ) ] );
 	}
 }
 
@@ -242,7 +318,6 @@ class WpConvertToWebp
 add_action(
 	'plugin_loaded',
 	function () {
-		$WpConvertToWebp = WpConvertToWebp::get_instance();
-		$WpConvertToWebp->plugin_loaded();
+		return WpConvertToWebp::get_instance();
 	}
 );

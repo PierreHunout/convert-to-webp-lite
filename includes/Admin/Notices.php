@@ -1,116 +1,167 @@
 <?php
-
 /**
  * Displays admin notices for the WP Convert to WebP plugin.
  *
- * @package WpConvertToWebp\Admin
+ * @package WpConvertToWebp
  * @since 1.0.0
  */
 
 namespace WpConvertToWebp\Admin;
 
+use RuntimeException;
+
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
- * 
+ *
  * @since 1.0.0
  */
-if (!defined('WPINC')) {
-    die;
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
-class Notices
-{
+/**
+ * Class Notices
+ *
+ * Handles the display of admin notices for the plugin.
+ *
+ * @since 1.0.0
+ */
+class Notices {
 
-    /**
-     * Class Runner for the WebP conversion notices.
-     * 
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function run()
-    {
-        // Display admin notices for deletion results
-        add_action('admin_notices', [self::class, 'display_notices']);
-    }
+	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Notices|null The Singleton instance.
+	 */
+	protected static ?Notices $instance = null;
 
-    /**
-     * Displays admin notices for deletion results.
-     * Shows details for each processed file.
-     *
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function display_notices()
-    {
-        // Only show notices on our plugin's admin page
-        if (!isset($_GET['page']) || sanitize_text_field(wp_unslash($_GET['page'])) !== 'wp-convert-to-webp') {
-            return;
-        }
+	/**
+	 * Constructor to initialize the class.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+		$this->init();
+	}
 
-        // Verify user capabilities
-        if (!current_user_can('manage_options')) {
-            return;
-        }
+	/**
+	 * Prevent cloning of the class
+	 *
+	 * @since 1.0.0
+	 */
+	private function __clone() {}
 
-        // Verify nonce for notice parameters to prevent tampering
-        if (
-            (isset($_GET['no_files']) || isset($_GET['deleted'])) && 
-            (!isset($_GET['_wpnonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['_wpnonce'])), 'wp_convert_to_webp_notice'))
-        ) {
-            return;
-        }
+	/**
+	 * Prevent unserialization of the class
+	 *
+	 * @since 1.0.0
+	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 */
+	public function __wakeup() {
+		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
 
-        $title  = esc_html__('No files found to process.', 'wp-convert-to-webp');
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Notices The Singleton instance.
+	 */
+	public static function get_instance(): Notices {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
 
-        // No files found notice
-        if (isset($_GET['no_files']) && sanitize_text_field(wp_unslash($_GET['no_files'])) === '1') {
-            echo '<div class="notice is-dismissible convert-to-webp__notice convert-to-webp__notice--nofiles">
-                <p>' . esc_html($title) . '</p>
+		return self::$instance;
+	}
+
+	/**
+	 * Class Runner for the WebP conversion notices.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function init(): void {
+		// Display admin notices for deletion results
+		add_action( 'admin_notices', [ __CLASS__, 'display_notices' ] );
+	}
+
+	/**
+	 * Displays admin notices for deletion results.
+	 * Shows details for each processed file.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function display_notices(): void {
+		// Only show notices on our plugin's admin page
+		if ( ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== 'wp-convert-to-webp' ) {
+			return;
+		}
+
+		// Verify user capabilities
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Verify nonce for notice parameters to prevent tampering
+		if (
+			( isset( $_GET['no_files'] ) || isset( $_GET['deleted'] ) ) &&
+			( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'wp_convert_to_webp_notice' ) )
+		) {
+			return;
+		}
+
+		$title = (string) esc_html__( 'No files found to process.', 'wp-convert-to-webp' );
+
+		// No files found notice
+		if ( isset( $_GET['no_files'] ) && sanitize_text_field( wp_unslash( $_GET['no_files'] ) ) === '1' ) {
+			echo '<div class="notice is-dismissible convert-to-webp__notice convert-to-webp__notice--nofiles">
+                <p>' . esc_html( $title ) . '</p>
             </div>';
-        }
+		}
 
-        // Deletion notice
-        if (isset($_GET['deleted']) && sanitize_text_field(wp_unslash($_GET['deleted'])) === '1') {
-            $title  = esc_html__('Deleted WebP files', 'wp-convert-to-webp');
-            $data   = get_transient('wp_convert_to_webp_deletion_data');
-            delete_transient('wp_convert_to_webp_deletion_data');
+		// Deletion notice
+		if ( isset( $_GET['deleted'] ) && sanitize_text_field( wp_unslash( $_GET['deleted'] ) ) === '1' ) {
+			$title = (string) esc_html__( 'Deleted WebP files', 'wp-convert-to-webp' );
+			$data  = (array) get_transient( 'wp_convert_to_webp_deletion_data' );
+			delete_transient( 'wp_convert_to_webp_deletion_data' );
 
-            // Display notice if there is data
-            if (isset($data) && is_array($data)) {
-                $count  = count($data);
-                echo '<div class="notice is-dismissible convert-to-webp__notice convert-to-webp__notice--deletion">
-                    <p class="convert-to-webp__subtitle">' . esc_html($title) . ': <strong>' . esc_html($count) . '</strong></p>
+			// Display notice if there is data
+			if ( isset( $data ) && is_array( $data ) ) {
+				$count = (int) count( $data );
+				echo '<div class="notice is-dismissible convert-to-webp__notice convert-to-webp__notice--deletion">
+                    <p class="convert-to-webp__subtitle">' . esc_html( $title ) . ': <strong>' . esc_html( $count ) . '</strong></p>
                     <div class="convert-to-webp__container convert-to-webp__container--notice">
                         <div class="convert-to-webp__inner convert-to-webp__inner--notice">
                 ';
 
-                foreach ($data as $images) {
-                    echo '<ul class="convert-to-webp__messages">';
+				foreach ( $data as $images ) {
+					echo '<ul class="convert-to-webp__messages">';
 
-                    foreach ($images as $image) {
-                        $message        = $image['message'];
-                        $classes        = $image['classes'];
+					foreach ( $images as $image ) {
+						$message = (string) $image['message'];
+						$classes = (array) $image['classes'];
 
-                        $class_list     = [];
-                        foreach ($classes as $class) {
-                            $class          = 'convert-to-webp__message--' . sanitize_html_class($class);
-                            $class_list[]   = $class;
-                        }
+						$class_list = [];
+						foreach ( $classes as $class ) {
+							$class        = (string) 'convert-to-webp__message--' . sanitize_html_class( $class );
+							$class_list[] = $class;
+						}
 
-                        $classes        = implode(' ', $class_list);
+						$classes = (string) implode( ' ', $class_list );
 
-                        $allowed_html   = ['span' => []];
-                        echo '<li class="convert-to-webp__message ' . esc_attr($classes) . '">' . wp_kses($message, $allowed_html) . '</li>';
-                    }
+						$allowed_html = (array) [ 'span' => [] ];
+						echo '<li class="convert-to-webp__message ' . esc_attr( $classes ) . '">' . wp_kses( $message, $allowed_html ) . '</li>';
+					}
 
-                    echo '</ul>';
-                }
+					echo '</ul>';
+				}
 
-                echo '</div></div></div>';
-            }
-        }
-    }
+				echo '</div></div></div>';
+			}
+		}
+	}
 }

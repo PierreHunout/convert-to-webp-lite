@@ -1,107 +1,157 @@
 <?php
-
 /**
  * Handles AJAX actions for the legacy WebP conversion process and progress bar.
  *
- * @package WpConvertToWebp\Admin
+ * @package WpConvertToWebp
  * @since 1.0.0
  */
 
 namespace WpConvertToWebp\Admin;
 
-use WpConvertToWebp\Tools;
-use WpConvertToWebp\Converter;
+use WpConvertToWebp\Utils\Helpers;
+use WpConvertToWebp\Utils\Converter;
+use RuntimeException;
 
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
- * 
+ *
  * @since 1.0.0
  */
-if (!defined('WPINC')) {
-    die;
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
-class Legacy
-{
+/**
+ * Class Legacy
+ *
+ * Handles AJAX actions for converting existing images to WebP format.
+ *
+ * @since 1.0.0
+ */
+class Legacy {
 
-    /**
-     * Registers AJAX actions for the legacy conversion process.
-     * 
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function run()
-    {
-        add_action('wp_ajax_get_attachments', [self::class, 'get_attachments']);
-        add_action('wp_ajax_convert', [self::class, 'convert']);
-    }
+	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Legacy|null The Singleton instance.
+	 */
+	protected static ?Legacy $instance = null;
 
-    /**
-     * AJAX handler to get all image attachment IDs for conversion.
-     *
-     * Checks nonce for security, fetches attachments using Tools::get_attachments(),
-     * and returns them as a JSON response.
-     *
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function get_attachments()
-    {
-        // Verify user capabilities
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => esc_html__('Access denied.', 'wp-convert-to-webp')]);
-        }
+	/**
+	 * Constructor to initialize the class.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+		$this->init();
+	}
 
-        check_ajax_referer('convert_to_webp_ajax');
-        $attachments = Tools::get_attachments();
-        wp_send_json_success(['attachments' => $attachments]);
-    }
+	/**
+	 * Prevent cloning of the class
+	 *
+	 * @since 1.0.0
+	 */
+	private function __clone() {}
 
-    /**
-     * AJAX handler to convert a single image to WebP format.
-     *
-     * Checks nonce for security, gets attachment metadata,
-     * runs the conversion, and returns a message and CSS classes for UI feedback.
-     *
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function convert()
-    {
-        // Verify user capabilities
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => esc_html__('Access denied.', 'wp-convert-to-webp')]);
-        }
+	/**
+	 * Prevent unserialization of the class
+	 *
+	 * @since 1.0.0
+	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 */
+	public function __wakeup() {
+		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
 
-        check_ajax_referer('convert_to_webp_ajax');
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Legacy The Singleton instance.
+	 */
+	public static function get_instance(): Legacy {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
 
-        // Validate and sanitize the attachment ID
-        if (!isset($_POST['attachment_id'])) {
-            wp_send_json_error(['message' => esc_html__('Invalid attachment ID.', 'wp-convert-to-webp')]);
-        }
+		return self::$instance;
+	}
 
-        $attachment_id  = intval(sanitize_text_field(wp_unslash($_POST['attachment_id'])));
-        
-        if ($attachment_id <= 0) {
-            wp_send_json_error(['message' => esc_html__('Invalid attachment ID.', 'wp-convert-to-webp')]);
-        }
+	/**
+	 * Registers AJAX actions for the legacy conversion process.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function init(): void {
+		add_action( 'wp_ajax_get_attachments', [ __CLASS__, 'get_attachments' ] );
+		add_action( 'wp_ajax_convert', [ __CLASS__, 'convert' ] );
+	}
 
-        $metadata       = wp_get_attachment_metadata($attachment_id);
+	/**
+	 * AJAX handler to get all image attachment IDs for conversion.
+	 *
+	 * Checks nonce for security, fetches attachments using Helpers::get_attachments(),
+	 * and returns them as a JSON response.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function get_attachments(): void {
+		// Verify user capabilities
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'wp-convert-to-webp' ) ] );
+		}
 
-        $converter      = new Converter();
-        $result         = $converter->prepare($attachment_id, $metadata);
+		check_ajax_referer( 'convert_to_webp_ajax' );
+		$attachments = (array) Helpers::get_attachments();
+		wp_send_json_success( [ 'attachments' => $attachments ] );
+	}
 
-        // Get message and classes from converter result for frontend display
-        $message        = isset($result[0]['message']) ? $result[0]['message'] : esc_html__('Done', 'wp-convert-to-webp');
-        $classes        = isset($result[0]['classes']) ? $result[0]['classes'] : [];
+	/**
+	 * AJAX handler to convert a single image to WebP format.
+	 *
+	 * Checks nonce for security, gets attachment metadata,
+	 * runs the conversion, and returns a message and CSS classes for UI feedback.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function convert(): void {
+		// Verify user capabilities
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'wp-convert-to-webp' ) ] );
+		}
 
-        wp_send_json_success([
-            'message'   => $message,
-            'classes'   => $classes
-        ]);
-    }
+		check_ajax_referer( 'convert_to_webp_ajax' );
+
+		// Validate and sanitize the attachment ID
+		if ( ! isset( $_POST['attachment_id'] ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'wp-convert-to-webp' ) ] );
+		}
+
+		$attachment_id = intval( sanitize_text_field( wp_unslash( $_POST['attachment_id'] ) ) );
+
+		if ( $attachment_id <= 0 ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'wp-convert-to-webp' ) ] );
+		}
+
+		$metadata = (array) wp_get_attachment_metadata( $attachment_id );
+
+		$converter = (object) new Converter();
+		$result    = (array) $converter->prepare( $attachment_id, $metadata );
+
+		// Get message and classes from converter result for frontend display
+		$message = (string) isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'wp-convert-to-webp' );
+		$classes = (array) isset( $result[0]['classes'] ) ? $result[0]['classes'] : [];
+
+		wp_send_json_success(
+			[
+				'message' => $message,
+				'classes' => $classes,
+			]
+		);
+	}
 }

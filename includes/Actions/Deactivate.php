@@ -1,67 +1,95 @@
 <?php
-
 /**
  * Handles plugin deactivation and cleanup of WebP files and options.
- * 
- * @package WpConvertToWebp\Actions
+ *
+ * @package WpConvertToWebp
  * @since 1.0.0
  */
 
 namespace WpConvertToWebp\Actions;
 
-use WpConvertToWebp\Tools;
-use WpConvertToWebp\Cleaner;
+use WpConvertToWebp\Utils\Helpers;
+use WpConvertToWebp\Utils\Cleaner;
+use RuntimeException;
 
 /**
  * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
- * 
+ *
  * @since 1.0.0
  */
-if (!defined('WPINC')) {
-    die;
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
-class Deactivate
-{
+/**
+ * Class Deactivate
+ *
+ * Handles the deactivation of the plugin and performs cleanup operations.
+ *
+ * @since 1.0.0
+ */
+class Deactivate {
 
-    /**
-     * Called when the plugin is deactivated.
-     * Deletes all WebP files if the option is enabled,
-     * and removes plugin options from the database.
-     *
-     * @since 1.0.0
-     * 
-     * @return void
-     */
-    public static function deactivate()
-    {
-        // Check if the user requested to delete WebP files 
-        $delete_webp    = get_option('delete_webp_on_deactivate', false);
+	/**
+	 * Prevent instantiation of the class
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct() {}
 
-        if (!$delete_webp) {
-            // If not requested, exit without doing anything
-            return;
-        }
+	/**
+	 * Prevent cloning of the class
+	 *
+	 * @since 1.0.0
+	 */
+	private function __clone() {}
 
-        // Get all image attachments from the database
-        $attachments    = Tools::get_attachments();
+	/**
+	 * Prevent unserialization of the class
+	 *
+	 * @since 1.0.0
+	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 */
+	public function __wakeup() {
+		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
 
-        if (empty($attachments)) {
-            // If no attachments found, exit without doing anything
-            return;
-        }
+	/**
+	 * Called when the plugin is deactivated.
+	 * Deletes all WebP files if the option is enabled,
+	 * and removes plugin options from the database.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function deactivate(): void {
+		// Check if the user requested to delete WebP files
+		$delete_webp = (bool) get_option( 'delete_webp_on_deactivate', false );
 
-        // Loop through all attachments and delete their WebP files
-        foreach ($attachments as $attachment_id) {
-            $metadata   = wp_get_attachment_metadata($attachment_id);
-            $cleaner    = new Cleaner();
-            $cleaner->prepare($attachment_id, $metadata);
-        }
+		if ( ! $delete_webp ) {
+			// If not requested, exit without doing anything
+			return;
+		}
 
-        // Remove plugin options from the database
-        delete_option('delete_webp_on_deactivate');
-        delete_option('convert_to_webp_quality');
-        delete_option('convert_to_webp_replace_mode');
-    }
+		// Get all image attachments from the database
+		$attachments = (array) Helpers::get_attachments();
+
+		if ( empty( $attachments ) ) {
+			// If no attachments found, exit without doing anything
+			return;
+		}
+
+		// Loop through all attachments and delete their WebP files
+		foreach ( $attachments as $attachment_id ) {
+			$metadata = (array) wp_get_attachment_metadata( $attachment_id );
+			$cleaner  = (object) new Cleaner();
+			$cleaner->prepare( $attachment_id, $metadata );
+		}
+
+		// Remove plugin options from the database
+		delete_option( 'delete_webp_on_deactivate' );
+		delete_option( 'convert_to_webp_quality' );
+		delete_option( 'convert_to_webp_replace_mode' );
+	}
 }

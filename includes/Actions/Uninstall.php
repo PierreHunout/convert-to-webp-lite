@@ -1,29 +1,59 @@
 <?php
-
 /**
  * Handles plugin uninstallation and cleanup of WebP files and options.
  *
- * @package WpConvertToWebp\Actions
+ * @package WpConvertToWebp
  * @since 1.0.0
  */
 
 namespace WpConvertToWebp\Actions;
 
-use WpConvertToWebp\Tools;
-use WpConvertToWebp\Cleaner;
+use WpConvertToWebp\Utils\Helpers;
+use WpConvertToWebp\Utils\Cleaner;
+use RuntimeException;
 
 /**
- * Prevents direct access to the plugin file,
+ * This check prevents direct access to the plugin file,
  * ensuring that it can only be accessed through WordPress.
- * 
+ *
  * @since 1.0.0
  */
-if (!defined('WPINC')) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class Uninstall
-{
+/**
+ * Class Uninstall
+ *
+ * Handles the complete uninstallation of the plugin including cleanup.
+ *
+ * @since 1.0.0
+ */
+class Uninstall {
+
+	/**
+	 * Prevent instantiation of the class
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct() {}
+
+	/**
+	 * Prevent cloning of the class
+	 *
+	 * @since 1.0.0
+	 */
+	private function __clone() {}
+
+	/**
+	 * Prevent unserialization of the class
+	 *
+	 * @since 1.0.0
+	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 */
+	public function __wakeup() {
+		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
 
 	/**
 	 * Called when the plugin is uninstalled.
@@ -31,38 +61,36 @@ class Uninstall
 	 * and removes plugin options from the database.
 	 *
 	 * @since 1.0.0
-	 * 
 	 * @return void
 	 */
-	public static function uninstall()
-	{
+	public static function uninstall(): void {
 		// Check if the user requested to delete WebP files on uninstall
-		$delete_webp	= get_option('delete_webp_on_uninstall', false);
+		$delete_webp = (bool) get_option( 'delete_webp_on_uninstall', false );
 
-		if (!$delete_webp) {
+		if ( ! $delete_webp ) {
 			// If not requested, exit without doing anything
 			return;
 		}
 
 		// Get all image attachments from the database
-		$attachments    = Tools::get_attachments();
+		$attachments = Helpers::get_attachments();
 
-		if (empty($attachments)) {
+		if ( empty( $attachments ) ) {
 			// If no attachments found, exit without doing anything
 			return;
 		}
 
 		// Loop through all attachments and delete their WebP files
-		foreach ($attachments as $attachment_id) {
-			$metadata   = wp_get_attachment_metadata($attachment_id);
-			$cleaner    = new Cleaner();
-			$cleaner->prepare($attachment_id, $metadata);
+		foreach ( $attachments as $attachment_id ) {
+			$metadata = (array) wp_get_attachment_metadata( $attachment_id );
+			$cleaner  = (object) new Cleaner();
+			$cleaner->prepare( $attachment_id, $metadata );
 		}
 
 		// Remove plugin options from the database
-		delete_option('delete_webp_on_uninstall');
-		delete_option('delete_webp_on_deactivate');
-		delete_option('convert_to_webp_quality');
-		delete_option('convert_to_webp_replace_mode');
+		delete_option( 'delete_webp_on_uninstall' );
+		delete_option( 'delete_webp_on_deactivate' );
+		delete_option( 'convert_to_webp_quality' );
+		delete_option( 'convert_to_webp_replace_mode' );
 	}
 }

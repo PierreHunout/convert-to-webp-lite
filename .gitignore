@@ -1,0 +1,16 @@
+*.log
+
+# Composer
+/vendor/
+composer.lock
+
+# PHPCS local configuration
+phpcs.xml
+
+# PHPUnit local configuration and generated files
+phpunit.xml
+.phpunit.result.cache
+/tests/logs/*.xml
+
+# MacOS
+.DS_Store

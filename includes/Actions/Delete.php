@@ -8,7 +8,7 @@
 
 namespace WpConvertToWebp\Actions;
 
-use WpConvertToWebp\Cleaner;
+use WpConvertToWebp\Utils\Cleaner;
 use RuntimeException;
 
 /**

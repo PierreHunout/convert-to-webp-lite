@@ -50,14 +50,26 @@
         "phpunit": [
             "phpunit"
         ],
+        "phpunit:actions": [
+            "phpunit tests/actions/"
+        ],
+        "phpunit:admin": [
+            "phpunit tests/admin/"
+        ],
+        "phpunit:modes": [
+            "phpunit tests/modes/"
+        ],
+        "phpunit:utils": [
+            "phpunit tests/utils/"
+        ],
         "phpunit:unit": [
-            "phpunit --testsuite=\"Unit Tests\""
+            "phpunit tests/unit/"
         ],
         "phpunit:integration": [
-            "phpunit --testsuite=\"Integration Tests\""
+            "phpunit tests/integration/"
         ],
         "phpunit:coverage": [
-            "phpunit --coverage-html tests/coverage-html"
+            "phpunit --coverage-html coverage/"
         ],
         "test": [
             "@phpcs",

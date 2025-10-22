@@ -67,7 +67,7 @@ class Debug {
 	 */
 	public static function log( string $file, mixed $data ): void {
 		// Store logs in wp-content/convert-to-webp-logs/ for persistence and security
-		$path = (string) WP_CONTENT_DIR . '/convert-to-webp-logs/';
+		$path       = (string) WP_CONTENT_DIR . '/convert-to-webp-logs/';
 		$filesystem = (object) Helpers::get_filesystem();
 
 		if ( false === $filesystem ) {

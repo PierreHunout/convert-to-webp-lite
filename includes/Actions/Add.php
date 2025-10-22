@@ -8,7 +8,7 @@
 
 namespace WpConvertToWebp\Actions;
 
-use WpConvertToWebp\Converter;
+use WpConvertToWebp\Utils\Converter;
 use RuntimeException;
 
 /**

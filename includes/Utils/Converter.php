@@ -96,9 +96,9 @@ class Converter {
 			}
 
 			// Initialize filesystem
-			$filesystem = (object) Helpers::get_filesystem();
+			$filesystem = Helpers::get_filesystem();
 
-			if ( ! $filesystem ) {
+			if ( false === $filesystem ) {
 				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
 			}
 
@@ -203,9 +203,9 @@ class Converter {
 			}
 
 			// Initialize filesystem
-			$filesystem = (object) Helpers::get_filesystem();
+			$filesystem = Helpers::get_filesystem();
 
-			if ( ! $filesystem ) {
+			if ( false === $filesystem ) {
 				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
 			}
 

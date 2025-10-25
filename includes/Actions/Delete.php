@@ -103,7 +103,12 @@ class Delete {
 	 */
 	public function delete_webp( int $attachment_id ): void {
 		// Get the attachment metadata
-		$metadata = (array) wp_get_attachment_metadata( $attachment_id );
+		$metadata = wp_get_attachment_metadata( $attachment_id );
+
+		// Ensure metadata is an array
+		if ( false === $metadata ) {
+			$metadata = [];
+		}
 
 		// Instantiate the Cleaner and delete associated WebP files
 		$cleaner = (object) new Cleaner();

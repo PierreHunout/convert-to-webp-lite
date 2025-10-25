@@ -140,6 +140,11 @@ class Helpers {
 					if ( preg_match( '/OPR\/([0-9\.]+)/', $user_agent, $matches ) ) {
 						$version = (string) $matches[1];
 					}
+				} elseif ( $key === 'Safari' ) {
+					// Safari uses Version/ for the actual Safari version, not Safari/ (which is WebKit version)
+					if ( preg_match( '/Version\/([0-9\.]+)/', $user_agent, $matches ) ) {
+						$version = (string) $matches[1];
+					}
 				} elseif ( $key === 'SamsungBrowser' ) {
 					if ( preg_match( '/SamsungBrowser\/([0-9\.]+)/', $user_agent, $matches ) ) {
 						$version = (string) $matches[1];
@@ -195,7 +200,7 @@ class Helpers {
 		}
 
 		// Add size class if provided
-		if ( $size ) {
+		if ( $size && $size !== '' ) {
 			$classes[] = (string) esc_attr( $size );
 		}
 
@@ -262,7 +267,7 @@ class Helpers {
 		$cache_key = (string) 'wp_convert_to_webp_attachment_id_' . md5( $url );
 
 		// Try to get from cache first
-		$result = (int) wp_cache_get( $cache_key, 'wp_convert_to_webp' );
+		$result = wp_cache_get( $cache_key, 'wp_convert_to_webp' );
 
 		if ( $result !== false ) {
 			return $result;
@@ -284,7 +289,7 @@ class Helpers {
 		$file_cache_key = (string) 'wp_convert_to_webp_file_lookup_' . md5( $file );
 
 		// Try to get file lookup from cache
-		$data = (array) wp_cache_get( $file_cache_key, 'wp_convert_to_webp' );
+		$data = wp_cache_get( $file_cache_key, 'wp_convert_to_webp' );
 
 		if ( $data === false ) {
 			global $wpdb;
@@ -297,10 +302,14 @@ class Helpers {
 			wp_cache_set( $file_cache_key, $data, 'wp_convert_to_webp', 3600 );
 		}
 
-		foreach ( $data as $post_id ) {
-			$metadata = (array) wp_get_attachment_metadata( $post_id );
+		// Ensure $data is an array.
+		$data = (array) $data;
 
-			if ( empty( $metadata ) || empty( $metadata['sizes'] ) ) {
+		foreach ( $data as $post_id ) {
+			$metadata = wp_get_attachment_metadata( $post_id );
+
+			// Ensure metadata is an array (wp_get_attachment_metadata returns false if not found)
+			if ( false === $metadata || empty( $metadata ) || empty( $metadata['sizes'] ) ) {
 				continue;
 			}
 

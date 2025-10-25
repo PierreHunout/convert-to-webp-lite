@@ -316,7 +316,7 @@ class Settings {
 			isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'save_options'
 			&& check_admin_referer( 'convert_to_webp_save_options' )
 		) {
-			$quality = (int) isset( $_POST['convert_to_webp_quality'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['convert_to_webp_quality'] ) ) ) : 85;
+			$quality = (int) ( isset( $_POST['convert_to_webp_quality'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['convert_to_webp_quality'] ) ) ) : 85 );
 
 			// Ensure quality is within bounds
 			if ( $quality < 0 ) {

@@ -241,10 +241,8 @@ class Cleaner {
 			if ( ! $filesystem->exists( $webp ) ) {
 				// translators: %s is the basename of the original file for which no WebP version exists
 				$message = (string) wp_kses( sprintf( __( 'WebP file does not exist, nothing to delete: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
-				return Helpers::get_message( false, $message, $this->process, $size );
-			}
-
-			// Check if the WebP file is writable before attempting to delete
+				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
+			}           // Check if the WebP file is writable before attempting to delete
 			if ( ! $filesystem->is_writable( $webp ) ) {
 				// translators: %s is the filename of the WebP file that is not writable and cannot be deleted
 				throw new RuntimeException( wp_kses( sprintf( __( 'WebP file is not writable: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html ) );
@@ -259,7 +257,7 @@ class Cleaner {
 			// translators: %s is the filename of the WebP file that was successfully deleted
 			$message = (string) wp_kses( sprintf( __( 'Successfully deleted WebP file: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html );
 
-			return Helpers::get_message( true, $message, $this->process, $size );
+			return Helpers::get_message( true, $message, $this->process, $size ?? '' );
 		} catch ( Throwable $error ) {
 			// Log error if WP_DEBUG is enabled
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
@@ -276,7 +274,7 @@ class Cleaner {
 			}
 
 			// Return error message
-			return Helpers::get_message( false, $error->getMessage(), $this->process, $size );
+			return Helpers::get_message( false, $error->getMessage(), $this->process, $size ?? '' );
 		}
 	}
 }

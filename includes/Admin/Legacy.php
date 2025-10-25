@@ -138,14 +138,19 @@ class Legacy {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'wp-convert-to-webp' ) ] );
 		}
 
-		$metadata = (array) wp_get_attachment_metadata( $attachment_id );
+		$metadata = wp_get_attachment_metadata( $attachment_id );
+
+		// Ensure metadata is an array
+		if ( false === $metadata ) {
+			$metadata = [];
+		}
 
 		$converter = (object) new Converter();
 		$result    = (array) $converter->prepare( $attachment_id, $metadata );
 
 		// Get message and classes from converter result for frontend display
-		$message = (string) isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'wp-convert-to-webp' );
-		$classes = (array) isset( $result[0]['classes'] ) ? $result[0]['classes'] : [];
+		$message = (string) ( isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'wp-convert-to-webp' ) );
+		$classes = (array) ( isset( $result[0]['classes'] ) ? $result[0]['classes'] : [] );
 
 		wp_send_json_success(
 			[

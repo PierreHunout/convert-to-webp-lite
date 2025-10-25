@@ -72,7 +72,7 @@ class Picture {
 
 		// Get sizes for the attachment
 		$dimensions = (array) wp_image_src_get_dimensions( $src, $metadata, $attachment_id );
-		$sizes      = (string) wp_calculate_image_sizes( $dimensions, $src, $metadata, $attachment_id ) ?? '100vw';
+		$sizes      = (string) ( wp_calculate_image_sizes( $dimensions, $src, $metadata, $attachment_id ) ?? '100vw' );
 
 		$result = [
 			'src'      => $src,

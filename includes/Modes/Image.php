@@ -88,7 +88,7 @@ class Image {
 		}
 
 		// Sort srcset by width ascending
-		$srcset = (array) Helpers::get_srcset( $srcset );
+		$srcset = (string) Helpers::get_srcset( $srcset );
 
 		// Add srcset attribute
 		$attributes .= (string) sprintf( ' srcset="%s"', esc_attr( $srcset ) );

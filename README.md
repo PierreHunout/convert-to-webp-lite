@@ -34,10 +34,42 @@ composer install
 
 This will install development dependencies including:
 
+- **PHPUnit** - Unit testing framework (v9.6+)
+- **Brain Monkey** - WordPress function mocking for tests
+- **Mockery** - Advanced object mocking
+- **Yoast PHPUnit Polyfills** - Cross-version PHPUnit compatibility
 - **PHP CodeSniffer (PHPCS)** - Code quality and WordPress coding standards
-- **PHPUnit** - Unit testing framework
-- **PHPStan** - Static analysis tool
 - **Variable Analysis** - Additional code analysis
+
+### Testing
+
+The plugin includes a comprehensive test suite with unit and integration tests:
+
+```bash
+# Run all tests (unit + integration)
+composer run test
+
+# Run only unit tests
+composer run phpunit:unit
+
+# Run only integration tests
+composer run phpunit:integration
+
+# Generate code coverage report (HTML format)
+composer run phpunit:coverage
+
+# Quick test run (unit tests without coverage)
+composer run test:quick
+```
+
+The code coverage report is generated in `tests/coverage-html/index.html` and can be viewed in your browser.
+
+**Test Structure:**
+
+- `tests/unit/` - Unit tests for individual classes and methods
+- `tests/integration/` - Integration tests for WordPress functionality
+- `tests/TestCase.php` - Base test class with Brain Monkey setup
+- `tests/bootstrap.php` - Test environment initialization
 
 ### Code Quality
 
@@ -50,28 +82,6 @@ composer run phpcs:fix
 
 # Generate a summary report
 composer run phpcs:report
-```
-
-### Testing
-
-```bash
-# Run all tests (PHPCS + PHPUnit)
-composer run test
-
-# Run only unit tests (quick test)
-composer run test:quick
-
-# Run only PHPUnit tests
-composer run phpunit
-
-# Run unit tests only
-composer run phpunit:unit
-
-# Run integration tests only
-composer run phpunit:integration
-
-# Generate coverage report
-composer run phpunit:coverage
 ```
 
 ### Autoloading
@@ -101,6 +111,18 @@ The plugin uses PSR-4 autoloading for better code organization:
 - [Composer](https://getcomposer.org/) for dependency management
 - WordPress 5.0 or higher
 - The PHP GD or Imagick extension with WebP support enabled
+- [Xdebug](https://xdebug.org/) for code coverage (optional but recommended)
+
+## About Testing
+
+The plugin includes comprehensive unit tests to ensure code quality and reliability. The test suite uses:
+
+- **PHPUnit 9.6+** for the testing framework
+- **Brain Monkey** for mocking WordPress functions
+- **Mockery** for advanced object mocking
+- **Xdebug** for code coverage analysis
+
+All tests follow WordPress coding standards and use the Yoast PHPUnit Polyfills for cross-version compatibility.
 
 ## License
 

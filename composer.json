@@ -7,7 +7,7 @@
     "keywords": [
         "wordpress",
         "plugin",
-        "webp",
+        "webp", 
         "image",
         "converter"
     ],
@@ -22,7 +22,8 @@
         "allow-plugins": {
             "composer/installers": true,
             "phpstan/extension-installer": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "roots/wordpress-core-installer": true
         }
     },
     "require": {
@@ -34,8 +35,10 @@
         "roave/security-advisories": "dev-latest",
         "sirbrillig/phpcs-variable-analysis": "^2.12.0",
         "wp-coding-standards/wpcs": "^3.1.0",
-        "phpunit/phpunit": "^9.6",
-        "yoast/phpunit-polyfills": "^2.0"
+        "phpunit/phpunit": "^9.5",
+        "yoast/phpunit-polyfills": "^2.0",
+        "mockery/mockery": "^1.6",
+        "brain/monkey": "^2.6"
     },
     "scripts": {
         "phpcs": [
@@ -50,26 +53,14 @@
         "phpunit": [
             "phpunit"
         ],
-        "phpunit:actions": [
-            "phpunit tests/actions/"
-        ],
-        "phpunit:admin": [
-            "phpunit tests/admin/"
-        ],
-        "phpunit:modes": [
-            "phpunit tests/modes/"
-        ],
-        "phpunit:utils": [
-            "phpunit tests/utils/"
-        ],
         "phpunit:unit": [
-            "phpunit tests/unit/"
+            "phpunit --testsuite=\"Unit Tests\""
         ],
         "phpunit:integration": [
-            "phpunit tests/integration/"
+            "phpunit --testsuite=\"Integration Tests\""
         ],
         "phpunit:coverage": [
-            "phpunit --coverage-html coverage/"
+            "phpunit --coverage-html tests/coverage-html"
         ],
         "test": [
             "@phpcs",
@@ -91,6 +82,11 @@
     "autoload": {
         "psr-4": {
             "WpConvertToWebp\\": "includes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WpConvertToWebp\\Tests\\": "tests/"
         }
     }
 }

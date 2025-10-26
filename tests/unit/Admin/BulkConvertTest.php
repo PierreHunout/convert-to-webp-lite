@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for Legacy class
+ * Tests for BulkConvert class
  *
  * @package WpConvertToWebp\Tests
  */
@@ -8,17 +8,16 @@
 namespace WpConvertToWebp\Tests\Unit\Admin;
 
 use WpConvertToWebp\Tests\TestCase;
-use WpConvertToWebp\Admin\Legacy;
-use Brain\Monkey\Functions as BrainMonkey;
+use WpConvertToWebp\Admin\BulkConvert;
 use RuntimeException;
 use ReflectionClass;
 
 /**
- * Class LegacyTest
+ * Class BulkConvertTest
  *
- * Tests for Legacy class.
+ * Tests for BulkConvert class.
  */
-class LegacyTest extends TestCase {
+class BulkConvertTest extends TestCase {
 
 	/**
 	 * Setup before each test.
@@ -29,25 +28,19 @@ class LegacyTest extends TestCase {
 
 	/**
 	 * Test that clone is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_clone_is_private(): void {
-		$this->assertMethodIsPrivate( Legacy::class, '__clone' );
+		$this->assertMethodIsPrivate( BulkConvert::class, '__clone' );
 	}
 
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
 		$this->expectExceptionMessage( 'Cannot unserialize a singleton.' );
 
-		$reflection = new ReflectionClass( Legacy::class );
+		$reflection = new ReflectionClass( BulkConvert::class );
 		$instance   = $reflection->newInstanceWithoutConstructor();
 		$instance->__wakeup();
 	}

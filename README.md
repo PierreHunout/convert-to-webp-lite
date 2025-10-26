@@ -43,7 +43,17 @@ This will install development dependencies including:
 
 ### Testing
 
-The plugin includes a comprehensive test suite with **unit tests** and **integration tests**:
+The plugin includes a comprehensive test suite with **unit tests** and **integration tests** to ensure code quality and reliability.
+
+The test suite uses:
+
+- **PHPUnit 9.6+** for the testing framework
+- **Brain Monkey** for mocking WordPress functions in unit tests
+- **WordPress Test Suite** for integration tests with real WordPress environment
+- **Mockery** for advanced object mocking
+- **Xdebug** for code coverage analysis
+
+All tests follow WordPress coding standards and use the Yoast PHPUnit Polyfills for cross-version compatibility.
 
 ```bash
 # Run all tests (unit + integration)
@@ -126,20 +136,6 @@ The plugin uses PSR-4 autoloading for better code organization:
 - [Xdebug](https://xdebug.org/) for code coverage (optional but recommended)
 - MySQL or MariaDB for integration tests
 - [Subversion (SVN)](https://subversion.apache.org/) for WordPress Test Suite installation
-
-## About Testing
-
-The plugin includes a comprehensive test suite to ensure code quality and reliability.
-
-The test suite uses:
-
-- **PHPUnit 9.6+** for the testing framework
-- **Brain Monkey** for mocking WordPress functions in unit tests
-- **WordPress Test Suite** for integration tests with real WordPress environment
-- **Mockery** for advanced object mocking
-- **Xdebug** for code coverage analysis
-
-All tests follow WordPress coding standards and use the Yoast PHPUnit Polyfills for cross-version compatibility.
 
 ## License
 

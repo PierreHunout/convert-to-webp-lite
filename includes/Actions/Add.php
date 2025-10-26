@@ -111,7 +111,7 @@ class Add {
 		}
 
 		// Instantiate the converter and convert the image and its sizes to WebP
-		$converter = (object) new Converter();
+		$converter = Converter::get_instance();
 		$converter->prepare( $attachment_id, $metadata );
 
 		// Return the original metadata (conversion does not alter it)

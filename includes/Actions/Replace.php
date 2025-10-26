@@ -8,6 +8,7 @@
 
 namespace WpConvertToWebp\Actions;
 
+use WpConvertToWebp\Utils\Replacer;
 use RuntimeException;
 
 /**
@@ -105,7 +106,7 @@ class Replace {
 	public static function replace_webp( string $content ): string {
 		return preg_replace_callback(
 			'/<img\s+[^>]*src=["\']([^"\']+)["\'][^>]*>/i',
-			[ '\\WpConvertToWebp\\Replacer', 'prepare' ],
+			[ Replacer::class, 'prepare' ],
 			$content
 		);
 	}

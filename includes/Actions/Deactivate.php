@@ -89,10 +89,10 @@ class Deactivate {
 				$metadata = [];
 			}
 
-			$cleaner = (object) new Cleaner();
+			$cleaner = Cleaner::get_instance();
 			$cleaner->prepare( $attachment_id, $metadata );
 		}
-
+		
 		// Remove plugin options from the database
 		delete_option( 'delete_webp_on_deactivate' );
 		delete_option( 'convert_to_webp_quality' );

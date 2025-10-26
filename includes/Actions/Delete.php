@@ -111,7 +111,7 @@ class Delete {
 		}
 
 		// Instantiate the Cleaner and delete associated WebP files
-		$cleaner = (object) new Cleaner();
+		$cleaner = Cleaner::get_instance();
 		$cleaner->prepare( $attachment_id, $metadata );
 	}
 }

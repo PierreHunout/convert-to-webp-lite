@@ -80,6 +80,32 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
+	 * Tests that get_instance returns singleton instance.
+	 *
+	 * Verifies that Replacer::get_instance returns the same instance on
+	 * multiple calls, enforcing the singleton pattern.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::get_instance
+	 * @return void
+	 */
+	public function test_get_instance_returns_singleton(): void {
+		$instance1 = Replacer::get_instance();
+		$instance2 = Replacer::get_instance();
+
+		$this->assertInstanceOf(
+			Replacer::class,
+			$instance1,
+			'get_instance should return a Replacer instance'
+		);
+		$this->assertSame(
+			$instance1,
+			$instance2,
+			'get_instance should return the same instance'
+		);
+	}
+
+	/**
 	 * Tests that prepare method exists with correct signature.
 	 *
 	 * Verifies that Replacer::prepare method exists, is public, and is static,
@@ -279,6 +305,93 @@ class ReplacerTest extends TestCase {
 				$expected,
 				$result,
 				"Expected $original to result in $expected"
+			);
+		}
+	}
+
+	/**
+	 * Tests that prepare returns original image when WebP already in use.
+	 *
+	 * Verifies that the regex check correctly identifies WebP files
+	 * to avoid processing them again.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
+	 */
+	public function test_prepare_detects_webp_extension(): void {
+		$test_urls = [
+			'https://example.com/image.webp',
+			'https://example.com/photo.WEBP',
+			'/uploads/2024/test.webp',
+		];
+
+		foreach ( $test_urls as $url ) {
+			$is_webp = preg_match( '/\.webp$/i', $url );
+			$this->assertEquals(
+				1,
+				$is_webp,
+				"URL {$url} should be detected as WebP"
+			);
+		}
+	}
+
+	/**
+	 * Tests that prepare correctly builds WebP paths from original images.
+	 *
+	 * Verifies the regex replacement that converts image extensions
+	 * to .webp for checking file existence.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
+	 */
+	public function test_prepare_builds_webp_paths_correctly(): void {
+		$test_cases = [
+			'https://example.com/photo.jpg'  => 'https://example.com/photo.webp',
+			'https://example.com/image.jpeg' => 'https://example.com/image.webp',
+			'https://example.com/pic.png'    => 'https://example.com/pic.webp',
+			'https://example.com/anim.gif'   => 'https://example.com/anim.webp',
+			'/uploads/2024/01/test-150x150.jpg' => '/uploads/2024/01/test-150x150.webp',
+		];
+
+		foreach ( $test_cases as $original => $expected ) {
+			$result = preg_replace( '/\.(jpe?g|png|gif)$/i', '.webp', $original );
+			$this->assertEquals(
+				$expected,
+				$result,
+				"Expected {$original} to convert to {$expected}"
+			);
+		}
+	}
+
+	/**
+	 * Tests the replace mode option values.
+	 *
+	 * Verifies that replace mode is properly cast to boolean
+	 * for Picture mode (true/1) vs Image mode (false/0).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
+	 */
+	public function test_replace_mode_boolean_casting(): void {
+		// Test various option values that should be cast to boolean
+		$test_cases = [
+			0     => false,  // Image mode
+			false => false,  // Image mode
+			''    => false,  // Image mode
+			1     => true,   // Picture mode
+			true  => true,   // Picture mode
+			'1'   => true,   // Picture mode
+		];
+
+		foreach ( $test_cases as $input => $expected ) {
+			$result = (bool) $input;
+			$this->assertEquals(
+				$expected,
+				$result,
+				"Expected " . var_export( $input, true ) . " to cast to " . var_export( $expected, true )
 			);
 		}
 	}

@@ -36,6 +36,7 @@ class Picture {
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __construct() {}
 
@@ -43,6 +44,7 @@ class Picture {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -50,6 +52,7 @@ class Picture {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {

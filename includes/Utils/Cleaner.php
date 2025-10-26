@@ -54,6 +54,7 @@ class Cleaner {
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __construct() {}
 
@@ -61,6 +62,7 @@ class Cleaner {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -69,6 +71,7 @@ class Cleaner {
 	 *
 	 * @since 1.0.0
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 * @return void
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
@@ -264,7 +267,9 @@ class Cleaner {
 				// translators: %s is the basename of the original file for which no WebP version exists
 				$message = (string) wp_kses( sprintf( __( 'WebP file does not exist, nothing to delete: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
 				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
-			}           // Check if the WebP file is writable before attempting to delete
+			}
+
+			// Check if the WebP file is writable before attempting to delete
 			if ( ! $filesystem->is_writable( $webp ) ) {
 				// translators: %s is the filename of the WebP file that is not writable and cannot be deleted
 				throw new RuntimeException( wp_kses( sprintf( __( 'WebP file is not writable: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html ) );

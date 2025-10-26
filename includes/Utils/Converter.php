@@ -53,6 +53,7 @@ class Converter {
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __construct() {}
 
@@ -60,6 +61,7 @@ class Converter {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -68,6 +70,7 @@ class Converter {
 	 *
 	 * @since 1.0.0
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 * @return void
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );

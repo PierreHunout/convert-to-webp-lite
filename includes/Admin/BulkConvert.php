@@ -44,6 +44,7 @@ class BulkConvert {
 	 * Constructor to initialize the class.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->init();
@@ -53,6 +54,7 @@ class BulkConvert {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -60,6 +62,7 @@ class BulkConvert {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {

@@ -42,6 +42,7 @@ class Delete {
 	 * Constructor to initialize the class.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->init();
@@ -51,6 +52,7 @@ class Delete {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -58,6 +60,7 @@ class Delete {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {

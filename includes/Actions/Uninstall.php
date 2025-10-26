@@ -92,7 +92,7 @@ class Uninstall {
 			$cleaner = Cleaner::get_instance();
 			$cleaner->prepare( $attachment_id, $metadata );
 		}
-		
+
 		// Remove plugin options from the database
 		delete_option( 'delete_webp_on_uninstall' );
 		delete_option( 'delete_webp_on_deactivate' );

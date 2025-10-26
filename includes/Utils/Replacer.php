@@ -103,6 +103,11 @@ class Replacer {
 			}
 		}
 
+		// Check if the attachment is already a WebP
+		if ( preg_match( '/\.webp$/i', $src ) ) {
+			return $image;
+		}
+
 		// Build WebP file path from original src
 		$webp    = (string) preg_replace( '/\.(jpe?g|png|gif)$/i', '.webp', $src );
 		$is_webp = (bool) Helpers::is_file( $webp );
@@ -136,17 +141,13 @@ class Replacer {
 		}
 
 		if ( $replace_mode ) {
-			// Add responsive attributes (srcset, sizes)
-			$picture = (string) Picture::prepare( $attachment_id, $metadata, $image, $src );
-
-			// Replace src and srcset attributes by their WebP equivalents
+			// Picture mode (when option is enabled): create <picture> element with WebP sources
+			$picture = Picture::prepare( $attachment_id, $metadata, $image, $src );
 			return self::replace( $picture );
 		}
 
-		// Add responsive attributes (width, height, srcset, sizes)
-		$image = (string) Image::prepare( $attachment_id, $metadata, $image, $src );
-
-		// Replace src and srcset attributes by their WebP equivalents
+		// Image mode (default): just replace src/srcset with WebP URLs
+		$image = Image::prepare( $attachment_id, $metadata, $image, $src );
 		return self::replace( $image );
 	}
 
@@ -155,16 +156,18 @@ class Replacer {
 	 * If a WebP file exists for the src or srcset item, substitutes it.
 	 *
 	 * @since 1.0.0
-	 * @param mixed $image The <img> HTML.
-	 * @return string The modified <img> HTML with WebP sources.
+	 * @param mixed $image The <img> HTML or picture data array.
+	 * @return string The modified <img> HTML with WebP sources or <picture> element.
 	 */
 	private static function replace( mixed $image ): string {
 		$replace_mode = (bool) get_option( 'convert_to_webp_replace_mode', false );
 
 		if ( $replace_mode ) {
+			// Picture mode (option enabled): create picture element
 			return Picture::print( $image );
 		}
 
+		// Image mode (default): modify img tag
 		return Image::print( $image );
 	}
 }

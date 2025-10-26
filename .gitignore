@@ -9,11 +9,18 @@ phpcs.xml
 
 # PHPUnit
 .phpunit.result.cache
+phpunit.xml
 /coverage/
 /tests/coverage-html/
+/tests/coverage-integration/
 /tests/coverage.xml
 /tests/coverage.txt
 /tests/logs/
+/tests/fixtures/images/*.jpg
+/tests/fixtures/images/*.png
+/tests/fixtures/images/*.gif
+/tests/fixtures/images/*.webp
+!tests/fixtures/images/.gitkeep
 
 # MacOS
 .DS_Store

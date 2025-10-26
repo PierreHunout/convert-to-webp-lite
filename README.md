@@ -43,16 +43,16 @@ This will install development dependencies including:
 
 ### Testing
 
-The plugin includes a comprehensive test suite with unit and integration tests:
+The plugin includes a comprehensive test suite with **unit tests** and **integration tests**:
 
 ```bash
 # Run all tests (unit + integration)
 composer run test
 
-# Run only unit tests
+# Run only unit tests (262 tests)
 composer run phpunit:unit
 
-# Run only integration tests
+# Run only integration tests (40 tests)
 composer run phpunit:integration
 
 # Generate code coverage report (HTML format)
@@ -68,8 +68,20 @@ The code coverage report is generated in `tests/coverage-html/index.html` and ca
 
 - `tests/unit/` - Unit tests for individual classes and methods
 - `tests/integration/` - Integration tests for WordPress functionality
-- `tests/TestCase.php` - Base test class with Brain Monkey setup
-- `tests/bootstrap.php` - Test environment initialization
+- `tests/TestCase.php` - Base test class with Brain Monkey setup for unit tests
+- `tests/IntegrationTestCase.php` - Base test class extending WP_UnitTestCase for integration tests
+- `tests/bootstrap.php` - Smart test environment initialization (auto-detects test type)
+
+**WordPress Test Suite:**
+
+Integration tests require the WordPress Test Suite. To install it:
+
+```bash
+# Run the installation script
+bash tests/bin/install-wp-tests.sh wordpress_test root 'root' localhost latest
+```
+
+The installation script will download the WordPress test framework and create a test database.
 
 ### Code Quality
 
@@ -112,13 +124,18 @@ The plugin uses PSR-4 autoloading for better code organization:
 - WordPress 5.0 or higher
 - The PHP GD or Imagick extension with WebP support enabled
 - [Xdebug](https://xdebug.org/) for code coverage (optional but recommended)
+- MySQL or MariaDB for integration tests
+- [Subversion (SVN)](https://subversion.apache.org/) for WordPress Test Suite installation
 
 ## About Testing
 
-The plugin includes comprehensive unit tests to ensure code quality and reliability. The test suite uses:
+The plugin includes a comprehensive test suite to ensure code quality and reliability.
+
+The test suite uses:
 
 - **PHPUnit 9.6+** for the testing framework
-- **Brain Monkey** for mocking WordPress functions
+- **Brain Monkey** for mocking WordPress functions in unit tests
+- **WordPress Test Suite** for integration tests with real WordPress environment
 - **Mockery** for advanced object mocking
 - **Xdebug** for code coverage analysis
 

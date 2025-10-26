@@ -22,6 +22,11 @@ class DeactivateTest extends TestCase {
 
 	/**
 	 * Setup before each test.
+	 *
+	 * Initializes the test environment by calling the parent setup method.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -30,7 +35,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test that constructor is private (singleton pattern).
 	 *
+	 * Verifies that the __construct() method is private to prevent
+	 * direct instantiation of the Deactivate class.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -40,7 +49,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test that clone is private (singleton pattern).
 	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the Deactivate class instance.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -50,7 +63,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
 	 *
+	 * Verifies that attempting to unserialize the Deactivate class throws a
+	 * RuntimeException to prevent unserialization.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -65,7 +82,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate method exists and is static.
 	 *
+	 * Verifies that the deactivate() method exists in the Deactivate class,
+	 * is publicly accessible, and is declared as static.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_method_exists(): void {
@@ -83,7 +104,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate returns early when delete option is false.
 	 *
+	 * Verifies that when the 'delete_webp_on_deactivate' option is false,
+	 * the deactivate() method returns early without processing.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_returns_early_when_delete_option_false(): void {
@@ -101,7 +126,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate processes when delete option is enabled.
 	 *
+	 * Verifies that when the 'delete_webp_on_deactivate' option is enabled,
+	 * the cleanup process is triggered without errors.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_option_enabled_triggers_cleanup(): void {
@@ -123,7 +152,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test that delete_option is called for plugin options.
 	 *
+	 * Verifies that deactivate() deletes the correct plugin options:
+	 * delete_webp_on_deactivate, convert_to_webp_quality, and convert_to_webp_replace_mode.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_deletes_correct_options(): void {
@@ -143,7 +176,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate handles false metadata gracefully.
 	 *
+	 * Verifies that the deactivate process properly converts false metadata
+	 * values to empty arrays before processing.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_converts_false_metadata_to_array(): void {
@@ -161,7 +198,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate method return type is void.
 	 *
+	 * Verifies that deactivate() declares a void return type,
+	 * indicating it performs an action without returning a value.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_returns_void(): void {
@@ -176,7 +217,11 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate method has no parameters.
 	 *
+	 * Verifies that deactivate() is a static method with no parameters,
+	 * designed to be called directly without arguments.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_method_signature(): void {
@@ -190,6 +235,12 @@ class DeactivateTest extends TestCase {
 
 	/**
 	 * Cleanup after each test.
+	 *
+	 * Performs cleanup operations after each test by calling the parent
+	 * tear_down method to reset the test environment.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		parent::tear_down();

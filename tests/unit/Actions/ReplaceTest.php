@@ -22,6 +22,11 @@ class ReplaceTest extends TestCase {
 
 	/**
 	 * Setup before each test.
+	 *
+	 * Initializes the test environment by calling the parent setup method.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -30,7 +35,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test that get_instance returns singleton.
 	 *
+	 * Verifies that calling get_instance() multiple times returns the same
+	 * instance, confirming the singleton pattern implementation.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -48,7 +57,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test that get_instance creates instance on first call.
 	 *
+	 * Verifies that the first call to get_instance() creates a new instance
+	 * and stores it in the static instance property.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_creates_instance_on_first_call(): void {
@@ -74,7 +87,12 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test that constructor calls init.
 	 *
+	 * Verifies that when the Replace class is instantiated, the init() method
+	 * is called to register WordPress filter hooks.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::__construct
+	 * @covers \WpConvertToWebp\Actions\Replace::init
 	 * @return void
 	 */
 	public function test_constructor_calls_init(): void {
@@ -90,7 +108,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test that clone is private (singleton pattern).
 	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the singleton instance.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -100,7 +122,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
 	 *
+	 * Verifies that attempting to unserialize the singleton throws a
+	 * RuntimeException to prevent unserialization.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -115,7 +141,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test that init registers filters.
 	 *
+	 * Verifies that the init() method registers three WordPress filter hooks
+	 * for content replacement: the_content, post_thumbnail_html, and widget_text.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::init
 	 * @return void
 	 */
 	public function test_init_registers_filters(): void {
@@ -141,7 +171,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test replace_webp method exists and is static.
 	 *
+	 * Verifies that the replace_webp() method exists on the Replace class,
+	 * is a public static method, and can be called without instantiating the class.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_method_exists(): void {
@@ -159,7 +193,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test init method exists and is public.
 	 *
+	 * Verifies that the init() method exists on the Replace class and
+	 * is public, allowing it to be called during initialization.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::init
 	 * @return void
 	 */
 	public function test_init_method_exists(): void {
@@ -176,7 +214,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test replace_webp returns string.
 	 *
+	 * Verifies that the replace_webp() method has a return type of string,
+	 * ensuring it always returns modified or original content.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_returns_string(): void {
@@ -191,7 +233,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test replace_webp method signature accepts content string.
 	 *
+	 * Verifies that the replace_webp() method is a public static method
+	 * that accepts exactly one parameter named 'content'.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_method_signature(): void {
@@ -209,7 +255,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test replace_webp handles empty content.
 	 *
+	 * Verifies that the replace_webp() method correctly handles empty string
+	 * input and returns an empty string without errors.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_handles_empty_content(): void {
@@ -223,7 +273,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test replace_webp handles content without images.
 	 *
+	 * Verifies that the replace_webp() method returns content unchanged
+	 * when no img tags are present in the input.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_handles_content_without_images(): void {
@@ -237,7 +291,11 @@ class ReplaceTest extends TestCase {
 	/**
 	 * Test replace_webp preserves content structure.
 	 *
+	 * Verifies that the replace_webp() method maintains the original HTML
+	 * structure of content when processing, without breaking tags or nesting.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_preserves_content_structure(): void {
@@ -252,7 +310,13 @@ class ReplaceTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by calling the parent tear_down method
+	 * to clean up WordPress hooks and function mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		parent::tear_down();

@@ -23,7 +23,13 @@ use ReflectionMethod;
 class ConverterTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment and mocks common WordPress functions
+	 * for testing Converter class functionality.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -44,21 +50,42 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test that constructor is private (singleton pattern).
+	 * Tests that the constructor is private to enforce singleton pattern.
+	 *
+	 * Verifies that Converter::__construct is private, preventing direct
+	 * instantiation of the Converter class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::__construct
+	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Converter::class, '__construct' );
 	}
 
 	/**
-	 * Test that clone is private (singleton pattern).
+	 * Tests that the clone method is private to enforce singleton pattern.
+	 *
+	 * Verifies that Converter::__clone is private, preventing cloning
+	 * of the Converter singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::__clone
+	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Converter::class, '__clone' );
 	}
 
 	/**
-	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 * Tests that __wakeup throws RuntimeException to prevent unserialization.
+	 *
+	 * Verifies that Converter::__wakeup throws a RuntimeException with the message
+	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::__wakeup
+	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -70,7 +97,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare throws exception for invalid attachment ID
+	 * Tests that prepare method returns error for invalid attachment ID.
+	 *
+	 * Verifies that Converter::prepare returns an error message array when
+	 * called with an invalid attachment ID (0 or negative).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::prepare
+	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_attachment_id(): void {
 		$converter = $this->get_converter_instance();
@@ -86,7 +120,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare throws exception for invalid metadata
+	 * Tests that prepare method returns error for invalid metadata.
+	 *
+	 * Verifies that Converter::prepare returns an error message array when
+	 * called with empty or invalid attachment metadata.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::prepare
+	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_metadata(): void {
 		$converter = $this->get_converter_instance();
@@ -101,7 +142,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare returns early when filesystem fails
+	 * Tests that prepare method returns error when filesystem initialization fails.
+	 *
+	 * Verifies that Converter::prepare returns an error message array when
+	 * WP_Filesystem initialization fails.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::prepare
+	 * @return void
 	 */
 	public function test_prepare_returns_error_when_filesystem_fails(): void {
 		BrainMonkey\expect( 'WP_Filesystem' )
@@ -119,7 +167,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare handles missing file
+	 * Tests that prepare method handles missing files gracefully.
+	 *
+	 * Verifies that Converter::prepare returns an error message array when
+	 * the attachment file does not exist on the filesystem.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::prepare
+	 * @return void
 	 */
 	public function test_prepare_handles_missing_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -145,7 +200,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test convert throws exception for invalid filepath
+	 * Tests that convert method returns error for invalid filepath.
+	 *
+	 * Verifies that Converter::convert returns an error message array when
+	 * called with an empty or invalid file path.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::convert
+	 * @return void
 	 */
 	public function test_convert_throws_exception_for_invalid_filepath(): void {
 		$converter = $this->get_converter_instance();
@@ -159,7 +221,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test convert returns error when filesystem fails
+	 * Tests that convert method returns error when filesystem initialization fails.
+	 *
+	 * Verifies that Converter::convert returns an error message array when
+	 * WP_Filesystem initialization fails.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::convert
+	 * @return void
 	 */
 	public function test_convert_returns_error_when_filesystem_fails(): void {
 		BrainMonkey\expect( 'WP_Filesystem' )
@@ -176,7 +245,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test convert handles missing file
+	 * Tests that convert method handles missing files gracefully.
+	 *
+	 * Verifies that Converter::convert returns an error message array when
+	 * the source file does not exist on the filesystem.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::convert
+	 * @return void
 	 */
 	public function test_convert_handles_missing_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -201,7 +277,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test convert handles file that is already WebP
+	 * Tests that convert method rejects files that are already WebP.
+	 *
+	 * Verifies that Converter::convert returns an error message when
+	 * attempting to convert a file that is already in WebP format.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::convert
+	 * @return void
 	 */
 	public function test_convert_handles_already_webp_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -232,7 +315,14 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test convert handles invalid path structure
+	 * Tests that convert method handles invalid path structures.
+	 *
+	 * Verifies that Converter::convert returns an error message when
+	 * given a path with no filename (directory only).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Converter::convert
+	 * @return void
 	 */
 	public function test_convert_handles_invalid_path_structure(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -275,7 +365,13 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by cleaning up global filesystem mock
+	 * and calling the parent tear_down method to clean up hooks and mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		// Clean up global filesystem mock if set

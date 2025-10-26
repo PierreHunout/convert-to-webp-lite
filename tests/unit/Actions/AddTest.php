@@ -22,6 +22,11 @@ class AddTest extends TestCase {
 
 	/**
 	 * Setup before each test.
+	 *
+	 * Initializes the test environment by calling the parent setup method.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -30,7 +35,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test that get_instance returns singleton.
 	 *
+	 * Verifies that calling get_instance() multiple times returns the same
+	 * instance, confirming the singleton pattern implementation.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -48,7 +57,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test that get_instance creates instance on first call.
 	 *
+	 * Verifies that the first call to get_instance() creates a new instance
+	 * and stores it in the static instance property.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_creates_instance_on_first_call(): void {
@@ -74,7 +87,12 @@ class AddTest extends TestCase {
 	/**
 	 * Test that constructor calls init.
 	 *
+	 * Verifies that when the Add class is instantiated, the init() method
+	 * is called to register WordPress hooks.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::__construct
+	 * @covers \WpConvertToWebp\Actions\Add::init
 	 * @return void
 	 */
 	public function test_constructor_calls_init(): void {
@@ -90,7 +108,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test that clone is private (singleton pattern).
 	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the singleton instance.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -100,7 +122,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
 	 *
+	 * Verifies that attempting to unserialize the singleton throws a
+	 * RuntimeException to prevent unserialization.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -115,7 +141,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test that init registers wp_generate_attachment_metadata filter.
 	 *
+	 * Verifies that the init() method correctly registers the convert_webp
+	 * callback on the wp_generate_attachment_metadata filter with priority 10.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::init
 	 * @return void
 	 */
 	public function test_init_registers_filter(): void {
@@ -141,7 +171,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test convert_webp method exists and is public.
 	 *
+	 * Verifies that the convert_webp() method exists in the Add class
+	 * and is publicly accessible.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::convert_webp
 	 * @return void
 	 */
 	public function test_convert_webp_method_exists(): void {
@@ -158,7 +192,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test convert_webp returns metadata unchanged when empty.
 	 *
+	 * Verifies that when an empty metadata array is provided,
+	 * convert_webp returns it unchanged without processing.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::convert_webp
 	 * @return void
 	 */
 	public function test_convert_webp_returns_metadata_when_empty(): void {
@@ -176,7 +214,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test convert_webp returns metadata unchanged when not array.
 	 *
+	 * Verifies that convert_webp properly validates the metadata type
+	 * and returns an empty array when metadata is empty.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::convert_webp
 	 * @return void
 	 */
 	public function test_convert_webp_validates_metadata_type(): void {
@@ -195,7 +237,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test convert_webp method with valid metadata structure.
 	 *
+	 * Verifies that convert_webp accepts and handles metadata with standard
+	 * WordPress attachment metadata fields (file, width, height).
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::convert_webp
 	 * @return void
 	 */
 	public function test_convert_webp_accepts_valid_metadata_structure(): void {
@@ -220,7 +266,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test that convert_webp preserves metadata structure.
 	 *
+	 * Verifies that convert_webp preserves all metadata fields including
+	 * file, dimensions, filesize, mime-type, and sizes array.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::convert_webp
 	 * @return void
 	 */
 	public function test_convert_webp_preserves_metadata_structure(): void {
@@ -254,7 +304,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test init method exists and is public.
 	 *
+	 * Verifies that the init() method exists in the Add class
+	 * and is publicly accessible.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::init
 	 * @return void
 	 */
 	public function test_init_method_exists(): void {
@@ -271,7 +325,11 @@ class AddTest extends TestCase {
 	/**
 	 * Test that metadata with multiple sizes is handled correctly.
 	 *
+	 * Verifies that convert_webp can handle metadata containing multiple
+	 * image sizes (thumbnail, medium, large) as generated by WordPress.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Add::convert_webp
 	 * @return void
 	 */
 	public function test_metadata_structure_with_multiple_sizes(): void {
@@ -315,6 +373,12 @@ class AddTest extends TestCase {
 
 	/**
 	 * Cleanup after each test.
+	 *
+	 * Performs cleanup operations after each test by calling the parent
+	 * tear_down method to reset the test environment.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		parent::tear_down();

@@ -22,6 +22,11 @@ class UninstallTest extends TestCase {
 
 	/**
 	 * Setup before each test.
+	 *
+	 * Initializes the test environment by calling the parent setup method.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -30,7 +35,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test that constructor is private (singleton pattern).
 	 *
+	 * Verifies that the __construct() method is private to prevent
+	 * direct instantiation of the Uninstall class.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -40,7 +49,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test that clone is private (singleton pattern).
 	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the Uninstall class instance.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -50,7 +63,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
 	 *
+	 * Verifies that attempting to unserialize the Uninstall class throws a
+	 * RuntimeException to prevent unserialization.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -65,7 +82,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall method exists and is static.
 	 *
+	 * Verifies that the uninstall() method exists in the Uninstall class,
+	 * is publicly accessible, and is declared as static.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_method_exists(): void {
@@ -83,7 +104,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall returns early when delete option is false.
 	 *
+	 * Verifies that when the 'delete_webp_on_uninstall' option is false,
+	 * the uninstall() method returns early without processing.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_returns_early_when_delete_option_false(): void {
@@ -101,7 +126,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall processes when delete option is enabled.
 	 *
+	 * Verifies that when the 'delete_webp_on_uninstall' option is enabled,
+	 * the cleanup process is triggered without errors.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_option_enabled_triggers_cleanup(): void {
@@ -123,7 +152,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test that uninstall deletes all plugin options.
 	 *
+	 * Verifies that uninstall() deletes all 4 plugin options: delete_webp_on_uninstall,
+	 * delete_webp_on_deactivate, convert_to_webp_quality, and convert_to_webp_replace_mode.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_deletes_all_plugin_options(): void {
@@ -145,7 +178,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall handles false metadata gracefully.
 	 *
+	 * Verifies that the uninstall process properly converts false metadata
+	 * values to empty arrays before processing.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_converts_false_metadata_to_array(): void {
@@ -163,7 +200,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall method return type is void.
 	 *
+	 * Verifies that uninstall() declares a void return type,
+	 * indicating it performs an action without returning a value.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_returns_void(): void {
@@ -178,7 +219,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall method has no parameters.
 	 *
+	 * Verifies that uninstall() is a static method with no parameters,
+	 * designed to be called directly without arguments.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_method_signature(): void {
@@ -193,7 +238,11 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall deletes more options than deactivate.
 	 *
+	 * Verifies that uninstall() removes more options than deactivate(),
+	 * specifically 4 options vs 3, including the delete_webp_on_uninstall option.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_deletes_more_options_than_deactivate(): void {
@@ -218,6 +267,12 @@ class UninstallTest extends TestCase {
 
 	/**
 	 * Cleanup after each test.
+	 *
+	 * Performs cleanup operations after each test by calling the parent
+	 * tear_down method to reset the test environment.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		parent::tear_down();

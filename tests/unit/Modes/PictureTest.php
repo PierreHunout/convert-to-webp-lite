@@ -22,25 +22,56 @@ use ReflectionMethod;
 class PictureTest extends TestCase {
 
 	/**
-	 * Setup before each test.   */
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment and prepares for Picture
+	 * class testing.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	protected function set_up(): void {
 		parent::set_up();
 	}
 
 	/**
-	 * Test that constructor is private (singleton pattern).     */
+	 * Test that constructor is private (singleton pattern).
+	 *
+	 * Verifies that the __construct() method is private to prevent direct
+	 * instantiation of the Picture class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::__construct
+	 * @return void
+	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Picture::class, '__construct' );
 	}
 
 	/**
-	 * Test that clone is private (singleton pattern).   */
+	 * Test that clone is private (singleton pattern).
+	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::__clone
+	 * @return void
+	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Picture::class, '__clone' );
 	}
 
 	/**
-	 * Test that __wakeup throws RuntimeException (singleton pattern).   */
+	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 *
+	 * Verifies that attempting to unserialize the singleton instance throws a
+	 * RuntimeException to prevent unserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::__wakeup
+	 * @return void
+	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
 		$this->expectExceptionMessage( 'Cannot unserialize a singleton.' );
@@ -51,7 +82,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare method exists and is public static.  */
+	 * Test prepare method exists and is public static.
+	 *
+	 * Verifies that the prepare() method exists, is public and static,
+	 * allowing it to be called without instantiating the class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::prepare
+	 * @return void
+	 */
 	public function test_prepare_method_exists(): void {
 		$this->assertTrue(
 			method_exists( Picture::class, 'prepare' ),
@@ -70,7 +109,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print method exists and is public static.    */
+	 * Test print method exists and is public static.
+	 *
+	 * Verifies that the print() method exists, is public and static,
+	 * allowing it to be called without instantiating the class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
+	 */
 	public function test_print_method_exists(): void {
 		$this->assertTrue(
 			method_exists( Picture::class, 'print' ),
@@ -89,7 +136,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare returns array with required keys.    */
+	 * Test prepare returns array with required keys.
+	 *
+	 * Verifies that the prepare() method returns an array containing
+	 * all required keys: src, srcset, sizes, and fallback.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::prepare
+	 * @return void
+	 */
 	public function test_prepare_returns_array_with_required_keys(): void {
 		$image    = '<img src="test.jpg" alt="Test" />';
 		$src      = 'test.jpg';
@@ -113,7 +168,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare stores original src.     */
+	 * Test prepare stores original src.
+	 *
+	 * Verifies that the prepare() method stores the original image source URL
+	 * in the returned array for use in the picture element.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::prepare
+	 * @return void
+	 */
 	public function test_prepare_stores_original_src(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'https://example.com/wp-content/uploads/test.jpg';
@@ -130,7 +193,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare uses default sizes when null.    */
+	 * Test prepare uses default sizes when null.
+	 *
+	 * Verifies that the prepare() method uses the default value "100vw"
+	 * when wp_calculate_image_sizes returns null.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::prepare
+	 * @return void
+	 */
 	public function test_prepare_uses_default_sizes_when_null(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'test.jpg';
@@ -147,7 +218,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print regex converts extensions to webp.     */
+	 * Test print regex converts extensions to webp.
+	 *
+	 * Verifies that the regular expression used in print() correctly converts
+	 * various image extensions (jpg, jpeg, png, gif) to .webp, case-insensitively.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
+	 */
 	public function test_print_regex_converts_extensions_to_webp(): void {
 		$test_cases = [
 			'image.jpg'  => 'image.webp',
@@ -170,7 +249,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print generates picture element structure.   */
+	 * Test print generates picture element structure.
+	 *
+	 * Verifies that the print() method generates a complete picture element
+	 * with source tag for WebP and fallback img tag.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
+	 */
 	public function test_print_generates_picture_element_structure(): void {
 		$picture_html = '<picture><source type="image/webp" srcset="test.webp" sizes="100vw" /><img src="test.jpg" /></picture>';
 
@@ -181,7 +268,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print source element has webp type.  */
+	 * Test print source element has webp type.
+	 *
+	 * Verifies that the source element generated by print() includes
+	 * the correct MIME type "image/webp".
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
+	 */
 	public function test_print_source_element_has_webp_type(): void {
 		$source = '<source type="image/webp" srcset="test.webp" sizes="100vw" />';
 
@@ -189,7 +284,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print source element includes srcset.    */
+	 * Test print source element includes srcset.
+	 *
+	 * Verifies that the source element generated by print() includes
+	 * the srcset attribute with WebP image URLs.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
+	 */
 	public function test_print_source_element_includes_srcset(): void {
 		$srcset = 'test-150.webp 150w, test-300.webp 300w';
 		$source = sprintf( '<source type="image/webp" srcset="%s" sizes="100vw" />', $srcset );
@@ -199,7 +302,15 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print source element includes sizes.     */
+	 * Test print source element includes sizes.
+	 *
+	 * Verifies that the source element generated by print() includes
+	 * the sizes attribute for responsive images.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
+	 */
 	public function test_print_source_element_includes_sizes(): void {
 		$sizes  = '(max-width: 600px) 100vw, 50vw';
 		$source = sprintf( '<source type="image/webp" srcset="test.webp" sizes="%s" />', $sizes );
@@ -210,6 +321,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print parses srcset correctly.
+	 *
+	 * Verifies that the print() method correctly parses srcset strings
+	 * containing multiple image URLs with width descriptors.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_parses_srcset_correctly(): void {
 		$srcset = 'test-150.jpg 150w, test-300.jpg 300w, test-600.jpg 600w';
@@ -226,6 +344,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print handles empty srcset parts.
+	 *
+	 * Verifies that the print() method correctly skips empty items
+	 * when parsing srcset strings with trailing or double commas.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_handles_empty_srcset_parts(): void {
 		$srcset = 'test-150.jpg 150w, , test-300.jpg 300w';
@@ -244,6 +369,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print converts srcset items to webp.
+	 *
+	 * Verifies that the print() method converts all image URLs in srcset
+	 * to WebP format while preserving width descriptors.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_converts_srcset_items_to_webp(): void {
 		$items = [
@@ -263,6 +395,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print preserves width descriptor in srcset.
+	 *
+	 * Verifies that the print() method preserves the width descriptor (e.g., "300w")
+	 * when processing srcset items.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_preserves_width_descriptor_in_srcset(): void {
 		$item  = 'test-300.jpg 300w';
@@ -275,6 +414,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print handles srcset item without descriptor.
+	 *
+	 * Verifies that the print() method correctly handles srcset items
+	 * that contain only a URL without a width descriptor.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_handles_srcset_item_without_descriptor(): void {
 		$item  = 'test.jpg';
@@ -286,6 +432,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print formats source element with sprintf.
+	 *
+	 * Verifies that the print() method correctly formats the source element
+	 * using sprintf with srcset and sizes parameters.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_formats_source_element_with_sprintf(): void {
 		$srcset = 'test.webp';
@@ -298,6 +451,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print joins srcset array with comma and space.
+	 *
+	 * Verifies that the print() method correctly joins srcset array items
+	 * with comma and space separators.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_joins_srcset_array_correctly(): void {
 		$srcset = [
@@ -314,6 +474,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print structure order: picture > source > img > close.
+	 *
+	 * Verifies that the print() method maintains the correct HTML element order:
+	 * opening picture tag, source element, img tag, closing picture tag.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::print
+	 * @return void
 	 */
 	public function test_print_maintains_correct_element_order(): void {
 		$html = '<picture><source type="image/webp" srcset="test.webp" sizes="100vw" /><img src="test.jpg" /></picture>';
@@ -330,6 +497,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test prepare returns fallback from Image::prepare.
+	 *
+	 * Verifies that the prepare() method includes a fallback img tag
+	 * generated by Image::prepare for browsers without WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Picture::prepare
+	 * @return void
 	 */
 	public function test_prepare_returns_fallback_from_image_prepare(): void {
 		$image    = '<img src="test.jpg" />';
@@ -348,7 +522,14 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.  */
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by calling the parent tear_down method
+	 * to clean up WordPress hooks and function mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	protected function tear_down(): void {
 		parent::tear_down();
 	}

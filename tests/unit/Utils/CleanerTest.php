@@ -23,7 +23,13 @@ use ReflectionMethod;
 class CleanerTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment and mocks common WordPress functions
+	 * for testing Cleaner class functionality.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -42,21 +48,42 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test that constructor is private (singleton pattern).
+	 * Tests that the constructor is private to enforce singleton pattern.
+	 *
+	 * Verifies that Cleaner::__construct is private, preventing direct
+	 * instantiation of the Cleaner class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::__construct
+	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Cleaner::class, '__construct' );
 	}
 
 	/**
-	 * Test that clone is private (singleton pattern).
+	 * Tests that the clone method is private to enforce singleton pattern.
+	 *
+	 * Verifies that Cleaner::__clone is private, preventing cloning
+	 * of the Cleaner singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::__clone
+	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Cleaner::class, '__clone' );
 	}
 
 	/**
-	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 * Tests that __wakeup throws RuntimeException to prevent unserialization.
+	 *
+	 * Verifies that Cleaner::__wakeup throws a RuntimeException with the message
+	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::__wakeup
+	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -68,7 +95,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare throws exception for invalid attachment ID
+	 * Tests that prepare method returns error for invalid attachment ID.
+	 *
+	 * Verifies that Cleaner::prepare returns an error message array when
+	 * called with an invalid attachment ID (0 or negative).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::prepare
+	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_attachment_id(): void {
 		$cleaner = $this->get_cleaner_instance();
@@ -83,7 +117,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare throws exception for invalid metadata
+	 * Tests that prepare method returns error for invalid metadata.
+	 *
+	 * Verifies that Cleaner::prepare returns an error message array when
+	 * called with empty or invalid attachment metadata.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::prepare
+	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_metadata(): void {
 		$cleaner = $this->get_cleaner_instance();
@@ -97,7 +138,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare returns error when filesystem fails
+	 * Tests that prepare method returns error when filesystem initialization fails.
+	 *
+	 * Verifies that Cleaner::prepare returns an error message array when
+	 * WP_Filesystem initialization fails.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::prepare
+	 * @return void
 	 */
 	public function test_prepare_returns_error_when_filesystem_fails(): void {
 		BrainMonkey\expect( 'WP_Filesystem' )->once()->andReturn( false );
@@ -114,7 +162,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare handles missing file
+	 * Tests that prepare method handles missing files gracefully.
+	 *
+	 * Verifies that Cleaner::prepare returns an error message array when
+	 * the attachment file does not exist on the filesystem.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::prepare
+	 * @return void
 	 */
 	public function test_prepare_handles_missing_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -140,7 +195,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare handles file not writable
+	 * Tests that prepare method handles non-writable files.
+	 *
+	 * Verifies that Cleaner::prepare returns an error message array when
+	 * the attachment file exists but is not writable.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::prepare
+	 * @return void
 	 */
 	public function test_prepare_handles_file_not_writable(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -170,7 +232,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete throws exception for invalid filepath
+	 * Tests that delete method returns error for invalid filepath.
+	 *
+	 * Verifies that Cleaner::delete returns an error message array when
+	 * called with an empty or invalid file path.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_throws_exception_for_invalid_filepath(): void {
 		$cleaner = $this->get_cleaner_instance();
@@ -184,7 +253,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete returns error when filesystem fails
+	 * Tests that delete method returns error when filesystem initialization fails.
+	 *
+	 * Verifies that Cleaner::delete returns an error message array when
+	 * WP_Filesystem initialization fails.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_returns_error_when_filesystem_fails(): void {
 		BrainMonkey\expect( 'WP_Filesystem' )->once()->andReturn( false );
@@ -199,7 +275,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete handles missing file
+	 * Tests that delete method handles missing files gracefully.
+	 *
+	 * Verifies that Cleaner::delete returns an error message array when
+	 * the source file does not exist on the filesystem.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_handles_missing_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -223,7 +306,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete handles file that is already WebP
+	 * Tests that delete method handles files that are already WebP.
+	 *
+	 * Verifies that Cleaner::delete returns a success message when
+	 * attempting to delete a WebP file of a file that is already WebP.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_handles_already_webp_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -248,7 +338,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete handles invalid path structure
+	 * Tests that delete method handles invalid path structures.
+	 *
+	 * Verifies that Cleaner::delete returns an error message when
+	 * given a path with no filename (directory only).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_handles_invalid_path_structure(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -272,7 +369,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete handles WebP file not exists
+	 * Tests that delete method handles non-existent WebP files.
+	 *
+	 * Verifies that Cleaner::delete returns an error message when
+	 * the corresponding WebP file does not exist.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_handles_webp_not_exists(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -300,7 +404,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete handles WebP file not writable
+	 * Tests that delete method handles non-writable WebP files.
+	 *
+	 * Verifies that Cleaner::delete returns an error message when
+	 * the WebP file exists but is not writable.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_handles_webp_not_writable(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -332,7 +443,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete handles deletion failure
+	 * Tests that delete method handles filesystem deletion failures.
+	 *
+	 * Verifies that Cleaner::delete returns an error message when
+	 * the filesystem delete operation fails.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_handles_deletion_failure(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -368,7 +486,14 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Test delete successfully deletes WebP file
+	 * Tests that delete method successfully deletes WebP files.
+	 *
+	 * Verifies that Cleaner::delete successfully deletes the WebP file
+	 * when all conditions are met (file exists and is writable).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Cleaner::delete
+	 * @return void
 	 */
 	public function test_delete_successfully_deletes_webp_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -421,7 +546,13 @@ class CleanerTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by cleaning up global filesystem mock
+	 * and calling the parent tear_down method to clean up hooks and mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		// Clean up global filesystem mock if set

@@ -19,7 +19,13 @@ use Brain\Monkey\Functions as BrainMonkey;
 class BrowserSupportTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment and mocks WordPress sanitization
+	 * functions for testing browser support detection.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -30,7 +36,13 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by cleaning up $_SERVER variables
+	 * and calling the parent tear_down method to clean up hooks and mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		// Clean up $_SERVER variables
@@ -41,7 +53,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true when HTTP_ACCEPT contains image/webp
+	 * Tests that browser_support method detects WebP support via HTTP_ACCEPT header.
+	 *
+	 * Verifies that browser_support returns true when the HTTP_ACCEPT header
+	 * contains 'image/webp', regardless of user agent.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_with_webp_accept_header(): void {
 		$_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8';
@@ -52,7 +71,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns false for Internet Explorer
+	 * Tests that browser_support method rejects Internet Explorer.
+	 *
+	 * Verifies that browser_support returns false for any version of
+	 * Internet Explorer, as IE does not support WebP format.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_ie(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml,application/xml';
@@ -64,7 +90,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true for Chrome 90
+	 * Tests that browser_support method detects WebP support in Chrome 90.
+	 *
+	 * Verifies that browser_support returns true for Chrome version 90,
+	 * which is well above the minimum version 32 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_chrome_90(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -76,7 +109,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns false for Chrome 31 (below minimum)
+	 * Tests that browser_support method rejects Chrome 31.
+	 *
+	 * Verifies that browser_support returns false for Chrome version 31,
+	 * which is below the minimum version 32 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_chrome_31(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -88,7 +128,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true for Firefox 85
+	 * Tests that browser_support method detects WebP support in Firefox 85.
+	 *
+	 * Verifies that browser_support returns true for Firefox version 85,
+	 * which is well above the minimum version 65 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_firefox_85(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -100,7 +147,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns false for Firefox 64 (below minimum)
+	 * Tests that browser_support method rejects Firefox 64.
+	 *
+	 * Verifies that browser_support returns false for Firefox version 64,
+	 * which is below the minimum version 65 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_firefox_64(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -112,7 +166,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true for Edge 90
+	 * Tests that browser_support method detects WebP support in Edge 90.
+	 *
+	 * Verifies that browser_support returns true for Edge version 90,
+	 * which is well above the minimum version 18 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_edge_90(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -124,7 +185,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true for Safari 16
+	 * Tests that browser_support method detects WebP support in Safari 16.
+	 *
+	 * Verifies that browser_support returns true for Safari version 16,
+	 * which meets the minimum version 16 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_safari_16(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -136,7 +204,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns false for Safari 15 (below minimum)
+	 * Tests that browser_support method rejects Safari 15.
+	 *
+	 * Verifies that browser_support returns false for Safari version 15,
+	 * which is below the minimum version 16 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_safari_15(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -148,7 +223,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true for Opera 75
+	 * Tests that browser_support method detects WebP support in Opera 75.
+	 *
+	 * Verifies that browser_support returns true for Opera version 75,
+	 * which is well above the minimum version 19 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_opera_75(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -160,7 +242,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true for Android Browser 5.0
+	 * Tests that browser_support method detects WebP support in Android 5.0.
+	 *
+	 * Verifies that browser_support returns true for Android version 5.0,
+	 * which meets the minimum version 5 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_android_5(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -172,7 +261,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns true for Samsung Internet 15
+	 * Tests that browser_support method detects WebP support in Samsung Internet 15.
+	 *
+	 * Verifies that browser_support returns true for Samsung Internet version 15,
+	 * which is well above the minimum version 4 required for WebP support.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_samsung_browser(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -184,7 +280,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns false for unknown browser
+	 * Tests that browser_support method rejects unknown browsers.
+	 *
+	 * Verifies that browser_support returns false when the user agent
+	 * is not recognized as a supported browser.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_unknown_browser(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -196,7 +299,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support returns false when version is unknown
+	 * Tests that browser_support method rejects browsers without version information.
+	 *
+	 * Verifies that browser_support returns false when a browser is detected
+	 * but its version number cannot be determined from the user agent.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_returns_false_when_version_unknown(): void {
 		$_SERVER['HTTP_ACCEPT']     = 'text/html,application/xhtml+xml';
@@ -208,7 +318,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test browser_support with no HTTP_ACCEPT and no user agent
+	 * Tests that browser_support method rejects requests without headers.
+	 *
+	 * Verifies that browser_support returns false when neither HTTP_ACCEPT
+	 * nor HTTP_USER_AGENT headers are present in the request.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @return void
 	 */
 	public function test_browser_support_with_no_headers(): void {
 		$result = Helpers::browser_support();
@@ -217,7 +334,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Chrome info correctly
+	 * Tests that get_browser method correctly identifies Chrome browser.
+	 *
+	 * Verifies that get_browser extracts the browser name "Chrome" and
+	 * version number from a Chrome user agent string.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_chrome(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36';
@@ -229,7 +353,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Firefox info correctly
+	 * Tests that get_browser method correctly identifies Firefox browser.
+	 *
+	 * Verifies that get_browser extracts the browser name "Firefox" and
+	 * version number from a Firefox user agent string.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_firefox(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0';
@@ -241,8 +372,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Edge info correctly
-	 * Note: Modern Edge uses "Edg" in UA, which doesn't match "Edge" check, so it's detected as Chrome
+	 * Tests that get_browser method correctly identifies Edge browser.
+	 *
+	 * Verifies that get_browser extracts the browser name "Edge" and
+	 * version number from an Edge user agent string containing "Edge".
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_edge(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36 Edge/90.0.818.51';
@@ -254,7 +391,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Safari info correctly
+	 * Tests that get_browser method correctly identifies Safari browser.
+	 *
+	 * Verifies that get_browser extracts the browser name "Safari" and
+	 * version number from a Safari user agent string.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_safari(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15';
@@ -266,7 +410,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Opera info correctly
+	 * Tests that get_browser method correctly identifies Opera browser.
+	 *
+	 * Verifies that get_browser extracts the browser name "Opera" and
+	 * version number from an Opera user agent string containing "OPR".
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_opera(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36 OPR/75.0.3969.149';
@@ -278,7 +429,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns IE info correctly (Trident)
+	 * Tests that get_browser method correctly identifies IE using Trident identifier.
+	 *
+	 * Verifies that get_browser extracts the browser name "IE" and
+	 * version number from an Internet Explorer user agent string containing "Trident".
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_ie_trident(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko';
@@ -290,7 +448,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns IE info correctly (MSIE)
+	 * Tests that get_browser method correctly identifies IE using MSIE identifier.
+	 *
+	 * Verifies that get_browser extracts the browser name "IE" and
+	 * version number from an Internet Explorer user agent string containing "MSIE".
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_ie_msie(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)';
@@ -302,8 +467,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Samsung Browser info correctly
-	 * Using a minimal UA that only contains SamsungBrowser identifier
+	 * Tests that get_browser method correctly identifies Samsung Internet browser.
+	 *
+	 * Verifies that get_browser extracts the browser name "Samsung" and
+	 * version number from a Samsung Internet user agent string.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_samsung_browser(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Linux; Android 11) SamsungBrowser/15.0';
@@ -315,8 +486,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Android Browser info correctly
-	 * Using a minimal UA that only contains Android identifier
+	 * Tests that get_browser method correctly identifies Android browser.
+	 *
+	 * Verifies that get_browser extracts the browser name "Android" and
+	 * version number from an Android browser user agent string.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_detects_android_browser(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T)';
@@ -328,7 +505,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Unknown for unrecognized user agent
+	 * Tests that get_browser method returns Unknown for unrecognized user agents.
+	 *
+	 * Verifies that get_browser returns "Unknown" as the browser name and "?" as the
+	 * version when the user agent string does not match any known browser pattern.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_returns_unknown_for_unrecognized(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'UnknownBot/1.0';
@@ -340,7 +524,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser returns Unknown when no user agent is set
+	 * Tests that get_browser method returns Unknown when no user agent is present.
+	 *
+	 * Verifies that get_browser returns "Unknown" as the browser name and "?" as the
+	 * version when the HTTP_USER_AGENT header is not set.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_returns_unknown_when_no_user_agent(): void {
 		$result = Helpers::get_browser();
@@ -350,7 +541,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser prioritizes Chrome over Safari in user agent
+	 * Tests that get_browser method prioritizes Chrome over Safari in user agent.
+	 *
+	 * Verifies that get_browser correctly identifies Chrome when both "Chrome" and "Safari"
+	 * appear in the user agent string, following browser detection best practices.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_prioritizes_chrome_over_safari(): void {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36';
@@ -362,7 +560,14 @@ class BrowserSupportTest extends TestCase {
 	}
 
 	/**
-	 * Test get_browser with empty user agent string
+	 * Tests that get_browser method handles empty user agent strings.
+	 *
+	 * Verifies that get_browser returns "Unknown" as the browser name and "?" as the
+	 * version when the HTTP_USER_AGENT header is set but contains an empty string.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @return void
 	 */
 	public function test_get_browser_with_empty_user_agent(): void {
 		$_SERVER['HTTP_USER_AGENT'] = '';

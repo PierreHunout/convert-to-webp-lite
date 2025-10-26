@@ -21,7 +21,13 @@ use ReflectionClass;
 class BulkDeleteTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment and prepares for BulkDelete
+	 * class testing.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -29,6 +35,13 @@ class BulkDeleteTest extends TestCase {
 
 	/**
 	 * Test that get_instance returns singleton.
+	 *
+	 * Verifies that the get_instance() method creates a singleton instance on first call
+	 * and returns the same instance on subsequent calls.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\BulkDelete::get_instance
+	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
 		BrainMonkey\expect( 'add_action' )
@@ -44,6 +57,13 @@ class BulkDeleteTest extends TestCase {
 
 	/**
 	 * Test that clone is private (singleton pattern).
+	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\BulkDelete::__clone
+	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( BulkDelete::class, '__clone' );
@@ -51,6 +71,13 @@ class BulkDeleteTest extends TestCase {
 
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 *
+	 * Verifies that attempting to unserialize the singleton instance throws a
+	 * RuntimeException to prevent unserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\BulkDelete::__wakeup
+	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -63,6 +90,13 @@ class BulkDeleteTest extends TestCase {
 
 	/**
 	 * Test that init registers admin_post action.
+	 *
+	 * Verifies that the init() method registers the admin_post_delete_all_webp
+	 * WordPress action hook for handling bulk deletion requests.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\BulkDelete::init
+	 * @return void
 	 */
 	public function test_init_registers_admin_post_action(): void {
 		$hooks = [];
@@ -82,6 +116,13 @@ class BulkDeleteTest extends TestCase {
 
 	/**
 	 * Test delete_all_webp method exists and is public static.
+	 *
+	 * Verifies that the delete_all_webp() method exists, is public and static,
+	 * allowing it to be called as an action hook callback.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\BulkDelete::delete_all_webp
+	 * @return void
 	 */
 	public function test_delete_all_webp_method_exists(): void {
 		$this->assertTrue(
@@ -97,6 +138,13 @@ class BulkDeleteTest extends TestCase {
 
 	/**
 	 * Test init method exists and is public static.
+	 *
+	 * Verifies that the init() method exists, is public and static,
+	 * allowing it to be called during plugin initialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\BulkDelete::init
+	 * @return void
 	 */
 	public function test_init_method_exists(): void {
 		$this->assertTrue(
@@ -111,7 +159,13 @@ class BulkDeleteTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by calling the parent tear_down method
+	 * to clean up WordPress hooks and function mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		parent::tear_down();

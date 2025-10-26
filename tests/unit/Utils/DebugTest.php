@@ -22,7 +22,13 @@ use ReflectionClass;
 class DebugTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment, defines WP_CONTENT_DIR constant,
+	 * and mocks common WordPress functions for testing Debug class functionality.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -43,21 +49,42 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test that constructor is private (singleton pattern).
+	 * Tests that the constructor is private to enforce singleton pattern.
+	 *
+	 * Verifies that Debug::__construct is private, preventing direct
+	 * instantiation of the Debug class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::__construct
+	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Debug::class, '__construct' );
 	}
 
 	/**
-	 * Test that clone is private (singleton pattern).
+	 * Tests that the clone method is private to enforce singleton pattern.
+	 *
+	 * Verifies that Debug::__clone is private, preventing cloning
+	 * of the Debug singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::__clone
+	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Debug::class, '__clone' );
 	}
 
 	/**
-	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 * Tests that __wakeup throws RuntimeException to prevent unserialization.
+	 *
+	 * Verifies that Debug::__wakeup throws a RuntimeException with the message
+	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::__wakeup
+	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -69,7 +96,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test log returns early when filesystem fails
+	 * Tests that log method returns early when filesystem initialization fails.
+	 *
+	 * Verifies that Debug::log gracefully handles filesystem initialization failure
+	 * by returning early without throwing errors when WP_Filesystem returns false.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::log
+	 * @return void
 	 */
 	public function test_log_returns_early_when_filesystem_fails(): void {
 		// Mock get_filesystem to return false
@@ -85,7 +119,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test log creates log file
+	 * Tests that log method creates log directory and protection files.
+	 *
+	 * Verifies that Debug::log creates the log directory, .htaccess file for
+	 * directory protection, index.php blank file, and the log file itself.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::log
+	 * @return void
 	 */
 	public function test_log_creates_log_file(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -156,7 +197,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test log writes to existing directory
+	 * Tests that log method writes to an existing log directory.
+	 *
+	 * Verifies that Debug::log skips directory setup when the log directory
+	 * already exists and writes only the log file.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::log
+	 * @return void
 	 */
 	public function test_log_writes_to_existing_directory(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -194,7 +242,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test log handles different data types
+	 * Tests that log method handles different data types correctly.
+	 *
+	 * Verifies that Debug::log correctly identifies and logs different data types
+	 * (arrays, strings, objects, etc.) with appropriate type information in JSON.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::log
+	 * @return void
 	 */
 	public function test_log_handles_different_data_types(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -229,7 +284,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test log includes timestamp in JSON
+	 * Tests that log method includes timestamp in JSON output.
+	 *
+	 * Verifies that Debug::log creates JSON entries with 'date', 'type', and 'data'
+	 * keys for proper log entry structure and timestamp tracking.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::log
+	 * @return void
 	 */
 	public function test_log_includes_timestamp_in_json(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -264,7 +326,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test log sanitizes file name
+	 * Tests that log method sanitizes file names for security.
+	 *
+	 * Verifies that Debug::log uses sanitize_file_name to clean the log filename
+	 * before creating the file, preventing directory traversal or invalid filenames.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::log
+	 * @return void
 	 */
 	public function test_log_sanitizes_file_name(): void {
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
@@ -290,7 +359,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print outputs HTML with data
+	 * Tests that print method outputs HTML formatted debug information.
+	 *
+	 * Verifies that Debug::print generates HTML output with styled div containers,
+	 * debug title, data type information, and the actual data content.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_outputs_html_with_data(): void {
 		ob_start();
@@ -304,7 +380,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print displays different data types correctly
+	 * Tests that print method correctly displays string data type.
+	 *
+	 * Verifies that Debug::print identifies string data and displays both
+	 * the type label "string" and the actual string content.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_displays_string_data(): void {
 		ob_start();
@@ -316,7 +399,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print displays integer data
+	 * Tests that print method correctly displays integer data type.
+	 *
+	 * Verifies that Debug::print identifies integer data and displays both
+	 * the type label "integer" and the actual numeric value.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_displays_integer_data(): void {
 		ob_start();
@@ -328,7 +418,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print displays boolean data
+	 * Tests that print method correctly displays boolean data type.
+	 *
+	 * Verifies that Debug::print identifies boolean data and displays
+	 * the type label "boolean" in the output.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_displays_boolean_data(): void {
 		ob_start();
@@ -339,7 +436,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print stops execution when stop parameter is true
+	 * Tests that print method stops execution when stop parameter is true.
+	 *
+	 * Verifies that Debug::print calls wp_die with termination message
+	 * when the stop parameter is set to true.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_stops_execution_when_requested(): void {
 		BrainMonkey\expect( 'wp_die' )
@@ -354,7 +458,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print handles array data
+	 * Tests that print method correctly handles array data.
+	 *
+	 * Verifies that Debug::print identifies array data and displays the type
+	 * label "array" along with the array keys and values.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_handles_array_data(): void {
 		ob_start();
@@ -373,7 +484,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print handles object data
+	 * Tests that print method correctly handles object data.
+	 *
+	 * Verifies that Debug::print identifies object data and displays
+	 * the type label "object" in the output.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_handles_object_data(): void {
 		$obj       = new \stdClass();
@@ -387,7 +505,14 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Test print escapes HTML in output
+	 * Tests that print method escapes HTML in output for security.
+	 *
+	 * Verifies that Debug::print uses esc_html to escape potentially dangerous
+	 * HTML content, preventing XSS vulnerabilities in debug output.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Debug::print
+	 * @return void
 	 */
 	public function test_print_escapes_html_in_output(): void {
 		ob_start();
@@ -400,7 +525,13 @@ class DebugTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by cleaning up global filesystem mock
+	 * and calling the parent tear_down method to clean up hooks and mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		// Clean up global filesystem mock if set

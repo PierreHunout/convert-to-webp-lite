@@ -22,7 +22,13 @@ use ReflectionMethod;
 class ImageTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment and prepares for Image
+	 * class testing.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -30,6 +36,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test that constructor is private (singleton pattern).
+	 *
+	 * Verifies that the __construct() method is private to prevent direct
+	 * instantiation of the Image class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::__construct
+	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Image::class, '__construct' );
@@ -37,6 +50,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test that clone is private (singleton pattern).
+	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::__clone
+	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Image::class, '__clone' );
@@ -44,6 +64,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 *
+	 * Verifies that attempting to unserialize the singleton instance throws a
+	 * RuntimeException to prevent unserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::__wakeup
+	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -56,6 +83,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare method exists and is public static.
+	 *
+	 * Verifies that the prepare() method exists, is public and static,
+	 * allowing it to be called without instantiating the class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_method_exists(): void {
 		$this->assertTrue(
@@ -76,6 +110,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print method exists and is public static.
+	 *
+	 * Verifies that the print() method exists, is public and static,
+	 * allowing it to be called without instantiating the class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_method_exists(): void {
 		$this->assertTrue(
@@ -96,6 +137,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns original image when dimensions are empty.
+	 *
+	 * Verifies that the prepare() method returns the original image unchanged
+	 * when wp_image_src_get_dimensions returns an empty array.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_returns_original_when_dimensions_empty(): void {
 		$image    = '<img src="test.jpg" alt="Test">';
@@ -114,6 +162,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare adds width and height attributes.
+	 *
+	 * Verifies that the prepare() method adds width and height attributes
+	 * to the img tag based on the dimensions from wp_image_src_get_dimensions.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_adds_width_and_height_attributes(): void {
 		$image    = '<img src="test.jpg" alt="Test" />';
@@ -135,6 +190,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns image with attributes when srcset is empty.
+	 *
+	 * Verifies that the prepare() method adds width and height attributes
+	 * but does not add srcset attribute when srcset is empty.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_handles_empty_srcset(): void {
 		$image    = '<img src="test.jpg" />';
@@ -154,6 +216,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns image with attributes when srcset is not a string.
+	 *
+	 * Verifies that the prepare() method handles non-string srcset values
+	 * (like false) gracefully without adding srcset attribute.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_handles_non_string_srcset(): void {
 		$image    = '<img src="test.jpg" />';
@@ -173,6 +242,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns image without sizes when sizes is empty.
+	 *
+	 * Verifies that the prepare() method includes srcset but not sizes attribute
+	 * when wp_calculate_image_sizes returns an empty string.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_handles_empty_sizes(): void {
 		$image    = '<img src="test.jpg" />';
@@ -194,6 +270,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print regex converts jpg/jpeg/png/gif to webp.
+	 *
+	 * Verifies that the regular expression used in print() correctly converts
+	 * various image extensions (jpg, jpeg, png, gif) to .webp, case-insensitively.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_regex_converts_extensions(): void {
 		$test_cases = [
@@ -218,6 +301,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print regex extracts src attribute correctly.
+	 *
+	 * Verifies that the regular expression used in print() correctly extracts
+	 * the src attribute value from img tags with single or double quotes.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_regex_extracts_src_attribute(): void {
 		$test_cases = [
@@ -240,6 +330,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print regex extracts srcset attribute correctly.
+	 *
+	 * Verifies that the regular expression used in print() correctly extracts
+	 * the srcset attribute value from img tags.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_regex_extracts_srcset_attribute(): void {
 		$html = 'srcset="test-150.jpg 150w, test-300.jpg 300w"';
@@ -254,6 +351,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print handles srcset parsing.
+	 *
+	 * Verifies that the print() method correctly parses srcset strings
+	 * containing multiple image URLs with width descriptors.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_parses_srcset_items(): void {
 		$srcset = 'test-150.jpg 150w, test-300.jpg 300w, test-600.jpg 600w';
@@ -270,6 +374,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print handles empty srcset parts.
+	 *
+	 * Verifies that the print() method correctly skips empty items
+	 * when parsing srcset strings with trailing or double commas.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_handles_empty_srcset_parts(): void {
 		$srcset = 'test-150.jpg 150w, , test-300.jpg 300w';
@@ -288,6 +399,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print preserves width descriptor in srcset.
+	 *
+	 * Verifies that the print() method preserves the width descriptor (e.g., "300w")
+	 * when processing srcset items.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_preserves_width_descriptor(): void {
 		$item  = 'test-300.jpg 300w';
@@ -299,6 +417,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print handles srcset without width descriptor.
+	 *
+	 * Verifies that the print() method correctly handles srcset items
+	 * that contain only a URL without a width descriptor.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::print
+	 * @return void
 	 */
 	public function test_print_handles_srcset_without_descriptor(): void {
 		$item  = 'test.jpg';
@@ -310,6 +435,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare regex injects attributes correctly.
+	 *
+	 * Verifies that the regular expression used in prepare() correctly injects
+	 * width and height attributes into img tags.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_injects_attributes(): void {
 		$image      = '<img src="test.jpg" alt="Test" />';
@@ -323,6 +455,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare regex handles img tag with self-closing slash.
+	 *
+	 * Verifies that the prepare() method correctly handles various img tag
+	 * formats including self-closing tags with or without spaces.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_handles_self_closing_tag(): void {
 		$test_cases = [
@@ -340,6 +479,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare regex preserves existing attributes.
+	 *
+	 * Verifies that the prepare() method preserves all existing img tag attributes
+	 * (alt, class, id, etc.) when adding width and height.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Modes\Image::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_preserves_existing_attributes(): void {
 		$image      = '<img src="test.jpg" alt="Test" class="my-class" id="photo" />';
@@ -353,7 +499,13 @@ class ImageTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by calling the parent tear_down method
+	 * to clean up WordPress hooks and function mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		parent::tear_down();

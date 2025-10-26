@@ -22,7 +22,13 @@ use ReflectionMethod;
 class SettingsTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment, resets the singleton instance,
+	 * and clears the $_POST superglobal for clean test state.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -39,6 +45,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test that clone is private (singleton pattern).
+	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::__clone
+	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Settings::class, '__clone' );
@@ -46,6 +59,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 *
+	 * Verifies that attempting to unserialize the singleton instance throws a
+	 * RuntimeException to prevent unserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::__wakeup
+	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -58,6 +78,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test get_instance returns singleton instance.
+	 *
+	 * Verifies that the get_instance() method creates a singleton instance on first call
+	 * and returns the same instance on subsequent calls.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::get_instance
+	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
 		BrainMonkey\expect( 'add_action' )
@@ -73,6 +100,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test init registers admin actions.
+	 *
+	 * Verifies that the init() method registers admin_menu and admin_init
+	 * WordPress action hooks.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::init
+	 * @return void
 	 */
 	public function test_init_registers_admin_actions(): void {
 		$hooks = [];
@@ -93,6 +127,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test add_settings method exists and is public static.
+	 *
+	 * Verifies that the add_settings() method exists, is public and static,
+	 * allowing it to be called as an action hook callback.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::add_settings
+	 * @return void
 	 */
 	public function test_add_settings_method_exists(): void {
 		$this->assertTrue(
@@ -113,6 +154,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings method exists and is public static.
+	 *
+	 * Verifies that the save_settings() method exists, is public and static,
+	 * allowing it to be called as an action hook callback.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_method_exists(): void {
 		$this->assertTrue(
@@ -133,6 +181,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test render_page method exists and is public static.
+	 *
+	 * Verifies that the render_page() method exists, is public and static,
+	 * allowing it to be called as a menu page callback.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::render_page
+	 * @return void
 	 */
 	public function test_render_page_method_exists(): void {
 		$this->assertTrue(
@@ -153,6 +208,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings returns early when user lacks capability.
+	 *
+	 * Verifies that the save_settings() method returns early without saving
+	 * when the current user does not have 'manage_options' capability.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_returns_early_when_user_lacks_capability(): void {
 		BrainMonkey\expect( 'current_user_can' )
@@ -168,6 +230,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings returns early when action is missing.
+	 *
+	 * Verifies that the save_settings() method returns early without saving
+	 * when the $_POST['action'] parameter is not set.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_returns_early_when_action_missing(): void {
 		BrainMonkey\expect( 'current_user_can' )
@@ -185,6 +254,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings validates quality bounds minimum.
+	 *
+	 * Verifies that the save_settings() method clamps quality values below 0
+	 * to the minimum allowed value of 0.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_validates_quality_minimum(): void {
 		$_POST['action']                  = 'save_options';
@@ -224,6 +300,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings validates quality bounds maximum.
+	 *
+	 * Verifies that the save_settings() method clamps quality values above 100
+	 * to the maximum allowed value of 100.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_validates_quality_maximum(): void {
 		$_POST['action']                  = 'save_options';
@@ -263,6 +346,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings saves valid quality value.
+	 *
+	 * Verifies that the save_settings() method correctly saves a valid quality value
+	 * within the allowed range (0-100).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_saves_valid_quality(): void {
 		$_POST['action']                  = 'save_options';
@@ -302,6 +392,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings saves replace mode when enabled.
+	 *
+	 * Verifies that the save_settings() method correctly saves the replace mode
+	 * option when it is enabled (value = 1).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_saves_replace_mode_enabled(): void {
 		$_POST['action']                       = 'save_options';
@@ -340,6 +437,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings saves replace mode when disabled.
+	 *
+	 * Verifies that the save_settings() method correctly saves the replace mode
+	 * option when it is disabled (value = 0).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_saves_replace_mode_disabled(): void {
 		$_POST['action']                  = 'save_options';
@@ -377,6 +481,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings saves all options correctly.
+	 *
+	 * Verifies that the save_settings() method correctly saves all plugin options
+	 * including quality, replace mode, deactivate and uninstall settings.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_saves_all_options(): void {
 		$_POST['action']                       = 'save_options';
@@ -418,6 +529,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings adds admin notice on success.
+	 *
+	 * Verifies that the save_settings() method adds an admin_notices action hook
+	 * after successfully saving settings.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_adds_admin_notice_on_success(): void {
 		$_POST['action']                  = 'save_options';
@@ -455,6 +573,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test instance property exists and is nullable.
+	 *
+	 * Verifies that the Settings class has a static protected instance property
+	 * for storing the singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings
+	 * @return void
 	 */
 	public function test_instance_property_exists(): void {
 		$reflection = new ReflectionClass( Settings::class );
@@ -476,6 +601,14 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test constructor calls init method.
+	 *
+	 * Verifies that when the Settings class is instantiated, the init() method
+	 * is called to register WordPress action hooks.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::__construct
+	 * @covers \WpConvertToWebp\Admin\Settings::init
+	 * @return void
 	 */
 	public function test_constructor_calls_init(): void {
 		BrainMonkey\expect( 'add_action' )
@@ -489,6 +622,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test add_settings registers menu page.
+	 *
+	 * Verifies that the add_settings() method registers the WordPress admin menu page
+	 * with correct parameters including title, capability, slug, and icon.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::add_settings
+	 * @return void
 	 */
 	public function test_add_settings_registers_menu_page(): void {
 		$menu_registered = false;
@@ -523,6 +663,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test init hooks callbacks correctly.
+	 *
+	 * Verifies that the init() method registers action hooks with the correct
+	 * callbacks for admin_menu and admin_init.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::init
+	 * @return void
 	 */
 	public function test_init_hooks_callbacks_correctly(): void {
 		$callbacks = [];
@@ -542,6 +689,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test get_instance creates instance on first call.
+	 *
+	 * Verifies that the first call to get_instance() creates a new instance
+	 * and stores it in the static instance property.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::get_instance
+	 * @return void
 	 */
 	public function test_get_instance_creates_instance_on_first_call(): void {
 		BrainMonkey\expect( 'add_action' )
@@ -564,6 +718,13 @@ class SettingsTest extends TestCase {
 
 	/**
 	 * Test save_settings uses default quality when not provided.
+	 *
+	 * Verifies that the save_settings() method uses the default quality value of 85
+	 * when no quality parameter is provided in the POST data.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @return void
 	 */
 	public function test_save_settings_uses_default_quality_when_not_provided(): void {
 		$_POST['action']   = 'save_options';
@@ -599,7 +760,13 @@ class SettingsTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by clearing the $_POST superglobal
+	 * and calling the parent tear_down method to clean up hooks and mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		unset( $_POST );

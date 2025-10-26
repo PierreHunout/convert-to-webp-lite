@@ -21,28 +21,54 @@ use ReflectionMethod;
 class ReplacerTest extends TestCase {
 
 	/**
-	 * Setup before each test.
+	 * Initializes the test environment before each test method.
+	 *
+	 * Sets up the parent test case environment for testing the Replacer class.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
 	}
 
 	/**
-	 * Test that constructor is private (singleton pattern).
+	 * Tests that the constructor is private to enforce singleton pattern.
+	 *
+	 * Verifies that Replacer::__construct is private, preventing direct
+	 * instantiation of the Replacer class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::__construct
+	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Replacer::class, '__construct' );
 	}
 
 	/**
-	 * Test that clone is private (singleton pattern).
+	 * Tests that the clone method is private to enforce singleton pattern.
+	 *
+	 * Verifies that Replacer::__clone is private, preventing cloning
+	 * of the Replacer singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::__clone
+	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Replacer::class, '__clone' );
 	}
 
 	/**
-	 * Test that __wakeup throws RuntimeException (singleton pattern).
+	 * Tests that __wakeup throws RuntimeException to prevent unserialization.
+	 *
+	 * Verifies that Replacer::__wakeup throws a RuntimeException with the message
+	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::__wakeup
+	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -54,7 +80,14 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare method signature and return type.
+	 * Tests that prepare method exists with correct signature.
+	 *
+	 * Verifies that Replacer::prepare method exists, is public, and is static,
+	 * ensuring it can be called without instantiating the singleton class.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
 	 */
 	public function test_prepare_method_exists(): void {
 		$this->assertTrue(
@@ -74,14 +107,28 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Test replace method exists and is private.
+	 * Tests that replace method is private for internal use only.
+	 *
+	 * Verifies that Replacer::replace is private, ensuring it can only be
+	 * called internally by the Replacer class methods.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::replace
+	 * @return void
 	 */
 	public function test_replace_method_is_private(): void {
 		$this->assertMethodIsPrivate( Replacer::class, 'replace' );
 	}
 
 	/**
-	 * Test prepare converts jpeg extension to webp in regex.
+	 * Tests that prepare regex converts JPEG extensions to WebP.
+	 *
+	 * Verifies that the regex pattern correctly converts .jpg and .jpeg extensions
+	 * (including uppercase variants) to .webp extension.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_converts_jpg_to_webp(): void {
 		$test_cases = [
@@ -102,7 +149,14 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare regex converts png extension to webp.
+	 * Tests that prepare regex converts PNG extensions to WebP.
+	 *
+	 * Verifies that the regex pattern correctly converts .png extensions
+	 * (including uppercase variants) to .webp extension.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_converts_png_to_webp(): void {
 		$test_cases = [
@@ -121,7 +175,14 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare regex converts gif extension to webp.
+	 * Tests that prepare regex converts GIF extensions to WebP.
+	 *
+	 * Verifies that the regex pattern correctly converts .gif extensions
+	 * (including uppercase variants) to .webp extension.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_converts_gif_to_webp(): void {
 		$test_cases = [
@@ -140,7 +201,14 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare regex preserves path and filename.
+	 * Tests that prepare regex preserves complete file paths.
+	 *
+	 * Verifies that the regex pattern converts only the file extension while
+	 * preserving the full path, domain, and filename structure.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_preserves_path(): void {
 		$test_cases = [
@@ -160,7 +228,14 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare regex handles image sizes (WordPress thumbnails).
+	 * Tests that prepare regex handles WordPress image size suffixes.
+	 *
+	 * Verifies that the regex pattern correctly converts extensions on files
+	 * with WordPress thumbnail size suffixes (e.g., -150x150, -scaled).
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_handles_image_sizes(): void {
 		$test_cases = [
@@ -182,7 +257,14 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare regex only converts extension at end of string.
+	 * Tests that prepare regex only converts extensions at end of string.
+	 *
+	 * Verifies that the regex pattern only converts the file extension at the
+	 * end of the string, ignoring extensions followed by query strings or anchors.
+	 *
+	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Utils\Replacer::prepare
+	 * @return void
 	 */
 	public function test_prepare_regex_only_converts_extension_at_end(): void {
 		$test_cases = [
@@ -202,7 +284,13 @@ class ReplacerTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
+	 * Performs cleanup operations after each test method completes.
+	 *
+	 * Tears down the test environment by calling the parent tear_down method
+	 * to clean up hooks and mocks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function tear_down(): void {
 		parent::tear_down();

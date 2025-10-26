@@ -22,6 +22,11 @@ class DeleteTest extends TestCase {
 
 	/**
 	 * Setup before each test.
+	 *
+	 * Initializes the test environment by calling the parent setup method.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
 	protected function set_up(): void {
 		parent::set_up();
@@ -30,7 +35,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test that get_instance returns singleton.
 	 *
+	 * Verifies that calling get_instance() multiple times returns the same
+	 * instance, confirming the singleton pattern implementation.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -48,7 +57,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test that get_instance creates instance on first call.
 	 *
+	 * Verifies that the first call to get_instance() creates a new instance
+	 * and stores it in the static instance property.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_creates_instance_on_first_call(): void {
@@ -74,7 +87,12 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test that constructor calls init.
 	 *
+	 * Verifies that when the Delete class is instantiated, the init() method
+	 * is called to register WordPress hooks.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::__construct
+	 * @covers \WpConvertToWebp\Actions\Delete::init
 	 * @return void
 	 */
 	public function test_constructor_calls_init(): void {
@@ -90,7 +108,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test that clone is private (singleton pattern).
 	 *
+	 * Verifies that the __clone() method is private to prevent cloning
+	 * of the singleton instance.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -100,7 +122,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
 	 *
+	 * Verifies that attempting to unserialize the singleton throws a
+	 * RuntimeException to prevent unserialization.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -115,7 +141,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test that init registers delete_attachment action.
 	 *
+	 * Verifies that the init() method correctly registers the delete_webp
+	 * callback on the delete_attachment action hook.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::init
 	 * @return void
 	 */
 	public function test_init_registers_action(): void {
@@ -139,7 +169,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test delete_webp method exists and is public.
 	 *
+	 * Verifies that the delete_webp() method exists in the Delete class
+	 * and is publicly accessible.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::delete_webp
 	 * @return void
 	 */
 	public function test_delete_webp_method_exists(): void {
@@ -156,7 +190,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test delete_webp handles false metadata.
 	 *
+	 * Verifies that the method properly converts false metadata values
+	 * to empty arrays before processing.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::delete_webp
 	 * @return void
 	 */
 	public function test_delete_webp_handles_false_metadata(): void {
@@ -174,7 +212,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test delete_webp method signature accepts attachment ID.
 	 *
+	 * Verifies that delete_webp() accepts a single integer parameter
+	 * named 'attachment_id' representing the WordPress attachment ID.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::delete_webp
 	 * @return void
 	 */
 	public function test_delete_webp_method_signature(): void {
@@ -191,7 +233,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test delete_webp return type is void.
 	 *
+	 * Verifies that delete_webp() declares a void return type,
+	 * indicating it performs an action without returning a value.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::delete_webp
 	 * @return void
 	 */
 	public function test_delete_webp_returns_void(): void {
@@ -206,7 +252,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test that metadata structure is validated.
 	 *
+	 * Verifies that metadata validation logic correctly converts
+	 * false values to empty arrays for safe processing.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::delete_webp
 	 * @return void
 	 */
 	public function test_metadata_validation(): void {
@@ -224,7 +274,11 @@ class DeleteTest extends TestCase {
 	/**
 	 * Test init method exists and is public.
 	 *
+	 * Verifies that the init() method exists in the Delete class
+	 * and is publicly accessible.
+	 *
 	 * @since 1.0.0
+	 * @covers \WpConvertToWebp\Actions\Delete::init
 	 * @return void
 	 */
 	public function test_init_method_exists(): void {
@@ -236,5 +290,18 @@ class DeleteTest extends TestCase {
 		$reflection = new ReflectionClass( Delete::class );
 		$method     = $reflection->getMethod( 'init' );
 		$this->assertTrue( $method->isPublic() );
+	}
+
+	/**
+	 * Cleanup after each test.
+	 *
+	 * Performs cleanup operations after each test by calling the parent
+	 * tear_down method to reset the test environment.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	protected function tear_down(): void {
+		parent::tear_down();
 	}
 }

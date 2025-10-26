@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         backupGlobals="false"
-         backupStaticAttributes="false">
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    backupGlobals="false"
+    backupStaticAttributes="false">
 
     <!-- Test suites -->
     <testsuites>
@@ -37,6 +38,7 @@
         </exclude>
         <report>
             <html outputDirectory="tests/coverage-html"/>
+            <html outputDirectory="tests/coverage-integration" suffix="-integration"/>
             <text outputFile="tests/coverage.txt"/>
             <clover outputFile="tests/coverage.xml"/>
         </report>
@@ -48,18 +50,12 @@
         <ini name="error_reporting" value="-1"/>
         <ini name="memory_limit" value="512M"/>
         
-        <!-- WordPress Test Environment -->
-        <const name="WP_TESTS_DOMAIN" value="example.org"/>
-        <const name="WP_TESTS_EMAIL" value="admin@example.org"/>
-        <const name="WP_TESTS_TITLE" value="Test Blog"/>
-        <const name="WP_PHP_BINARY" value="php"/>
-        <const name="WP_TESTS_FORCE_KNOWN_BUGS" value="true"/>
+        <!-- WordPress Test Environment (set WP_TESTS_DIR to override default location) -->
+        <env name="WP_TESTS_DIR" value=""/>
+        <env name="WP_CORE_DIR" value=""/>
         
-        <!-- Plugin specific constants -->
-        <const name="MY_PLUGIN_BOILERPLATE_TESTING" value="true"/>
-        <const name="WP_DEBUG" value="true"/>
-        <const name="WP_DEBUG_LOG" value="false"/>
-        <const name="WP_DEBUG_DISPLAY" value="false"/>
+        <!-- Plugin specific constants (WP_DEBUG and WP_TESTS_* are defined in wp-tests-config.php) -->
+        <const name="WP_CONVERT_TO_WEBP_TESTING" value="true"/>
     </php>
 
     <!-- Logging -->

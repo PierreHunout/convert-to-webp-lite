@@ -34,6 +34,14 @@ if ( ! defined( 'WPINC' ) ) {
 class Converter {
 
 	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Converter|null The Singleton instance.
+	 */
+	protected static ?Converter $instance = null;
+
+	/**
 	 * The process type for message formatting.
 	 *
 	 * @since 1.0.0
@@ -63,6 +71,20 @@ class Converter {
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
+
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Converter The Singleton instance.
+	 */
+	public static function get_instance(): Converter {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**

@@ -35,6 +35,14 @@ if ( ! defined( 'WPINC' ) ) {
 class Cleaner {
 
 	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Cleaner|null The Singleton instance.
+	 */
+	protected static ?Cleaner $instance = null;
+
+	/**
 	 * The process type for message formatting.
 	 *
 	 * @since 1.0.0
@@ -64,6 +72,20 @@ class Cleaner {
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
+
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Cleaner The Singleton instance.
+	 */
+	public static function get_instance(): Cleaner {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**

@@ -22,6 +22,14 @@ use RuntimeException;
 class Replacer {
 
 	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Replacer|null The Singleton instance.
+	 */
+	protected static ?Replacer $instance = null;
+
+	/**
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
@@ -43,6 +51,20 @@ class Replacer {
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
+
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Replacer The Singleton instance.
+	 */
+	public static function get_instance(): Replacer {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**

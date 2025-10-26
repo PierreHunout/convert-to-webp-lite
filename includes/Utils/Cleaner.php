@@ -35,6 +35,14 @@ if ( ! defined( 'WPINC' ) ) {
 class Cleaner {
 
 	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Cleaner|null The Singleton instance.
+	 */
+	protected static ?Cleaner $instance = null;
+
+	/**
 	 * The process type for message formatting.
 	 *
 	 * @since 1.0.0
@@ -46,6 +54,7 @@ class Cleaner {
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __construct() {}
 
@@ -53,6 +62,7 @@ class Cleaner {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -61,9 +71,24 @@ class Cleaner {
 	 *
 	 * @since 1.0.0
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 * @return void
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
+
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Cleaner The Singleton instance.
+	 */
+	public static function get_instance(): Cleaner {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -101,9 +126,9 @@ class Cleaner {
 			$pathinfo = (array) pathinfo( $file );
 
 			// Initialize filesystem
-			$filesystem = (object) Helpers::get_filesystem();
+			$filesystem = Helpers::get_filesystem();
 
-			if ( ! $filesystem ) {
+			if ( false === $filesystem ) {
 				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
 			}
 
@@ -199,9 +224,9 @@ class Cleaner {
 			}
 
 			// Initialize filesystem
-			$filesystem = (object) Helpers::get_filesystem();
+			$filesystem = Helpers::get_filesystem();
 
-			if ( ! $filesystem ) {
+			if ( false === $filesystem ) {
 				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
 			}
 
@@ -241,7 +266,7 @@ class Cleaner {
 			if ( ! $filesystem->exists( $webp ) ) {
 				// translators: %s is the basename of the original file for which no WebP version exists
 				$message = (string) wp_kses( sprintf( __( 'WebP file does not exist, nothing to delete: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
-				return Helpers::get_message( false, $message, $this->process, $size );
+				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
 			}
 
 			// Check if the WebP file is writable before attempting to delete
@@ -259,7 +284,7 @@ class Cleaner {
 			// translators: %s is the filename of the WebP file that was successfully deleted
 			$message = (string) wp_kses( sprintf( __( 'Successfully deleted WebP file: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html );
 
-			return Helpers::get_message( true, $message, $this->process, $size );
+			return Helpers::get_message( true, $message, $this->process, $size ?? '' );
 		} catch ( Throwable $error ) {
 			// Log error if WP_DEBUG is enabled
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
@@ -276,7 +301,7 @@ class Cleaner {
 			}
 
 			// Return error message
-			return Helpers::get_message( false, $error->getMessage(), $this->process, $size );
+			return Helpers::get_message( false, $error->getMessage(), $this->process, $size ?? '' );
 		}
 	}
 }

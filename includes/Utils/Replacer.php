@@ -13,6 +13,16 @@ use WpConvertToWebp\Modes\Image;
 use RuntimeException;
 
 /**
+ * This check prevents direct access to the plugin file,
+ * ensuring that it can only be accessed through WordPress.
+ *
+ * @since 1.0.0
+ */
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+/**
  * Class Replacer
  *
  * Handles replacement of img tags with WebP versions in content.
@@ -22,9 +32,18 @@ use RuntimeException;
 class Replacer {
 
 	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Replacer|null The Singleton instance.
+	 */
+	protected static ?Replacer $instance = null;
+
+	/**
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __construct() {}
 
@@ -32,6 +51,7 @@ class Replacer {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -40,9 +60,24 @@ class Replacer {
 	 *
 	 * @since 1.0.0
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 * @return void
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
+
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Replacer The Singleton instance.
+	 */
+	public static function get_instance(): Replacer {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**

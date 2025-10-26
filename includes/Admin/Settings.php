@@ -43,6 +43,7 @@ class Settings {
 	 * Constructor to initialize the class.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->init();
@@ -52,6 +53,7 @@ class Settings {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -59,6 +61,7 @@ class Settings {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {
@@ -88,9 +91,6 @@ class Settings {
 	public static function init(): void {
 		add_action( 'admin_menu', [ __CLASS__, 'add_settings' ] );
 		add_action( 'admin_init', [ __CLASS__, 'save_settings' ] );
-
-		// Register custom admin actions for legacy conversion and deletion
-		add_action( 'admin_post_delete_all_webp', [ __CLASS__, 'delete_all_webp' ] );
 	}
 
 	/**
@@ -316,7 +316,7 @@ class Settings {
 			isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'save_options'
 			&& check_admin_referer( 'convert_to_webp_save_options' )
 		) {
-			$quality = (int) isset( $_POST['convert_to_webp_quality'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['convert_to_webp_quality'] ) ) ) : 85;
+			$quality = (int) ( isset( $_POST['convert_to_webp_quality'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['convert_to_webp_quality'] ) ) ) : 85 );
 
 			// Ensure quality is within bounds
 			if ( $quality < 0 ) {
@@ -343,63 +343,5 @@ class Settings {
 				}
 			);
 		}
-	}
-
-	/**
-	 * Deletes all .webp files in the uploads directory.
-	 * Stores deletion results for admin notice.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function delete_all_webp(): void {
-		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'delete_all_webp' ) ) {
-			wp_die( esc_html__( 'Not allowed', 'wp-convert-to-webp' ) );
-		}
-
-		$attachments = (array) Helpers::get_attachments();
-
-		if ( empty( $attachments ) ) {
-			$redirect_url = (string) add_query_arg(
-				[
-					'no_files' => '1',
-					'_wpnonce' => wp_create_nonce( 'wp_convert_to_webp_notice' ),
-				],
-				admin_url( 'admin.php?page=wp-convert-to-webp' )
-			);
-			wp_safe_redirect( $redirect_url );
-			exit;
-		}
-
-		$result = [];
-
-		// Loop through all attachments and delete their WebP files
-		foreach ( $attachments as $attachment_id ) {
-			$metadata = (array) wp_get_attachment_metadata( $attachment_id );
-			$cleaner  = (object) new Cleaner();
-			$result[] = (array) $cleaner->prepare( $attachment_id, $metadata );
-		}
-
-		// Store details for notice
-		set_transient( 'wp_convert_to_webp_deletion_data', $result, 60 );
-
-		// Clear the cache
-		wp_cache_flush();
-
-		// Clear also the media library cache
-		wp_update_attachment_metadata( 0, [] );
-
-		// Redirect back to the options page with a success flag
-		$redirect_url = (string) add_query_arg(
-			[
-				'deleted'  => '1',
-				'_wpnonce' => wp_create_nonce( 'wp_convert_to_webp_notice' ),
-			],
-			admin_url( 'admin.php?page=wp-convert-to-webp' )
-		);
-
-		wp_safe_redirect( $redirect_url );
-
-		exit;
 	}
 }

@@ -34,6 +34,14 @@ if ( ! defined( 'WPINC' ) ) {
 class Converter {
 
 	/**
+	 * Holds the Singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var Converter|null The Singleton instance.
+	 */
+	protected static ?Converter $instance = null;
+
+	/**
 	 * The process type for message formatting.
 	 *
 	 * @since 1.0.0
@@ -45,6 +53,7 @@ class Converter {
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __construct() {}
 
@@ -52,6 +61,7 @@ class Converter {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -60,9 +70,24 @@ class Converter {
 	 *
 	 * @since 1.0.0
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 * @return void
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
+	}
+
+	/**
+	 * Returns the Singleton instance of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @return Converter The Singleton instance.
+	 */
+	public static function get_instance(): Converter {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -96,9 +121,9 @@ class Converter {
 			}
 
 			// Initialize filesystem
-			$filesystem = (object) Helpers::get_filesystem();
+			$filesystem = Helpers::get_filesystem();
 
-			if ( ! $filesystem ) {
+			if ( false === $filesystem ) {
 				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
 			}
 
@@ -203,9 +228,9 @@ class Converter {
 			}
 
 			// Initialize filesystem
-			$filesystem = (object) Helpers::get_filesystem();
+			$filesystem = Helpers::get_filesystem();
 
-			if ( ! $filesystem ) {
+			if ( false === $filesystem ) {
 				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
 			}
 
@@ -269,7 +294,7 @@ class Converter {
 				default:
 					// translators: %s is the basename of the file with unsupported type
 					$message = (string) wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
-					return Helpers::get_message( false, $message, $this->process, $size );
+					return Helpers::get_message( false, $message, $this->process, $size ?? '' );
 			}
 
 			// Get quality setting from plugin options
@@ -279,7 +304,7 @@ class Converter {
 			if ( empty( $webp ) ) {
 				// translators: %s is the basename of the file for which image resource creation failed
 				$message = (string) wp_kses( sprintf( __( 'Failed to create image resource: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
-				return Helpers::get_message( false, $message, $this->process, $size );
+				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
 			}
 
 			// Attempt to save the WebP file
@@ -288,13 +313,13 @@ class Converter {
 
 				// translators: %s is the basename of the file that was successfully converted to WebP
 				$message = (string) wp_kses( sprintf( __( 'Successfully converted: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
-				return Helpers::get_message( true, $message, $this->process, $size );
+				return Helpers::get_message( true, $message, $this->process, $size ?? '' );
 			} else {
 				imagedestroy( $webp );
 
 				// translators: %s is the filename of the WebP file that couldn't be saved
 				$message = (string) wp_kses( sprintf( __( 'Failed to save WebP file: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html );
-				return Helpers::get_message( false, $message, $this->process, $size );
+				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
 			}
 		} catch ( Throwable $error ) {
 			// Log error if WP_DEBUG is enabled
@@ -312,7 +337,7 @@ class Converter {
 			}
 
 			// Return error message
-			return Helpers::get_message( false, $error->getMessage(), $this->process, $size );
+			return Helpers::get_message( false, $error->getMessage(), $this->process, $size ?? '' );
 		}
 	}
 }

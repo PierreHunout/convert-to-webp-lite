@@ -42,6 +42,7 @@ class Add {
 	 * Constructor to initialize the class.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->init();
@@ -51,6 +52,7 @@ class Add {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -58,6 +60,7 @@ class Add {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {
@@ -111,7 +114,7 @@ class Add {
 		}
 
 		// Instantiate the converter and convert the image and its sizes to WebP
-		$converter = (object) new Converter();
+		$converter = Converter::get_instance();
 		$converter->prepare( $attachment_id, $metadata );
 
 		// Return the original metadata (conversion does not alter it)

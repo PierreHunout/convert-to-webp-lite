@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles AJAX actions for the legacy WebP conversion process and progress bar.
+ * Handles AJAX actions for the bulk conversion WebP process and progress bar.
  *
  * @package WpConvertToWebp
  * @since 1.0.0
@@ -23,26 +23,28 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Class Legacy
+ * Class BulkConvert
  *
  * Handles AJAX actions for converting existing images to WebP format.
  *
  * @since 1.0.0
  */
-class Legacy {
+class BulkConvert {
+
 
 	/**
 	 * Holds the Singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @var Legacy|null The Singleton instance.
+	 * @var BulkConvert|null The Singleton instance.
 	 */
-	protected static ?Legacy $instance = null;
+	protected static ?BulkConvert $instance = null;
 
 	/**
 	 * Constructor to initialize the class.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->init();
@@ -52,6 +54,7 @@ class Legacy {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -59,6 +62,7 @@ class Legacy {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {
@@ -69,9 +73,9 @@ class Legacy {
 	 * Returns the Singleton instance of the plugin.
 	 *
 	 * @since 1.0.0
-	 * @return Legacy The Singleton instance.
+	 * @return BulkConvert The Singleton instance.
 	 */
-	public static function get_instance(): Legacy {
+	public static function get_instance(): BulkConvert {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -80,7 +84,7 @@ class Legacy {
 	}
 
 	/**
-	 * Registers AJAX actions for the legacy conversion process.
+	 * Registers AJAX actions for the BulkConvert conversion process.
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -138,14 +142,19 @@ class Legacy {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'wp-convert-to-webp' ) ] );
 		}
 
-		$metadata = (array) wp_get_attachment_metadata( $attachment_id );
+		$metadata = wp_get_attachment_metadata( $attachment_id );
 
-		$converter = (object) new Converter();
+		// Ensure metadata is an array
+		if ( false === $metadata ) {
+			$metadata = [];
+		}
+
+		$converter = Converter::get_instance();
 		$result    = (array) $converter->prepare( $attachment_id, $metadata );
 
 		// Get message and classes from converter result for frontend display
-		$message = (string) isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'wp-convert-to-webp' );
-		$classes = (array) isset( $result[0]['classes'] ) ? $result[0]['classes'] : [];
+		$message = (string) ( isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'wp-convert-to-webp' ) );
+		$classes = (array) ( isset( $result[0]['classes'] ) ? $result[0]['classes'] : [] );
 
 		wp_send_json_success(
 			[

@@ -42,6 +42,7 @@ class Delete {
 	 * Constructor to initialize the class.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->init();
@@ -51,6 +52,7 @@ class Delete {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -58,6 +60,7 @@ class Delete {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {
@@ -103,10 +106,15 @@ class Delete {
 	 */
 	public function delete_webp( int $attachment_id ): void {
 		// Get the attachment metadata
-		$metadata = (array) wp_get_attachment_metadata( $attachment_id );
+		$metadata = wp_get_attachment_metadata( $attachment_id );
+
+		// Ensure metadata is an array
+		if ( false === $metadata ) {
+			$metadata = [];
+		}
 
 		// Instantiate the Cleaner and delete associated WebP files
-		$cleaner = (object) new Cleaner();
+		$cleaner = Cleaner::get_instance();
 		$cleaner->prepare( $attachment_id, $metadata );
 	}
 }

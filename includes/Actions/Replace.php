@@ -8,6 +8,7 @@
 
 namespace WpConvertToWebp\Actions;
 
+use WpConvertToWebp\Utils\Replacer;
 use RuntimeException;
 
 /**
@@ -41,6 +42,7 @@ class Replace {
 	 * Constructor to initialize the class.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 		$this->init();
@@ -50,6 +52,7 @@ class Replace {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -57,6 +60,7 @@ class Replace {
 	 * Prevent unserialization of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
 	 */
 	public function __wakeup() {
@@ -105,7 +109,7 @@ class Replace {
 	public static function replace_webp( string $content ): string {
 		return preg_replace_callback(
 			'/<img\s+[^>]*src=["\']([^"\']+)["\'][^>]*>/i',
-			[ '\\WpConvertToWebp\\Replacer', 'prepare' ],
+			[ Replacer::class, 'prepare' ],
 			$content
 		);
 	}

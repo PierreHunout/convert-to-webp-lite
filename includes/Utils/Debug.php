@@ -36,6 +36,7 @@ class Debug {
 	 * Prevent instantiation of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __construct() {}
 
@@ -43,6 +44,7 @@ class Debug {
 	 * Prevent cloning of the class
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	private function __clone() {}
 
@@ -51,6 +53,7 @@ class Debug {
 	 *
 	 * @since 1.0.0
 	 * @throws RuntimeException Always throws exception to prevent unserialization.
+	 * @return void
 	 */
 	public function __wakeup() {
 		throw new RuntimeException( 'Cannot unserialize a singleton.' );
@@ -58,7 +61,9 @@ class Debug {
 
 	/**
 	 * Logs data to a specified file.
-	 * Only logs when MY_PLUGIN_BOILERPLATE_DEBUG is enabled.
+	 *
+	 * Creates JSON log files in wp-content/convert-to-webp-logs/ directory
+	 * with timestamp, data type, and the actual data being logged.
 	 *
 	 * @since 1.0.0
 	 * @param string $file The log file name (without extension).
@@ -68,7 +73,7 @@ class Debug {
 	public static function log( string $file, mixed $data ): void {
 		// Store logs in wp-content/convert-to-webp-logs/ for persistence and security
 		$path       = (string) WP_CONTENT_DIR . '/convert-to-webp-logs/';
-		$filesystem = (object) Helpers::get_filesystem();
+		$filesystem = Helpers::get_filesystem();
 
 		if ( false === $filesystem ) {
 			return;
@@ -107,7 +112,9 @@ class Debug {
 
 	/**
 	 * Prints data in a styled HTML block for debugging.
-	 * Only outputs when MY_PLUGIN_BOILERPLATE_DEBUG is enabled.
+	 *
+	 * Outputs formatted debug information with data type and JSON-encoded content
+	 * in a styled HTML block. Optionally stops execution after output.
 	 *
 	 * @since 1.0.0
 	 * @param mixed $data The data to display.

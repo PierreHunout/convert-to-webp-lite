@@ -29,16 +29,16 @@ abstract class TestCase extends PolyfillsTestCase {
 	protected function set_up(): void {
 		parent::set_up();
 		Monkey\setUp();
-		
+
 		// Setup common WordPress constants if not defined
 		if ( ! defined( 'WPINC' ) ) {
 			define( 'WPINC', 'wp-includes' );
 		}
-		
+
 		if ( ! defined( 'ABSPATH' ) ) {
 			define( 'ABSPATH', '/tmp/wordpress/' );
 		}
-		
+
 		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 			define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 		}
@@ -77,8 +77,8 @@ abstract class TestCase extends PolyfillsTestCase {
 	 */
 	protected function assertMethodIsPrivate( string $class_name, string $method_name ): void {
 		$reflection = new \ReflectionClass( $class_name );
-		$method = $reflection->getMethod( $method_name );
-		
+		$method     = $reflection->getMethod( $method_name );
+
 		$this->assertTrue(
 			$method->isPrivate(),
 			"Failed asserting that method '{$method_name}' in class '{$class_name}' is private"

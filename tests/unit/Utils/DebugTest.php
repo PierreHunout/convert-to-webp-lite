@@ -34,9 +34,11 @@ class DebugTest extends TestCase {
 
 		// Mock common WordPress functions
 		BrainMonkey\when( 'sanitize_file_name' )->returnArg();
-		BrainMonkey\when( 'wp_json_encode' )->alias( function( $data, $options = 0 ) {
-return json_encode( $data, $options );
-		} );
+		BrainMonkey\when( 'wp_json_encode' )->alias(
+			function ( $data, $options = 0 ) {
+				return json_encode( $data, $options );
+			}
+		);
 		BrainMonkey\when( 'esc_html' )->returnArg();
 	}
 
@@ -86,9 +88,9 @@ return json_encode( $data, $options );
 	 * Test log creates log file
 	 */
 	public function test_log_creates_log_file(): void {
-		$filesystem = Mockery::mock( 'WP_Filesystem_Base' );
+		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
-		
+
 		BrainMonkey\expect( 'WP_Filesystem' )
 			->once()
 			->andReturn( true );
@@ -108,25 +110,43 @@ return json_encode( $data, $options );
 		// Expect .htaccess file creation
 		$filesystem->shouldReceive( 'put_contents' )
 			->once()
-			->with( Mockery::on( function( $arg ) use ( $path ) {
-return strpos( $arg, '.htaccess' ) !== false;
-			} ), Mockery::type( 'string' ), 0644 )
+			->with(
+				Mockery::on(
+					function ( $arg ) use ( $path ) {
+						return strpos( $arg, '.htaccess' ) !== false;
+					}
+				),
+				Mockery::type( 'string' ),
+				0644
+			)
 			->andReturn( true );
 
 		// Expect index.php file creation
 		$filesystem->shouldReceive( 'put_contents' )
 			->once()
-			->with( Mockery::on( function( $arg ) use ( $path ) {
-return strpos( $arg, 'index.php' ) !== false;
-			} ), Mockery::type( 'string' ), 0644 )
+			->with(
+				Mockery::on(
+					function ( $arg ) use ( $path ) {
+						return strpos( $arg, 'index.php' ) !== false;
+					}
+				),
+				Mockery::type( 'string' ),
+				0644
+			)
 			->andReturn( true );
 
 		// Expect log file creation
 		$filesystem->shouldReceive( 'put_contents' )
 			->once()
-			->with( Mockery::on( function( $arg ) {
-return strpos( $arg, '.json' ) !== false;
-			} ), Mockery::type( 'string' ), 0644 )
+			->with(
+				Mockery::on(
+					function ( $arg ) {
+						return strpos( $arg, '.json' ) !== false;
+					}
+				),
+				Mockery::type( 'string' ),
+				0644
+			)
 			->andReturn( true );
 
 		Debug::log( 'test', [ 'key' => 'value' ] );
@@ -139,9 +159,9 @@ return strpos( $arg, '.json' ) !== false;
 	 * Test log writes to existing directory
 	 */
 	public function test_log_writes_to_existing_directory(): void {
-		$filesystem = Mockery::mock( 'WP_Filesystem_Base' );
+		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
-		
+
 		BrainMonkey\expect( 'WP_Filesystem' )
 			->once()
 			->andReturn( true );
@@ -156,9 +176,15 @@ return strpos( $arg, '.json' ) !== false;
 		// Only expect log file creation (no directory setup)
 		$filesystem->shouldReceive( 'put_contents' )
 			->once()
-			->with( Mockery::on( function( $arg ) {
-return strpos( $arg, '.json' ) !== false;
-			} ), Mockery::type( 'string' ), 0644 )
+			->with(
+				Mockery::on(
+					function ( $arg ) {
+						return strpos( $arg, '.json' ) !== false;
+					}
+				),
+				Mockery::type( 'string' ),
+				0644
+			)
 			->andReturn( true );
 
 		Debug::log( 'existing-test', 'some data' );
@@ -171,9 +197,9 @@ return strpos( $arg, '.json' ) !== false;
 	 * Test log handles different data types
 	 */
 	public function test_log_handles_different_data_types(): void {
-		$filesystem = Mockery::mock( 'WP_Filesystem_Base' );
+		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
-		
+
 		BrainMonkey\expect( 'WP_Filesystem' )
 			->once()
 			->andReturn( true );
@@ -184,10 +210,16 @@ return strpos( $arg, '.json' ) !== false;
 
 		$filesystem->shouldReceive( 'put_contents' )
 			->once()
-			->with( Mockery::type( 'string' ), Mockery::on( function( $content ) {
-$decoded = json_decode( trim( $content ), true );
-				return isset( $decoded['type'] ) && $decoded['type'] === 'array';
-			} ), 0644 )
+			->with(
+				Mockery::type( 'string' ),
+				Mockery::on(
+					function ( $content ) {
+						$decoded = json_decode( trim( $content ), true );
+						return isset( $decoded['type'] ) && $decoded['type'] === 'array';
+					}
+				),
+				0644
+			)
 			->andReturn( true );
 
 		Debug::log( 'array-test', [ 'item1', 'item2' ] );
@@ -200,9 +232,9 @@ $decoded = json_decode( trim( $content ), true );
 	 * Test log includes timestamp in JSON
 	 */
 	public function test_log_includes_timestamp_in_json(): void {
-		$filesystem = Mockery::mock( 'WP_Filesystem_Base' );
+		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
-		
+
 		BrainMonkey\expect( 'WP_Filesystem' )
 			->once()
 			->andReturn( true );
@@ -213,10 +245,16 @@ $decoded = json_decode( trim( $content ), true );
 
 		$filesystem->shouldReceive( 'put_contents' )
 			->once()
-			->with( Mockery::type( 'string' ), Mockery::on( function( $content ) {
-$decoded = json_decode( trim( $content ), true );
-				return isset( $decoded['date'] ) && isset( $decoded['type'] ) && isset( $decoded['data'] );
-			} ), 0644 )
+			->with(
+				Mockery::type( 'string' ),
+				Mockery::on(
+					function ( $content ) {
+						$decoded = json_decode( trim( $content ), true );
+						return isset( $decoded['date'] ) && isset( $decoded['type'] ) && isset( $decoded['data'] );
+					}
+				),
+				0644
+			)
 			->andReturn( true );
 
 		Debug::log( 'timestamp-test', 'test data' );
@@ -229,9 +267,9 @@ $decoded = json_decode( trim( $content ), true );
 	 * Test log sanitizes file name
 	 */
 	public function test_log_sanitizes_file_name(): void {
-		$filesystem = Mockery::mock( 'WP_Filesystem_Base' );
+		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
-		
+
 		BrainMonkey\expect( 'WP_Filesystem' )
 			->once()
 			->andReturn( true );
@@ -320,7 +358,13 @@ $decoded = json_decode( trim( $content ), true );
 	 */
 	public function test_print_handles_array_data(): void {
 		ob_start();
-		Debug::print( [ 'key1' => 'value1', 'key2' => 'value2' ], false );
+		Debug::print(
+			[
+				'key1' => 'value1',
+				'key2' => 'value2',
+			],
+			false
+		);
 		$output = ob_get_clean();
 
 		$this->assertStringContainsString( 'Type: array', $output );
@@ -363,7 +407,7 @@ $decoded = json_decode( trim( $content ), true );
 		if ( isset( $GLOBALS['wp_filesystem'] ) ) {
 			unset( $GLOBALS['wp_filesystem'] );
 		}
-		
+
 		parent::tear_down();
 	}
 }

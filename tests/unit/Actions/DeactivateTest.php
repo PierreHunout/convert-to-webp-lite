@@ -29,9 +29,6 @@ class DeactivateTest extends TestCase {
 
 	/**
 	 * Test that constructor is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Deactivate::class, '__construct' );
@@ -39,9 +36,6 @@ class DeactivateTest extends TestCase {
 
 	/**
 	 * Test that clone is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Deactivate::class, '__clone' );
@@ -49,9 +43,6 @@ class DeactivateTest extends TestCase {
 
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );

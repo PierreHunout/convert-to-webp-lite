@@ -29,9 +29,6 @@ class DeleteTest extends TestCase {
 
 	/**
 	 * Test that clone is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Delete::class, '__clone' );
@@ -39,9 +36,6 @@ class DeleteTest extends TestCase {
 
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );

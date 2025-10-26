@@ -35,10 +35,12 @@ class ConverterTest extends TestCase {
 		BrainMonkey\when( '__' )->returnArg();
 		BrainMonkey\when( 'get_option' )->justReturn( 85 );
 		BrainMonkey\when( 'get_post_mime_type' )->justReturn( 'image/jpeg' );
-		BrainMonkey\when( 'wp_upload_dir' )->justReturn( [ 
-			'basedir' => '/var/www/uploads',
-			'baseurl' => 'http://example.com/uploads'
-		] );
+		BrainMonkey\when( 'wp_upload_dir' )->justReturn(
+			[
+				'basedir' => '/var/www/uploads',
+				'baseurl' => 'http://example.com/uploads',
+			]
+		);
 	}
 
 	/**
@@ -206,7 +208,12 @@ class ConverterTest extends TestCase {
 		$GLOBALS['wp_filesystem'] = $filesystem;
 
 		BrainMonkey\expect( 'WP_Filesystem' )->once()->andReturn( true );
-		BrainMonkey\when( 'wp_upload_dir' )->justReturn( [ 'basedir' => '/var/www/uploads', 'baseurl' => 'http://example.com/uploads' ] );
+		BrainMonkey\when( 'wp_upload_dir' )->justReturn(
+			[
+				'basedir' => '/var/www/uploads',
+				'baseurl' => 'http://example.com/uploads',
+			]
+		);
 
 		$filesystem->shouldReceive( 'exists' )
 			->once()

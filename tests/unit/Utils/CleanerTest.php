@@ -33,10 +33,12 @@ class CleanerTest extends TestCase {
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 		BrainMonkey\when( 'wp_kses' )->returnArg();
 		BrainMonkey\when( '__' )->returnArg();
-		BrainMonkey\when( 'wp_upload_dir' )->justReturn( [ 
-			'basedir' => '/var/www/uploads',
-			'baseurl' => 'http://example.com/uploads'
-		] );
+		BrainMonkey\when( 'wp_upload_dir' )->justReturn(
+			[
+				'basedir' => '/var/www/uploads',
+				'baseurl' => 'http://example.com/uploads',
+			]
+		);
 	}
 
 	/**

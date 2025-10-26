@@ -22,38 +22,25 @@ use ReflectionMethod;
 class PictureTest extends TestCase {
 
 	/**
-	 * Setup before each test.
-	 */
+	 * Setup before each test.   */
 	protected function set_up(): void {
 		parent::set_up();
 	}
 
 	/**
-	 * Test that constructor is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test that constructor is private (singleton pattern).     */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Picture::class, '__construct' );
 	}
 
 	/**
-	 * Test that clone is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test that clone is private (singleton pattern).   */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Picture::class, '__clone' );
 	}
 
 	/**
-	 * Test that __wakeup throws RuntimeException (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test that __wakeup throws RuntimeException (singleton pattern).   */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
 		$this->expectExceptionMessage( 'Cannot unserialize a singleton.' );
@@ -64,11 +51,7 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare method exists and is public static.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test prepare method exists and is public static.  */
 	public function test_prepare_method_exists(): void {
 		$this->assertTrue(
 			method_exists( Picture::class, 'prepare' ),
@@ -87,11 +70,7 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print method exists and is public static.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test print method exists and is public static.    */
 	public function test_print_method_exists(): void {
 		$this->assertTrue(
 			method_exists( Picture::class, 'print' ),
@@ -110,18 +89,17 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare returns array with required keys.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test prepare returns array with required keys.    */
 	public function test_prepare_returns_array_with_required_keys(): void {
 		$image    = '<img src="test.jpg" alt="Test" />';
 		$src      = 'test.jpg';
-		$metadata = array( 'width' => 800, 'height' => 600 );
+		$metadata = [
+			'width'  => 800,
+			'height' => 600,
+		];
 
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( '' );
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'wp_calculate_image_sizes' )->justReturn( '100vw' );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 
@@ -135,18 +113,14 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare stores original src.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test prepare stores original src.     */
 	public function test_prepare_stores_original_src(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'https://example.com/wp-content/uploads/test.jpg';
-		$metadata = array();
+		$metadata = [];
 
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( '' );
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'wp_calculate_image_sizes' )->justReturn( '100vw' );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 
@@ -156,18 +130,14 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test prepare uses default sizes when null.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test prepare uses default sizes when null.    */
 	public function test_prepare_uses_default_sizes_when_null(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'test.jpg';
-		$metadata = array();
+		$metadata = [];
 
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( '' );
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'wp_calculate_image_sizes' )->justReturn( null );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 
@@ -177,13 +147,9 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print regex converts extensions to webp.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test print regex converts extensions to webp.     */
 	public function test_print_regex_converts_extensions_to_webp(): void {
-		$test_cases = array(
+		$test_cases = [
 			'image.jpg'  => 'image.webp',
 			'image.jpeg' => 'image.webp',
 			'image.JPG'  => 'image.webp',
@@ -191,7 +157,7 @@ class PictureTest extends TestCase {
 			'image.PNG'  => 'image.webp',
 			'image.gif'  => 'image.webp',
 			'image.GIF'  => 'image.webp',
-		);
+		];
 
 		foreach ( $test_cases as $original => $expected ) {
 			$result = preg_replace( '/\.(jpe?g|png|gif)$/i', '.webp', $original );
@@ -204,11 +170,7 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print generates picture element structure.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test print generates picture element structure.   */
 	public function test_print_generates_picture_element_structure(): void {
 		$picture_html = '<picture><source type="image/webp" srcset="test.webp" sizes="100vw" /><img src="test.jpg" /></picture>';
 
@@ -219,11 +181,7 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print source element has webp type.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test print source element has webp type.  */
 	public function test_print_source_element_has_webp_type(): void {
 		$source = '<source type="image/webp" srcset="test.webp" sizes="100vw" />';
 
@@ -231,11 +189,7 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print source element includes srcset.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test print source element includes srcset.    */
 	public function test_print_source_element_includes_srcset(): void {
 		$srcset = 'test-150.webp 150w, test-300.webp 300w';
 		$source = sprintf( '<source type="image/webp" srcset="%s" sizes="100vw" />', $srcset );
@@ -245,11 +199,7 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Test print source element includes sizes.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
+	 * Test print source element includes sizes.     */
 	public function test_print_source_element_includes_sizes(): void {
 		$sizes  = '(max-width: 600px) 100vw, 50vw';
 		$source = sprintf( '<source type="image/webp" srcset="test.webp" sizes="%s" />', $sizes );
@@ -260,9 +210,6 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print parses srcset correctly.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_parses_srcset_correctly(): void {
 		$srcset = 'test-150.jpg 150w, test-300.jpg 300w, test-600.jpg 600w';
@@ -279,9 +226,6 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print handles empty srcset parts.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_handles_empty_srcset_parts(): void {
 		$srcset = 'test-150.jpg 150w, , test-300.jpg 300w';
@@ -291,7 +235,7 @@ class PictureTest extends TestCase {
 		foreach ( $array as $item ) {
 			$parts = preg_split( '/\s+/', trim( $item ) );
 			if ( ! empty( $parts[0] ) ) {
-				$valid++;
+				++$valid;
 			}
 		}
 
@@ -300,16 +244,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print converts srcset items to webp.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_converts_srcset_items_to_webp(): void {
-		$items = array(
+		$items = [
 			'test-150.jpg 150w'  => 'test-150.webp 150w',
 			'test-300.jpeg 300w' => 'test-300.webp 300w',
 			'test-600.png 600w'  => 'test-600.webp 600w',
-		);
+		];
 
 		foreach ( $items as $original => $expected ) {
 			$parts     = preg_split( '/\s+/', trim( $original ) );
@@ -322,9 +263,6 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print preserves width descriptor in srcset.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_preserves_width_descriptor_in_srcset(): void {
 		$item  = 'test-300.jpg 300w';
@@ -337,9 +275,6 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print handles srcset item without descriptor.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_handles_srcset_item_without_descriptor(): void {
 		$item  = 'test.jpg';
@@ -351,9 +286,6 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print formats source element with sprintf.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_formats_source_element_with_sprintf(): void {
 		$srcset = 'test.webp';
@@ -366,16 +298,13 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print joins srcset array with comma and space.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_joins_srcset_array_correctly(): void {
-		$srcset = array(
+		$srcset = [
 			'test-150.webp 150w',
 			'test-300.webp 300w',
 			'test-600.webp 600w',
-		);
+		];
 
 		$result   = implode( ', ', $srcset );
 		$expected = 'test-150.webp 150w, test-300.webp 300w, test-600.webp 600w';
@@ -385,9 +314,6 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test print structure order: picture > source > img > close.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_maintains_correct_element_order(): void {
 		$html = '<picture><source type="image/webp" srcset="test.webp" sizes="100vw" /><img src="test.jpg" /></picture>';
@@ -404,17 +330,14 @@ class PictureTest extends TestCase {
 
 	/**
 	 * Test prepare returns fallback from Image::prepare.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_returns_fallback_from_image_prepare(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'test.jpg';
-		$metadata = array();
+		$metadata = [];
 
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( '' );
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'wp_calculate_image_sizes' )->justReturn( '100vw' );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 
@@ -425,8 +348,7 @@ class PictureTest extends TestCase {
 	}
 
 	/**
-	 * Cleanup after each test.
-	 */
+	 * Cleanup after each test.  */
 	protected function tear_down(): void {
 		parent::tear_down();
 	}

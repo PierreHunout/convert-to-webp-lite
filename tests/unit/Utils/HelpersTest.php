@@ -28,9 +28,11 @@ class HelpersTest extends TestCase {
 
 		// Mock common WordPress functions
 		BrainMonkey\when( 'esc_attr' )->returnArg();
-		BrainMonkey\when( 'trailingslashit' )->alias( function ( $string ) {
-			return rtrim( $string, '/\\' ) . '/';
-		} );
+		BrainMonkey\when( 'trailingslashit' )->alias(
+			function ( $string ) {
+				return rtrim( $string, '/\\' ) . '/';
+			}
+		);
 	}
 
 	/**
@@ -224,12 +226,14 @@ class HelpersTest extends TestCase {
 
 		BrainMonkey\expect( 'wp_cache_delete' )
 			->twice()
-			->andReturnUsing( function( $key, $group ) {
-				return true;
-			} );
+			->andReturnUsing(
+				function ( $key, $group ) {
+					return true;
+				}
+			);
 
 		Helpers::clear_attachment_cache( $url );
-		
+
 		// The expectations above will be verified by Mockery
 		$this->assertTrue( true );
 	}
@@ -244,7 +248,7 @@ class HelpersTest extends TestCase {
 			->andReturn( true );
 
 		Helpers::clear_attachment_cache();
-		
+
 		// The expectations above will be verified by Mockery
 		$this->assertTrue( true );
 	}
@@ -339,10 +343,12 @@ class HelpersTest extends TestCase {
 	public function test_attachment_is_webp_returns_false_for_invalid_id(): void {
 		BrainMonkey\expect( 'wp_upload_dir' )
 			->twice()
-			->andReturn( [
-				'basedir' => '/var/www/uploads',
-				'baseurl' => 'https://example.com/uploads',
-			] );
+			->andReturn(
+				[
+					'basedir' => '/var/www/uploads',
+					'baseurl' => 'https://example.com/uploads',
+				]
+			);
 
 		BrainMonkey\expect( 'attachment_url_to_postid' )
 			->once()
@@ -359,10 +365,12 @@ class HelpersTest extends TestCase {
 	public function test_attachment_is_webp_returns_true_for_webp_file(): void {
 		BrainMonkey\expect( 'wp_upload_dir' )
 			->twice()
-			->andReturn( [
-				'basedir' => '/var/www/uploads',
-				'baseurl' => 'https://example.com/uploads',
-			] );
+			->andReturn(
+				[
+					'basedir' => '/var/www/uploads',
+					'baseurl' => 'https://example.com/uploads',
+				]
+			);
 
 		BrainMonkey\expect( 'attachment_url_to_postid' )
 			->once()
@@ -384,10 +392,12 @@ class HelpersTest extends TestCase {
 	public function test_attachment_is_webp_returns_false_for_non_webp_file(): void {
 		BrainMonkey\expect( 'wp_upload_dir' )
 			->twice()
-			->andReturn( [
-				'basedir' => '/var/www/uploads',
-				'baseurl' => 'https://example.com/uploads',
-			] );
+			->andReturn(
+				[
+					'basedir' => '/var/www/uploads',
+					'baseurl' => 'https://example.com/uploads',
+				]
+			);
 
 		BrainMonkey\expect( 'attachment_url_to_postid' )
 			->once()

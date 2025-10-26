@@ -30,9 +30,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test that constructor is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
 		$this->assertMethodIsPrivate( Image::class, '__construct' );
@@ -40,9 +37,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test that clone is private (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_clone_is_private(): void {
 		$this->assertMethodIsPrivate( Image::class, '__clone' );
@@ -50,9 +44,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test that __wakeup throws RuntimeException (singleton pattern).
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
 		$this->expectException( RuntimeException::class );
@@ -65,9 +56,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare method exists and is public static.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_method_exists(): void {
 		$this->assertTrue(
@@ -88,9 +76,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print method exists and is public static.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_method_exists(): void {
 		$this->assertTrue(
@@ -111,16 +96,16 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns original image when dimensions are empty.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_returns_original_when_dimensions_empty(): void {
 		$image    = '<img src="test.jpg" alt="Test">';
 		$src      = 'test.jpg';
-		$metadata = array( 'width' => 800, 'height' => 600 );
+		$metadata = [
+			'width'  => 800,
+			'height' => 600,
+		];
 
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array() );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [] );
 
 		$result = Image::prepare( 123, $metadata, $image, $src );
 
@@ -129,16 +114,16 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare adds width and height attributes.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_adds_width_and_height_attributes(): void {
 		$image    = '<img src="test.jpg" alt="Test" />';
 		$src      = 'test.jpg';
-		$metadata = array( 'width' => 800, 'height' => 600 );
+		$metadata = [
+			'width'  => 800,
+			'height' => 600,
+		];
 
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( '' );
 
@@ -150,16 +135,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns image with attributes when srcset is empty.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_handles_empty_srcset(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'test.jpg';
-		$metadata = array();
+		$metadata = [];
 
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( '' );
 
@@ -172,16 +154,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns image with attributes when srcset is not a string.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_handles_non_string_srcset(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'test.jpg';
-		$metadata = array();
+		$metadata = [];
 
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( false );
 
@@ -194,16 +173,13 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare returns image without sizes when sizes is empty.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_handles_empty_sizes(): void {
 		$image    = '<img src="test.jpg" />';
 		$src      = 'test.jpg';
-		$metadata = array();
+		$metadata = [];
 
-		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( array( 800, 600 ) );
+		BrainMonkey\when( 'wp_image_src_get_dimensions' )->justReturn( [ 800, 600 ] );
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 		BrainMonkey\when( 'wp_get_attachment_image_srcset' )->justReturn( 'test-150x150.jpg 150w, test-300x300.jpg 300w' );
 		BrainMonkey\when( 'wp_calculate_image_sizes' )->justReturn( '' );
@@ -218,12 +194,9 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print regex converts jpg/jpeg/png/gif to webp.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_regex_converts_extensions(): void {
-		$test_cases = array(
+		$test_cases = [
 			'test.jpg'  => 'test.webp',
 			'test.jpeg' => 'test.webp',
 			'test.JPG'  => 'test.webp',
@@ -231,7 +204,7 @@ class ImageTest extends TestCase {
 			'test.PNG'  => 'test.webp',
 			'test.gif'  => 'test.webp',
 			'test.GIF'  => 'test.webp',
-		);
+		];
 
 		foreach ( $test_cases as $original => $expected ) {
 			$result = preg_replace( '/\.(jpe?g|png|gif)$/i', '.webp', $original );
@@ -245,17 +218,14 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print regex extracts src attribute correctly.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_regex_extracts_src_attribute(): void {
-		$test_cases = array(
-			'src="test.jpg"'    => 'test.jpg',
-			"src='test.png'"    => 'test.png',
-			'src="image.jpeg"'  => 'image.jpeg',
-			'src="photo.gif"'   => 'photo.gif',
-		);
+		$test_cases = [
+			'src="test.jpg"'   => 'test.jpg',
+			"src='test.png'"   => 'test.png',
+			'src="image.jpeg"' => 'image.jpeg',
+			'src="photo.gif"'  => 'photo.gif',
+		];
 
 		foreach ( $test_cases as $html => $expected_src ) {
 			if ( preg_match( '/src=["\']([^"\']+\.(?:jpe?g|png|gif))["\']/i', $html, $matches ) ) {
@@ -270,9 +240,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print regex extracts srcset attribute correctly.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_regex_extracts_srcset_attribute(): void {
 		$html = 'srcset="test-150.jpg 150w, test-300.jpg 300w"';
@@ -287,9 +254,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print handles srcset parsing.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_parses_srcset_items(): void {
 		$srcset = 'test-150.jpg 150w, test-300.jpg 300w, test-600.jpg 600w';
@@ -306,9 +270,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print handles empty srcset parts.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_handles_empty_srcset_parts(): void {
 		$srcset = 'test-150.jpg 150w, , test-300.jpg 300w';
@@ -318,7 +279,7 @@ class ImageTest extends TestCase {
 		foreach ( $array as $item ) {
 			$parts = preg_split( '/\s+/', trim( $item ) );
 			if ( ! empty( $parts[0] ) ) {
-				$valid++;
+				++$valid;
 			}
 		}
 
@@ -327,9 +288,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print preserves width descriptor in srcset.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_preserves_width_descriptor(): void {
 		$item  = 'test-300.jpg 300w';
@@ -341,9 +299,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test print handles srcset without width descriptor.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_print_handles_srcset_without_descriptor(): void {
 		$item  = 'test.jpg';
@@ -355,9 +310,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare regex injects attributes correctly.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_regex_injects_attributes(): void {
 		$image      = '<img src="test.jpg" alt="Test" />';
@@ -371,17 +323,14 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare regex handles img tag with self-closing slash.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_regex_handles_self_closing_tag(): void {
-		$test_cases = array(
+		$test_cases = [
 			'<img src="test.jpg" />',
 			'<img src="test.jpg"/>',
 			'<img src="test.jpg" >',
 			'<img src="test.jpg">',
-		);
+		];
 
 		foreach ( $test_cases as $image ) {
 			$result = preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1 width="800" />', $image );
@@ -391,9 +340,6 @@ class ImageTest extends TestCase {
 
 	/**
 	 * Test prepare regex preserves existing attributes.
-	 *
-	 * @since 1.0.0
-	 * @return void
 	 */
 	public function test_prepare_regex_preserves_existing_attributes(): void {
 		$image      = '<img src="test.jpg" alt="Test" class="my-class" id="photo" />';

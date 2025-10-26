@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles AJAX actions for the legacy WebP conversion process and progress bar.
+ * Handles AJAX actions for the bulk conversion WebP process and progress bar.
  *
  * @package WpConvertToWebp
  * @since 1.0.0
@@ -23,21 +23,22 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Class Legacy
+ * Class BulkConvert
  *
  * Handles AJAX actions for converting existing images to WebP format.
  *
  * @since 1.0.0
  */
-class Legacy {
+class BulkConvert {
+
 
 	/**
 	 * Holds the Singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @var Legacy|null The Singleton instance.
+	 * @var BulkConvert|null The Singleton instance.
 	 */
-	protected static ?Legacy $instance = null;
+	protected static ?BulkConvert $instance = null;
 
 	/**
 	 * Constructor to initialize the class.
@@ -69,9 +70,9 @@ class Legacy {
 	 * Returns the Singleton instance of the plugin.
 	 *
 	 * @since 1.0.0
-	 * @return Legacy The Singleton instance.
+	 * @return BulkConvert The Singleton instance.
 	 */
-	public static function get_instance(): Legacy {
+	public static function get_instance(): BulkConvert {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -80,7 +81,7 @@ class Legacy {
 	}
 
 	/**
-	 * Registers AJAX actions for the legacy conversion process.
+	 * Registers AJAX actions for the BulkConvert conversion process.
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -145,7 +146,7 @@ class Legacy {
 			$metadata = [];
 		}
 
-		$converter = (object) new Converter();
+		$converter = Converter::get_instance();
 		$result    = (array) $converter->prepare( $attachment_id, $metadata );
 
 		// Get message and classes from converter result for frontend display

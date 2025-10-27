@@ -1,17 +1,12 @@
 <?php
 /**
- * Main plugin file that contains the plugin header and basic documentation.
- *
- * @since             1.0.0
- * @package           WPConvertToWebp
- *
  * Plugin Name:       Convert to WebP
  * Plugin Slug:       wp-convert-to-webp
  * Plugin URI:        https://github.com/PierreHunout/wp-convert-to-webp
- * Description:       Convert images to WebP format for better performance.
+ * Description:       Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images.
  * Version:           1.0.0
  * Author:            Pierre Hunout
- * Author URI:        https://pierrehunout.com/
+ * Author URI:        https://github.com/PierreHunout
  * Text Domain:       wp-convert-to-webp
  * Domain Path:      /languages
  * License:           GPL-3.0
@@ -19,10 +14,15 @@
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * GitHub Plugin URI:  PierreHunout/wp-convert-to-webp
+ * 
+ * @since             1.0.0
+ * @package           WPConvertToWebp
  */
 
 namespace WpConvertToWebp;
 
+use WpConvertToWebp\Actions\Deactivate;
+use WpConvertToWebp\Actions\Uninstall;
 use RuntimeException;
 use Throwable;
 use ReflectionClass;
@@ -127,8 +127,11 @@ class WpConvertToWebp {
 		self::autoload();
 
 		// Register hooks for deactivation and uninstall
-		register_deactivation_hook( __FILE__, [ '\WpConvertToWebp\Actions\Deactivate', 'deactivate' ] );
-		register_uninstall_hook( __FILE__, [ '\WpConvertToWebp\Actions\Uninstall', 'uninstall' ] );
+		register_deactivation_hook( __FILE__, [ Deactivate::class, 'deactivate' ] );
+		register_uninstall_hook( __FILE__, [ Uninstall::class, 'uninstall' ] );
+
+		// Add plugin action links
+		add_filter( 'plugin_action_links_' . WP_CONVERT_TO_WEBP_BASENAME, [ __CLASS__, 'add_action_links' ] );
 	}
 
 	/**
@@ -244,25 +247,13 @@ class WpConvertToWebp {
 				}
 			}
 		} catch ( Throwable $error ) {
-			Utils\Debug::log(
-				__CLASS__,
-				sprintf(
-					// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-					__( '[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp' ),
-					$class,
-					$error->getMessage(),
-					basename( $error->getFile() ),
-					$error->getLine()
-				)
-			);
-
 			// Log error if WP_DEBUG is enabled
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug logging when WP_DEBUG is enabled
 				error_log(
 					sprintf(
 						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-						__( '[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
+						__( '[WP Convert to WebP] Error in autoload: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
 						$error->getMessage(),
 						basename( $error->getFile() ),
 						$error->getLine()
@@ -294,6 +285,25 @@ class WpConvertToWebp {
 		wp_enqueue_script( 'wp-convert-to-webp-ajax', WP_CONVERT_TO_WEBP_JS . 'ajax.js', [], WP_CONVERT_TO_WEBP_VERSION, true );
 
 		wp_localize_script( 'wp-convert-to-webp-ajax', 'wpConvertToWebp', [ 'nonce' => wp_create_nonce( 'convert_to_webp_ajax' ) ] );
+	}
+
+	/**
+	 * Add custom action links to the plugin page.
+	 *
+	 * Adds a "Settings" link to the plugin row in the WordPress plugins page.
+	 *
+	 * @since 1.0.0
+	 * @param array $links Existing plugin action links.
+	 * @return array Modified plugin action links.
+	 */
+	public static function add_action_links( array $links ): array {
+		$links[] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'admin.php?page=wp-convert-to-webp' ) ),
+			esc_html__( 'Settings', 'wp-convert-to-webp' )
+		);
+
+		return $links;
 	}
 }
 

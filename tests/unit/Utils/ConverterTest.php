@@ -39,7 +39,15 @@ class ConverterTest extends TestCase {
 		BrainMonkey\when( 'esc_attr' )->returnArg();
 		BrainMonkey\when( 'wp_kses' )->returnArg();
 		BrainMonkey\when( '__' )->returnArg();
-		BrainMonkey\when( 'get_option' )->justReturn( 85 );
+		BrainMonkey\when( 'get_option' )->alias( function( $option, $default = false ) {
+			if ( $option === 'convert_to_webp_quality' ) {
+				return 85;
+			}
+			if ( $option === 'convert_to_webp_debug_mode' ) {
+				return false;
+			}
+			return $default;
+		} );
 		BrainMonkey\when( 'get_post_mime_type' )->justReturn( 'image/jpeg' );
 		BrainMonkey\when( 'wp_upload_dir' )->justReturn(
 			[

@@ -9,7 +9,6 @@
 namespace WpConvertToWebp\Modes;
 
 use WpConvertToWebp\Utils\Helpers;
-
 use WpConvertToWebp\Modes\Image;
 use RuntimeException;
 

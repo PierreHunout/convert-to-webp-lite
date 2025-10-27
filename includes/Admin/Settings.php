@@ -8,8 +8,6 @@
 
 namespace WpConvertToWebp\Admin;
 
-use WpConvertToWebp\Utils\Helpers;
-use WpConvertToWebp\Utils\Cleaner;
 use RuntimeException;
 
 /**
@@ -124,10 +122,14 @@ class Settings {
 		wp_enqueue_media();
 
 		// Define allowed HTML tags for wp_kses once
-		$allowed_html = (array) [ 'strong' => [] ];
+		$allowed_html = (array) [
+			'strong' => [],
+			'code'   => [],
+		];
 
 		$webp_quality         = (int) get_option( 'convert_to_webp_quality', 85 );
 		$replace_mode         = (bool) get_option( 'convert_to_webp_replace_mode', false );
+		$debug_mode           = (bool) get_option( 'convert_to_webp_debug_mode', false );
 		$delete_on_deactivate = (bool) get_option( 'delete_webp_on_deactivate', false );
 		$delete_on_uninstall  = (bool) get_option( 'delete_webp_on_uninstall', false );
 		?>
@@ -171,15 +173,37 @@ class Settings {
 								</p>
 								<div class="convert-to-webp__inputs">
 									<input type="checkbox" class="convert-to-webp__input convert-to-webp__input--toggle" name="convert_to_webp_replace_mode" value="1" <?php checked( $replace_mode, 1 ); ?> />
-									<label class="convert-to-webp__label">
+									<p class="convert-to-webp__label">
 										<?php
 										echo wp_kses( __( 'Use <strong>&#60;picture&#62;</strong> tags', 'wp-convert-to-webp' ), $allowed_html );
 										?>
-									</label>
+									</p>
 								</div>
 								<p class="convert-to-webp__description">
 									<?php
 									echo wp_kses( __( 'If enabled, all images will be replaced by their WebP versions inside the <strong>&#60;picture&#62;</strong> tags. Otherwise, the original <strong>&#60;img&#62;</strong> tags will be used.', 'wp-convert-to-webp' ), $allowed_html );
+									?>
+								</p>
+							</div>
+
+							<div class="convert-to-webp__row">
+								<h2 class="convert-to-webp__subtitle"><?php esc_html_e( 'Debug mode', 'wp-convert-to-webp' ); ?></h2>
+								<p class="convert-to-webp__description">
+									<?php
+									echo wp_kses( __( 'Enable debug mode to log additional information during the conversion/deletion process.', 'wp-convert-to-webp' ), $allowed_html );
+									?>
+								</p>
+								<div class="convert-to-webp__inputs">
+									<input type="checkbox" class="convert-to-webp__input convert-to-webp__input--toggle" name="convert_to_webp_debug_mode" value="1" <?php checked( $debug_mode, 1 ); ?> />
+									<p class="convert-to-webp__label">
+										<?php
+										echo wp_kses( __( 'Enable debug logging', 'wp-convert-to-webp' ), $allowed_html );
+										?>
+									</p>
+								</div>
+								<p class="convert-to-webp__description convert-to-webp__description--info">
+									<?php
+									echo wp_kses( __( ' Logs can be viewed in the <code>convert-to-webp-logs</code> folder, in your <code>wp-content</code> folder.', 'wp-convert-to-webp' ), $allowed_html );
 									?>
 								</p>
 							</div>
@@ -192,7 +216,7 @@ class Settings {
 								</h2>
 								<div class="convert-to-webp__inputs">
 									<input type="checkbox" class="convert-to-webp__input convert-to-webp__input--toggle" name="delete_webp_on_deactivate" value="1" <?php checked( $delete_on_deactivate, 1 ); ?> />
-									<label class="convert-to-webp__label"><?php esc_html_e( 'Delete WebP files and options', 'wp-convert-to-webp' ); ?></label>
+									<p class="convert-to-webp__label"><?php esc_html_e( 'Delete WebP files and options', 'wp-convert-to-webp' ); ?></p>
 								</div>
 							</div>
 
@@ -204,7 +228,7 @@ class Settings {
 								</h2>
 								<div class="convert-to-webp__inputs">
 									<input type="checkbox" class="convert-to-webp__input convert-to-webp__input--toggle" name="delete_webp_on_uninstall" value="1" <?php checked( $delete_on_uninstall, 1 ); ?> />
-									<label class="convert-to-webp__label"><?php esc_html_e( 'Delete WebP files and options', 'wp-convert-to-webp' ); ?></label>
+									<p class="convert-to-webp__label"><?php esc_html_e( 'Delete WebP files and options', 'wp-convert-to-webp' ); ?></p>
 								</div>
 							</div>
 						</div>
@@ -327,11 +351,13 @@ class Settings {
 			}
 
 			$mode       = (int) isset( $_POST['convert_to_webp_replace_mode'] ) && sanitize_text_field( wp_unslash( $_POST['convert_to_webp_replace_mode'] ) ) === '1' ? 1 : 0;
+			$debug_mode = (int) isset( $_POST['convert_to_webp_debug_mode'] ) && sanitize_text_field( wp_unslash( $_POST['convert_to_webp_debug_mode'] ) ) === '1' ? 1 : 0;
 			$deactivate = (int) isset( $_POST['delete_webp_on_deactivate'] ) && sanitize_text_field( wp_unslash( $_POST['delete_webp_on_deactivate'] ) ) === '1' ? 1 : 0;
 			$uninstall  = (int) isset( $_POST['delete_webp_on_uninstall'] ) && sanitize_text_field( wp_unslash( $_POST['delete_webp_on_uninstall'] ) ) === '1' ? 1 : 0;
 
 			update_option( 'convert_to_webp_quality', $quality );
 			update_option( 'convert_to_webp_replace_mode', $mode );
+			update_option( 'convert_to_webp_debug_mode', $debug_mode );
 			update_option( 'delete_webp_on_deactivate', $deactivate );
 			update_option( 'delete_webp_on_uninstall', $uninstall );
 

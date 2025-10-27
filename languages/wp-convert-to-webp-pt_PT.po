@@ -3,254 +3,410 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Convert to WebP 1.0.0\n"
-"Report-Msgid-Bugs-To: https://github.com/PierreHunout/wp-convert-to-webp\n"
-"POT-Creation-Date: 2025-10-14 10:00:00+00:00\n"
-"PO-Revision-Date: 2025-10-14 10:00:00+00:00\n"
-"Last-Translator: Pierre Hunout <contact@pierrehunout.com>\n"
-"Language-Team: Portuguese (Portugal)\n"
-"Language: pt_PT\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-convert-to-"
+"webp\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-27T00:45:30+00:00\n"
+"PO-Revision-Date: 2025-10-27T00:45:30+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: wp-convert-to-webp\n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: manual\n"
+
+#. Plugin Name of the plugin
+#: wp-convert-to-webp.php
+msgid "Convert to WebP"
+msgstr "Converter para WebP"
+
+#. Plugin URI of the plugin
+#: wp-convert-to-webp.php
+msgid "https://github.com/PierreHunout/wp-convert-to-webp"
+msgstr "https://github.com/PierreHunout/wp-convert-to-webp"
+
+#. Description of the plugin
+#: wp-convert-to-webp.php
+msgid "Convert images to WebP format for better performance."
+msgstr "Converte imagens para o formato WebP para melhor desempenho."
+
+#. Author of the plugin
+#: wp-convert-to-webp.php
+msgid "Pierre Hunout"
+msgstr "Pierre Hunout"
+
+#. Author URI of the plugin
+#: wp-convert-to-webp.php
+msgid "https://pierrehunout.com/"
+msgstr "https://pierrehunout.com/"
+
+#: includes/Admin/BulkConvert.php:109 includes/Admin/BulkConvert.php:129
+msgid "Access denied."
+msgstr "Acesso negado."
+
+#: includes/Admin/BulkConvert.php:136 includes/Admin/BulkConvert.php:142
+msgid "Invalid attachment ID."
+msgstr "ID de anexo inválido."
+
+#: includes/Admin/BulkConvert.php:156
+msgid "Done"
+msgstr "Concluído"
+
+#: includes/Admin/BulkDelete.php:104
+msgid "Not allowed"
+msgstr "Não permitido"
+
+#: includes/Admin/Notices.php:120
+msgid "No files found to process."
+msgstr "Nenhum ficheiro encontrado para processar."
+
+#: includes/Admin/Notices.php:131
+msgid "Deleted WebP files"
+msgstr "Ficheiros WebP eliminados"
+
+#: includes/Admin/Settings.php:103 includes/Admin/Settings.php:104
+msgid "WebP Conversion"
+msgstr "Conversão WebP"
+
+#: includes/Admin/Settings.php:137
+msgid "Manage WebP Conversion"
+msgstr "Gerir conversão WebP"
+
+#: includes/Admin/Settings.php:145
+msgid "WebP Quality"
+msgstr "Qualidade WebP"
+
+#: includes/Admin/Settings.php:163
+msgid "Higher means better quality but larger files."
+msgstr "Maior significa melhor qualidade mas ficheiros maiores."
+
+#: includes/Admin/Settings.php:168
+msgid "Replace mode"
+msgstr "Modo de substituição"
+
+#: includes/Admin/Settings.php:171
+msgid ""
+"Enable replacement of <strong>&#60;img&#62;</strong> tags with "
+"<strong>&#60;picture&#62;</strong> tags."
+msgstr ""
+"Ativar a substituição de tags <strong>&#60;img&#62;</strong> por "
+"tags <strong>&#60;picture&#62;</strong>."
+
+#: includes/Admin/Settings.php:178
+msgid "Use <strong>&#60;picture&#62;</strong> tags"
+msgstr "Usar tags <strong>&#60;picture&#62;</strong>"
+
+#: includes/Admin/Settings.php:184
+msgid ""
+"If enabled, all images will be replaced by their WebP versions inside the "
+"<strong>&#60;picture&#62;</strong> tags. Otherwise, the original "
+"<strong>&#60;img&#62;</strong> tags will be used."
+msgstr ""
+"Se ativado, todas as imagens serão substituídas pelas suas versões WebP dentro das "
+"tags <strong>&#60;picture&#62;</strong>. Caso contrário, as tags "
+"<strong>&#60;img&#62;</strong> originais serão usadas."
+
+#: includes/Admin/Settings.php:190
+msgid "Debug mode"
+msgstr "Modo de depuração"
+
+#: includes/Admin/Settings.php:193
+msgid ""
+"Enable debug mode to log additional information during the conversion/"
+"deletion process."
+msgstr ""
+"Ativar o modo de depuração para registar informações adicionais durante "
+"o processo de conversão/eliminação."
+
+#: includes/Admin/Settings.php:200
+msgid "Enable debug logging"
+msgstr "Ativar registo de depuração"
+
+#: includes/Admin/Settings.php:206
+msgid ""
+" Logs can be viewed in the <code>convert-to-webp-logs</code> folder, in your "
+"<code>wp-content</code> folder."
+msgstr ""
+" Os registos podem ser visualizados na pasta <code>convert-to-webp-logs</code>, "
+"na sua pasta <code>wp-content</code>."
+
+#: includes/Admin/Settings.php:214
+msgid "Clean data on <strong>deactivate</strong>"
+msgstr "Limpar dados ao <strong>desativar</strong>"
+
+#: includes/Admin/Settings.php:219 includes/Admin/Settings.php:231
+msgid "Delete WebP files and options"
+msgstr "Eliminar ficheiros WebP e opções"
+
+#: includes/Admin/Settings.php:226
+msgid "Clean data on <strong>uninstall</strong>"
+msgstr "Limpar dados ao <strong>desinstalar</strong>"
+
+#: includes/Admin/Settings.php:237
+msgid "Save options"
+msgstr "Guardar opções"
+
+#: includes/Admin/Settings.php:245
+msgid "Convert old images"
+msgstr "Converter imagens antigas"
+
+#: includes/Admin/Settings.php:247
+msgid ""
+"This will convert all existing images in your media library to WebP format. "
+"New images will be converted automatically upon upload."
+msgstr ""
+"Isto irá converter todas as imagens existentes na sua biblioteca de multimédia para o formato WebP. "
+"As novas imagens serão convertidas automaticamente ao serem carregadas."
+
+#: includes/Admin/Settings.php:251
+msgid "Convert previously uploaded images"
+msgstr "Converter imagens carregadas anteriormente"
+
+#: includes/Admin/Settings.php:258
+msgid "Are you sure you want to delete all WebP files?"
+msgstr "Tem a certeza de que deseja eliminar todos os ficheiros WebP?"
+
+#: includes/Admin/Settings.php:262 includes/Admin/Settings.php:265
+msgid "Delete all WebP files"
+msgstr "Eliminar todos os ficheiros WebP"
+
+#: includes/Admin/Settings.php:279
+msgid "Select an Image for Comparison"
+msgstr "Selecionar uma imagem para comparação"
+
+#: includes/Admin/Settings.php:281
+msgid "Select Image"
+msgstr "Selecionar imagem"
+
+#: includes/Admin/Settings.php:308
+msgid "Conversion Progress"
+msgstr "Progresso da conversão"
+
+#: includes/Admin/Settings.php:320
+msgid "Close"
+msgstr "Fechar"
+
+#: includes/Admin/Settings.php:368
+msgid "Options saved successfully."
+msgstr "Opções guardadas com sucesso."
+
+#: includes/Utils/Cleaner.php:116 includes/Utils/Converter.php:115
+msgid "Invalid attachment ID provided."
+msgstr "ID de anexo fornecido inválido."
+
+#: includes/Utils/Cleaner.php:121 includes/Utils/Converter.php:120
+msgid "Invalid metadata provided."
+msgstr "Metadados fornecidos inválidos."
+
+#: includes/Utils/Cleaner.php:132 includes/Utils/Cleaner.php:254
+#: includes/Utils/Converter.php:127 includes/Utils/Converter.php:258
+msgid "Failed to initialize WordPress filesystem."
+msgstr "Falha ao inicializar o sistema de ficheiros do WordPress."
+
+#. translators: %s is the attachment ID of the file that doesn't exist
+#: includes/Utils/Cleaner.php:138 includes/Utils/Converter.php:136
+#, php-format
+msgid "File does not exist for attachment ID: %s"
+msgstr "O ficheiro não existe para o ID de anexo: %s"
+
+#. translators: %s is the basename of the file that is not writable
+#: includes/Utils/Cleaner.php:144
+#, php-format
+msgid "File is not writable: %s"
+msgstr "O ficheiro não tem permissão de escrita: %s"
+
+#. translators: %s is the error message
+#: includes/Utils/Cleaner.php:176
+#, php-format
+msgid "[WP Convert to WebP] Invalid argument in deletion preparation: %s"
+msgstr "[WP Convert to WebP] Argumento inválido na preparação de eliminação: %s"
+
+#. translators: %s is the error message
+#: includes/Utils/Cleaner.php:189
+#, php-format
+msgid "[WP Convert to WebP] Runtime error in deletion preparation: %s"
+msgstr "[WP Convert to WebP] Erro de execução na preparação de eliminação: %s"
+
+#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+#: includes/Utils/Cleaner.php:202
+#, php-format
+msgid ""
+"[WP Convert to WebP] Unexpected error preparing deletion: %1$s in %2$s on "
+"line %3$d"
+msgstr ""
+"[WP Convert to WebP] Erro inesperado ao preparar eliminação: %1$s em %2$s na "
+"linha %3$d"
+
+#: includes/Utils/Cleaner.php:247 includes/Utils/Converter.php:251
+msgid "Invalid file path provided."
+msgstr "Caminho de ficheiro fornecido inválido."
+
+#. translators: %s is the file path that does not exist
+#: includes/Utils/Cleaner.php:260 includes/Utils/Converter.php:264
+#, php-format
+msgid "File does not exist: %s"
+msgstr "O ficheiro não existe: %s"
+
+#. translators: %s is the basename of the file for which path parsing failed
+#: includes/Utils/Cleaner.php:268 includes/Utils/Converter.php:272
+#, php-format
+msgid "Unable to parse file path: %s"
+msgstr "Não foi possível analisar o caminho do ficheiro: %s"
+
+#. translators: %s is the basename of the WebP file that cannot be deleted because it's already WebP
+#: includes/Utils/Cleaner.php:274
+#, php-format
+msgid "File is already a WebP file, nothing to delete: %s"
+msgstr "O ficheiro já é um ficheiro WebP, nada para eliminar: %s"
+
+#. translators: %s is the MIME type of the unsupported file
+#: includes/Utils/Cleaner.php:283 includes/Utils/Converter.php:144
+#: includes/Utils/Converter.php:288 includes/Utils/Converter.php:320
+#, php-format
+msgid "Unsupported file type: %s"
+msgstr "Tipo de ficheiro não suportado: %s"
+
+#. translators: %s is the basename of the original file for which no WebP version exists
+#: includes/Utils/Cleaner.php:292
+#, php-format
+msgid "WebP file does not exist, nothing to delete: %s"
+msgstr "O ficheiro WebP não existe, nada para eliminar: %s"
+
+#. translators: %s is the filename of the WebP file that is not writable and cannot be deleted
+#: includes/Utils/Cleaner.php:299
+#, php-format
+msgid "WebP file is not writable: %s"
+msgstr "O ficheiro WebP não tem permissão de escrita: %s"
+
+#. translators: %s is the filename of the WebP file that could not be deleted
+#: includes/Utils/Cleaner.php:305
+#, php-format
+msgid "Failed to delete WebP file: %s"
+msgstr "Falha ao eliminar o ficheiro WebP: %s"
+
+#. translators: %s is the filename of the WebP file that was successfully deleted
+#: includes/Utils/Cleaner.php:309
+#, php-format
+msgid "Successfully deleted WebP file: %s"
+msgstr "Ficheiro WebP eliminado com sucesso: %s"
+
+#. translators: %s is the error message
+#: includes/Utils/Cleaner.php:315
+#, php-format
+msgid "[WP Convert to WebP] Invalid argument in WebP deletion: %s"
+msgstr "[WP Convert to WebP] Argumento inválido na eliminação WebP: %s"
+
+#. translators: %s is the error message
+#: includes/Utils/Cleaner.php:328
+#, php-format
+msgid "[WP Convert to WebP] Runtime error in WebP deletion: %s"
+msgstr "[WP Convert to WebP] Erro de execução na eliminação WebP: %s"
+
+#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+#: includes/Utils/Cleaner.php:341
+#, php-format
+msgid ""
+"[WP Convert to WebP] Unexpected error deleting WebP file: %1$s in %2$s on "
+"line %3$d"
+msgstr ""
+"[WP Convert to WebP] Erro inesperado ao eliminar ficheiro WebP: %1$s em %2$s na "
+"linha %3$d"
+
+#. translators: %s is the error message
+#: includes/Utils/Converter.php:176
+#, php-format
+msgid "[WP Convert to WebP] Invalid argument in conversion preparation: %s"
+msgstr "[WP Convert to WebP] Argumento inválido na preparação de conversão: %s"
+
+#. translators: %s is the error message
+#: includes/Utils/Converter.php:189
+#, php-format
+msgid "[WP Convert to WebP] Runtime error in conversion preparation: %s"
+msgstr "[WP Convert to WebP] Erro de execução na preparação de conversão: %s"
+
+#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+#: includes/Utils/Converter.php:202
+#, php-format
+msgid ""
+"[WP Convert to WebP] Unexpected error preparing conversion: %1$s in %2$s on "
+"line %3$d"
+msgstr ""
+"[WP Convert to WebP] Erro inesperado ao preparar conversão: %1$s em %2$s na "
+"linha %3$d"
+
+#. translators: %s is the basename of the WebP file that already exists
+#: includes/Utils/Converter.php:280
+#, php-format
+msgid "The original file is already a WebP file: %s"
+msgstr "O ficheiro original já é um ficheiro WebP: %s"
+
+#. translators: %s is the WebP filename that already exists
+#: includes/Utils/Converter.php:297
+#, php-format
+msgid "WebP file already exists: %s"
+msgstr "O ficheiro WebP já existe: %s"
+
+#. translators: %s is the basename of the file for which image resource creation failed
+#: includes/Utils/Converter.php:328
+#, php-format
+msgid "Failed to create image resource: %s"
+msgstr "Falha ao criar recurso de imagem: %s"
+
+#. translators: %s is the basename of the file that was successfully converted to WebP
+#: includes/Utils/Converter.php:337
+#, php-format
+msgid "Successfully converted: %s"
+msgstr "Convertido com sucesso: %s"
+
+#. translators: %s is the filename of the WebP file that couldn't be saved
+#: includes/Utils/Converter.php:343
+#, php-format
+msgid "Failed to save WebP file: %s"
+msgstr "Falha ao guardar o ficheiro WebP: %s"
+
+#. translators: %s is the error message
+#: includes/Utils/Converter.php:349
+#, php-format
+msgid "[WP Convert to WebP] Invalid argument in file conversion: %s"
+msgstr "[WP Convert to WebP] Argumento inválido na conversão do ficheiro: %s"
+
+#. translators: %s is the error message
+#: includes/Utils/Converter.php:362
+#, php-format
+msgid "[WP Convert to WebP] Runtime error in file conversion: %s"
+msgstr "[WP Convert to WebP] Erro de execução na conversão do ficheiro: %s"
+
+#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+#: includes/Utils/Converter.php:375
+#, php-format
+msgid ""
+"[WP Convert to WebP] Unexpected error converting file: %1$s in %2$s on line "
+"%3$d"
+msgstr ""
+"[WP Convert to WebP] Erro inesperado ao converter ficheiro: %1$s em %2$s na linha "
+"%3$d"
 
 #. translators: %s is the folder path that doesn't exist
-#: wp-convert-to-webp.php:127
+#: wp-convert-to-webp.php:151
+#, php-format
 msgid "The folder at %s does not exist"
 msgstr "A pasta em %s não existe"
 
+#: wp-convert-to-webp.php:158
+msgid "Unable to resolve includes directory path"
+msgstr "Não foi possível resolver o caminho do diretório includes"
+
 #. translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-#: wp-convert-to-webp.php:179
+#: wp-convert-to-webp.php:235 wp-convert-to-webp.php:251
+#, php-format
 msgid "[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d"
 msgstr "[WP Convert to WebP] Erro ao executar %1$s: %2$s em %3$s na linha %4$d"
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: wp-convert-to-webp.php:196
+#: wp-convert-to-webp.php:265
+#, php-format
 msgid "[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d"
 msgstr "[WP Convert to WebP] Erro em run_files(): %1$s em %2$s na linha %3$d"
-
-#: includes/Converter.php:60
-#: includes/Cleaner.php:62
-msgid "Invalid attachment ID provided."
-msgstr "ID de anexo fornecido inválido."
-
-#: includes/Converter.php:65
-#: includes/Cleaner.php:67
-msgid "Invalid metadata provided."
-msgstr "Metadados fornecidos inválidos."
-
-#: includes/Converter.php:72
-#: includes/Converter.php:178
-#: includes/Cleaner.php:78
-#: includes/Cleaner.php:175
-msgid "Failed to initialize WordPress filesystem."
-msgstr "Falha ao inicializar o sistema de ficheiros do WordPress."
-
-#: includes/Converter.php:81
-#: includes/Cleaner.php:84
-msgid "File does not exist for attachment ID: %s"
-msgstr "O ficheiro não existe para o ID de anexo: %s"
-
-#: includes/Converter.php:89
-#: includes/Converter.php:208
-#: includes/Converter.php:240
-#: includes/Cleaner.php:204
-msgid "Unsupported file type: %s"
-msgstr "Tipo de ficheiro não suportado: %s"
-
-#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: includes/Converter.php:124
-msgid "[WP Convert to WebP] Error preparing conversion: %1$s in %2$s on line %3$d"
-msgstr "[WP Convert to WebP] Erro ao preparar a conversão: %1$s em %2$s na linha %3$d"
-
-#: includes/Converter.php:171
-#: includes/Cleaner.php:168
-msgid "Invalid file path provided."
-msgstr "Caminho de ficheiro fornecido inválido."
-
-#: includes/Converter.php:184
-#: includes/Cleaner.php:181
-msgid "File does not exist: %s"
-msgstr "O ficheiro não existe: %s"
-
-#: includes/Converter.php:192
-#: includes/Cleaner.php:189
-msgid "Unable to parse file path: %s"
-msgstr "Não é possível analisar o caminho do ficheiro: %s"
-
-#: includes/Converter.php:200
-msgid "The original file is already a WebP file: %s"
-msgstr "O ficheiro original já é um ficheiro WebP: %s"
-
-#: includes/Converter.php:217
-msgid "WebP file already exists: %s"
-msgstr "O ficheiro WebP já existe: %s"
-
-#: includes/Converter.php:250
-msgid "Failed to create image resource: %s"
-msgstr "Falha ao criar recurso de imagem: %s"
-
-#: includes/Converter.php:259
-msgid "Successfully converted: %s"
-msgstr "Convertido com sucesso: %s"
-
-#: includes/Converter.php:265
-msgid "Failed to save WebP file: %s"
-msgstr "Falha ao guardar o ficheiro WebP: %s"
-
-#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: includes/Converter.php:274
-msgid "[WP Convert to WebP] Error converting file: %1$s in %2$s on line %3$d"
-msgstr "[WP Convert to WebP] Erro ao converter ficheiro: %1$s em %2$s na linha %3$d"
-
-#: includes/Cleaner.php:90
-msgid "File is not writable: %s"
-msgstr "O ficheiro não é gravável: %s"
-
-#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: includes/Cleaner.php:125
-msgid "[WP Convert to WebP] Error preparing deletion: %1$s in %2$s on line %3$d"
-msgstr "[WP Convert to WebP] Erro ao preparar a eliminação: %1$s em %2$s na linha %3$d"
-
-#: includes/Cleaner.php:195
-msgid "File is already a WebP file, nothing to delete: %s"
-msgstr "O ficheiro já é um ficheiro WebP, nada para eliminar: %s"
-
-#: includes/Cleaner.php:213
-msgid "WebP file does not exist, nothing to delete: %s"
-msgstr "O ficheiro WebP não existe, nada para eliminar: %s"
-
-#: includes/Cleaner.php:220
-msgid "WebP file is not writable: %s"
-msgstr "O ficheiro WebP não é gravável: %s"
-
-#: includes/Cleaner.php:226
-msgid "Failed to delete WebP file: %s"
-msgstr "Falha ao eliminar o ficheiro WebP: %s"
-
-#: includes/Cleaner.php:230
-msgid "Successfully deleted WebP file: %s"
-msgstr "Ficheiro WebP eliminado com sucesso: %s"
-
-#. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: includes/Cleaner.php:239
-msgid "[WP Convert to WebP] Error deleting WebP file: %1$s in %2$s on line %3$d"
-msgstr "[WP Convert to WebP] Erro ao eliminar o ficheiro WebP: %1$s em %2$s na linha %3$d"
-
-#: includes/Admin/Options.php:54
-#: includes/Admin/Options.php:55
-msgid "WebP Conversion"
-msgstr "Conversão WebP"
-
-#: includes/Admin/Options.php:86
-msgid "Manage WebP Conversion"
-msgstr "Gerir conversão WebP"
-
-#: includes/Admin/Options.php:94
-msgid "WebP Quality"
-msgstr "Qualidade WebP"
-
-#: includes/Admin/Options.php:100
-msgid "Higher means better quality but larger files."
-msgstr "Maior significa melhor qualidade mas ficheiros maiores."
-
-#: includes/Admin/Options.php:105
-msgid "Replace mode"
-msgstr "Modo de substituição"
-
-#: includes/Admin/Options.php:108
-msgid "Enable replacement of <strong>&#60;img&#62;</strong> tags with <strong>&#60;picture&#62;</strong> tags."
-msgstr "Activar a substituição das etiquetas <strong>&#60;img&#62;</strong> por etiquetas <strong>&#60;picture&#62;</strong>."
-
-#: includes/Admin/Options.php:115
-msgid "Use <strong>&#60;picture&#62;</strong> tags"
-msgstr "Usar etiquetas <strong>&#60;picture&#62;</strong>"
-
-#: includes/Admin/Options.php:121
-msgid "If enabled, all images will be replaced by their WebP versions inside the <strong>&#60;picture&#62;</strong> tags. Otherwise, the original <strong>&#60;img&#62;</strong> tags will be used."
-msgstr "Se activado, todas as imagens serão substituídas pelas suas versões WebP dentro das etiquetas <strong>&#60;picture&#62;</strong>. Caso contrário, as etiquetas <strong>&#60;img&#62;</strong> originais serão usadas."
-
-#: includes/Admin/Options.php:129
-msgid "Clean data on <strong>deactivate</strong>"
-msgstr "Limpar dados ao <strong>desactivar</strong>"
-
-#: includes/Admin/Options.php:134
-#: includes/Admin/Options.php:146
-msgid "Delete WebP files and options"
-msgstr "Eliminar ficheiros WebP e opções"
-
-#: includes/Admin/Options.php:141
-msgid "Clean data on <strong>uninstall</strong>"
-msgstr "Limpar dados ao <strong>desinstalar</strong>"
-
-#: includes/Admin/Options.php:152
-msgid "Save options"
-msgstr "Guardar opções"
-
-#: includes/Admin/Options.php:160
-msgid "Convert old images"
-msgstr "Converter imagens antigas"
-
-#: includes/Admin/Options.php:162
-msgid "This will convert all existing images in your media library to WebP format. New images will be converted automatically upon upload."
-msgstr "Isto converterá todas as imagens existentes na sua biblioteca de multimédia para o formato WebP. As novas imagens serão convertidas automaticamente no carregamento."
-
-#: includes/Admin/Options.php:166
-msgid "Convert previously uploaded images"
-msgstr "Converter imagens carregadas anteriormente"
-
-#: includes/Admin/Options.php:173
-msgid "Are you sure you want to delete all WebP files?"
-msgstr "Tem a certeza de que quer eliminar todos os ficheiros WebP?"
-
-#: includes/Admin/Options.php:177
-#: includes/Admin/Options.php:180
-msgid "Delete all WebP files"
-msgstr "Eliminar todos os ficheiros WebP"
-
-#: includes/Admin/Options.php:194
-msgid "Select an Image for Comparison"
-msgstr "Seleccionar uma imagem para comparação"
-
-#: includes/Admin/Options.php:196
-msgid "Select Image"
-msgstr "Seleccionar imagem"
-
-#: includes/Admin/Options.php:223
-msgid "Conversion Progress"
-msgstr "Progresso da conversão"
-
-#: includes/Admin/Options.php:235
-msgid "Close"
-msgstr "Fechar"
-
-#: includes/Admin/Options.php:281
-msgid "Options saved successfully."
-msgstr "Opções guardadas com sucesso."
-
-#: includes/Admin/Options.php:297
-msgid "Not allowed"
-msgstr "Não permitido"
-
-#: includes/Admin/Legacy.php:55
-#: includes/Admin/Legacy.php:77
-msgid "Access denied."
-msgstr "Acesso negado."
-
-#: includes/Admin/Legacy.php:84
-#: includes/Admin/Legacy.php:90
-msgid "Invalid attachment ID."
-msgstr "ID de anexo inválido."
-
-#: includes/Admin/Legacy.php:99
-msgid "Done"
-msgstr "Terminado"
-
-#: includes/Admin/Notices.php:66
-msgid "No files found to process."
-msgstr "Nenhum ficheiro encontrado para processar."
-
-#: includes/Admin/Notices.php:77
-msgid "Deleted WebP files"
-msgstr "Ficheiros WebP eliminados"

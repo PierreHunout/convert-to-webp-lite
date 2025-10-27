@@ -170,19 +170,43 @@ class Cleaner {
 
 				$result[] = (array) $this->delete( $filepath, 'size' );
 			}
+		} catch ( InvalidArgumentException $error ) {
+			$message = (string) sprintf(
+				// translators: %s is the error message
+				__( '[WP Convert to WebP] Invalid argument in deletion preparation: %s', 'wp-convert-to-webp' ),
+				$error->getMessage()
+			);
+
+			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+				Debug::log( __CLASS__, $message );
+			}
+
+			// Add error message to results
+			$result[] = (array) Helpers::get_message( false, $error->getMessage(), $this->process );
+		} catch ( RuntimeException $error ) {
+			$message = (string) sprintf(
+				// translators: %s is the error message
+				__( '[WP Convert to WebP] Runtime error in deletion preparation: %s', 'wp-convert-to-webp' ),
+				$error->getMessage()
+			);
+
+			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+				Debug::log( __CLASS__, $message );
+			}
+
+			// Add error message to results
+			$result[] = (array) Helpers::get_message( false, $error->getMessage(), $this->process );
 		} catch ( Throwable $error ) {
-			// Log error if WP_DEBUG is enabled
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug logging when WP_DEBUG is enabled
-				error_log(
-					sprintf(
-						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-						__( '[WP Convert to WebP] Error preparing deletion: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
-						$error->getMessage(),
-						basename( $error->getFile() ),
-						$error->getLine()
-					)
-				);
+			$message = (string) sprintf(
+				// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+				__( '[WP Convert to WebP] Unexpected error preparing deletion: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
+				$error->getMessage(),
+				basename( $error->getFile() ),
+				$error->getLine()
+			);
+
+			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+				Debug::log( __CLASS__, $message );
 			}
 
 			// Add error message to results
@@ -255,7 +279,7 @@ class Cleaner {
 			$mime_type = (string) mime_content_type( $filepath );
 
 			if ( ! in_array( $mime_type, [ 'image/jpeg', 'image/png', 'image/gif' ], true ) ) {
-				// translators: %s is the MIME type of the file that is not supported
+				// translators: %s is the MIME type of the unsupported file
 				throw new RuntimeException( wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $mime_type ) . '</span>' ), $allowed_html ) );
 			}
 
@@ -285,19 +309,43 @@ class Cleaner {
 			$message = (string) wp_kses( sprintf( __( 'Successfully deleted WebP file: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html );
 
 			return Helpers::get_message( true, $message, $this->process, $size ?? '' );
+		} catch ( InvalidArgumentException $error ) {
+			$message = (string) sprintf(
+				// translators: %s is the error message
+				__( '[WP Convert to WebP] Invalid argument in WebP deletion: %s', 'wp-convert-to-webp' ),
+				$error->getMessage()
+			);
+
+			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+				Debug::log( __CLASS__, $message );
+			}
+
+			// Return error message
+			return Helpers::get_message( false, $error->getMessage(), $this->process, $size ?? '' );
+		} catch ( RuntimeException $error ) {
+			$message = (string) sprintf(
+				// translators: %s is the error message
+				__( '[WP Convert to WebP] Runtime error in WebP deletion: %s', 'wp-convert-to-webp' ),
+				$error->getMessage()
+			);
+
+			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+				Debug::log( __CLASS__, $message );
+			}
+
+			// Return error message
+			return Helpers::get_message( false, $error->getMessage(), $this->process, $size ?? '' );
 		} catch ( Throwable $error ) {
-			// Log error if WP_DEBUG is enabled
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug logging when WP_DEBUG is enabled
-				error_log(
-					sprintf(
-						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-						__( '[WP Convert to WebP] Error deleting WebP file: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
-						$error->getMessage(),
-						basename( $error->getFile() ),
-						$error->getLine()
-					)
-				);
+			$message = (string) sprintf(
+				// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
+				__( '[WP Convert to WebP] Unexpected error deleting WebP file: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
+				$error->getMessage(),
+				basename( $error->getFile() ),
+				$error->getLine()
+			);
+
+			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+				Debug::log( __CLASS__, $message );
 			}
 
 			// Return error message

@@ -348,10 +348,10 @@ class ReplacerTest extends TestCase {
 	 */
 	public function test_prepare_builds_webp_paths_correctly(): void {
 		$test_cases = [
-			'https://example.com/photo.jpg'  => 'https://example.com/photo.webp',
-			'https://example.com/image.jpeg' => 'https://example.com/image.webp',
-			'https://example.com/pic.png'    => 'https://example.com/pic.webp',
-			'https://example.com/anim.gif'   => 'https://example.com/anim.webp',
+			'https://example.com/photo.jpg'     => 'https://example.com/photo.webp',
+			'https://example.com/image.jpeg'    => 'https://example.com/image.webp',
+			'https://example.com/pic.png'       => 'https://example.com/pic.webp',
+			'https://example.com/anim.gif'      => 'https://example.com/anim.webp',
 			'/uploads/2024/01/test-150x150.jpg' => '/uploads/2024/01/test-150x150.webp',
 		];
 
@@ -391,7 +391,7 @@ class ReplacerTest extends TestCase {
 			$this->assertEquals(
 				$expected,
 				$result,
-				"Expected " . var_export( $input, true ) . " to cast to " . var_export( $expected, true )
+				'Expected ' . var_export( $input, true ) . ' to cast to ' . var_export( $expected, true )
 			);
 		}
 	}

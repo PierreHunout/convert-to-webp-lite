@@ -303,7 +303,7 @@ class BulkConvertTest extends TestCase {
 	 */
 	public function test_constructor_initializes_properly(): void {
 		// Reset the singleton instance via reflection for this test
-		$reflection = new ReflectionClass( BulkConvert::class );
+		$reflection        = new ReflectionClass( BulkConvert::class );
 		$instance_property = $reflection->getProperty( 'instance' );
 		$instance_property->setAccessible( true );
 		$instance_property->setValue( null, null );

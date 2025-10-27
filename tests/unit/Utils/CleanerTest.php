@@ -45,6 +45,7 @@ class CleanerTest extends TestCase {
 				'baseurl' => 'http://example.com/uploads',
 			]
 		);
+		BrainMonkey\when( 'get_option' )->justReturn( false );
 	}
 
 	/**

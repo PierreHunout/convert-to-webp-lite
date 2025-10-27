@@ -147,5 +147,6 @@ Special thanks to [Romain Preston](https://github.com/romain-preston) for his he
 
 ---
 
-Developed by Pierre Hunout
-Email: [pierre.hunout@gmail.com](mailto:pierre.hunout@gmail.com)
+Developed by Pierre Hunout  
+Email: [pierre.hunout@gmail.com](mailto:pierre.hunout@gmail.com)  
+Support: [Buy me a coffee ☕](https://buymeacoffee.com/pierrehunout)

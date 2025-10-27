@@ -227,18 +227,6 @@ class WpConvertToWebp {
 							$instance->init();
 						}
 					} catch ( Throwable $inner_error ) {
-						Utils\Debug::log(
-							__CLASS__,
-							sprintf(
-								// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-								__( '[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp' ),
-								$class,
-								$inner_error->getMessage(),
-								basename( $inner_error->getFile() ),
-								$inner_error->getLine()
-							)
-						);
-
 						if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 							// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 							error_log(

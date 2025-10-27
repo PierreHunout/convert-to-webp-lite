@@ -79,10 +79,12 @@
 .convert-to-webp__form .convert-to-webp__input--toggle {position: relative; color: var(--primary-color); width: 32px; height: 16px; border: 1px solid; border-radius: 16px; vertical-align: text-bottom; margin: 0; margin-right: var(--xs); box-sizing: content-box; appearance: none;}
 .convert-to-webp__form .convert-to-webp__input--toggle::before {content: ''; position: absolute; top: 50%; left: 2px; background: var(--primary-color); width: var(--s); height: var(--s); margin: 0; border: 1px solid; border-radius: 50%; box-sizing: border-box; transform: translate(0, -50%); transition:cubic-bezier(.6, -0.28, .735, .045) .2s;}
 .convert-to-webp__form .convert-to-webp__input--toggle:checked::before {content: ''; left: var(--m); width: var(--s); height: var(--s); margin: 0;}
-.convert-to-webp__form .convert-to-webp__input--toggle ~ .convert-to-webp__label {opacity: .66;}
+.convert-to-webp__form .convert-to-webp__label {margin: 0;}
+.convert-to-webp__form .convert-to-webp__input--toggle ~ .convert-to-webp__label {opacity: .5;}
 .convert-to-webp__form .convert-to-webp__input--toggle:checked ~ .convert-to-webp__label {opacity: 1;}
 .convert-to-webp__form .convert-to-webp__row .convert-to-webp__description {background: #eee; font-size: var(--s); margin-top: 0; padding: var(--xs) var(--s); border-radius: var(--xxs);}
 .convert-to-webp__form .convert-to-webp__inputs ~ .convert-to-webp__description {margin-top: var(--s);}
+.convert-to-webp__form .convert-to-webp__row .convert-to-webp__description code {font-size: var(--s); border-radius: var(--xxs);}
 .convert-to-webp__form .convert-to-webp__submit {margin-top: var(--m);}
 .convert-to-webp__form .convert-to-webp__submit.convert-to-webp__submit--secondary {margin-top: 0;}
 .convert-to-webp__form .convert-to-webp__submit .convert-to-webp__button--danger {color: var(--error); border-color: var(--error);}

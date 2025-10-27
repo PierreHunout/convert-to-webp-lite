@@ -3,44 +3,28 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Convert to WebP 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-convert-to-"
-"webp\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-convert-to-webp\n"
+"POT-Creation-Date: 2025-10-27T00:45:30+00:00\n"
+"PO-Revision-Date: 2025-10-27 16:47+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-27T00:45:30+00:00\n"
-"PO-Revision-Date: 2025-10-27T00:45:30+00:00\n"
-"X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: wp-convert-to-webp\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.8\n"
+"X-Domain: wp-convert-to-webp\n"
 
 #. Plugin Name of the plugin
 #: wp-convert-to-webp.php
 msgid "Convert to WebP"
 msgstr "Convertir en WebP"
 
-#. Plugin URI of the plugin
-#: wp-convert-to-webp.php
-msgid "https://github.com/PierreHunout/wp-convert-to-webp"
-msgstr "https://github.com/PierreHunout/wp-convert-to-webp"
-
 #. Description of the plugin
 #: wp-convert-to-webp.php
-msgid "Convert images to WebP format for better performance."
-msgstr "Convertit les images au format WebP pour de meilleures performances."
-
-#. Author of the plugin
-#: wp-convert-to-webp.php
-msgid "Pierre Hunout"
-msgstr "Pierre Hunout"
-
-#. Author URI of the plugin
-#: wp-convert-to-webp.php
-msgid "https://pierrehunout.com/"
-msgstr "https://pierrehunout.com/"
+msgid "Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images."
+msgstr "Convertissez automatiquement les images au format WebP dès leur téléchargement dans WordPress. Améliorez les performances de votre site web grâce à des images optimisées."
 
 #: includes/Admin/BulkConvert.php:109 includes/Admin/BulkConvert.php:129
 msgid "Access denied."
@@ -80,7 +64,7 @@ msgstr "Qualité WebP"
 
 #: includes/Admin/Settings.php:163
 msgid "Higher means better quality but larger files."
-msgstr "Plus élevé signifie meilleure qualité mais fichiers plus volumineux."
+msgstr "Plus élevé signifie une meilleure qualité mais des fichiers plus volumineux."
 
 #: includes/Admin/Settings.php:168
 msgid "Replace mode"
@@ -88,11 +72,11 @@ msgstr "Mode de remplacement"
 
 #: includes/Admin/Settings.php:171
 msgid ""
-"Enable replacement of <strong>&#60;img&#62;</strong> tags with "
-"<strong>&#60;picture&#62;</strong> tags."
+"Enable replacement of <strong>&#60;img&#62;</strong> tags with <strong>&#60;picture&#62;</strong> "
+"tags."
 msgstr ""
-"Activer le remplacement des balises <strong>&#60;img&#62;</strong> par des "
-"balises <strong>&#60;picture&#62;</strong>."
+"Activer le remplacement des balises <strong>&#60;img&#62;</strong> par des balises "
+"<strong>&#60;picture&#62;</strong>."
 
 #: includes/Admin/Settings.php:178
 msgid "Use <strong>&#60;picture&#62;</strong> tags"
@@ -100,37 +84,34 @@ msgstr "Utiliser les balises <strong>&#60;picture&#62;</strong>"
 
 #: includes/Admin/Settings.php:184
 msgid ""
-"If enabled, all images will be replaced by their WebP versions inside the "
-"<strong>&#60;picture&#62;</strong> tags. Otherwise, the original "
-"<strong>&#60;img&#62;</strong> tags will be used."
+"If enabled, all images will be replaced by their WebP versions inside the <strong>&#60;picture&#62;"
+"</strong> tags. Otherwise, the original <strong>&#60;img&#62;</strong> tags will be used."
 msgstr ""
-"Si activé, toutes les images seront remplacées par leurs versions WebP dans les "
-"balises <strong>&#60;picture&#62;</strong>. Sinon, les balises "
-"<strong>&#60;img&#62;</strong> originales seront utilisées."
+"Si activé, toutes les images seront remplacées par leurs versions WebP dans les balises "
+"<strong>&#60;picture&#62;</strong>. Sinon, les balises <strong>&#60;img&#62;</strong> originales "
+"seront utilisées."
 
 #: includes/Admin/Settings.php:190
 msgid "Debug mode"
 msgstr "Mode débogage"
 
 #: includes/Admin/Settings.php:193
-msgid ""
-"Enable debug mode to log additional information during the conversion/"
-"deletion process."
+msgid "Enable debug mode to log additional information during the conversion/deletion process."
 msgstr ""
-"Activer le mode débogage pour enregistrer des informations supplémentaires pendant "
-"le processus de conversion/suppression."
+"Activer le mode débogage pour logger des informations supplémentaires pendant le processus de "
+"conversion/suppression."
 
 #: includes/Admin/Settings.php:200
 msgid "Enable debug logging"
-msgstr "Activer la journalisation du débogage"
+msgstr "Activer les logs de débogage"
 
 #: includes/Admin/Settings.php:206
 msgid ""
-" Logs can be viewed in the <code>convert-to-webp-logs</code> folder, in your "
-"<code>wp-content</code> folder."
+" Logs can be viewed in the <code>convert-to-webp-logs</code> folder, in your <code>wp-content</"
+"code> folder."
 msgstr ""
-" Les journaux peuvent être consultés dans le dossier <code>convert-to-webp-logs</code>, "
-"dans votre dossier <code>wp-content</code>."
+" Les logs peuvent être consultés dans le dossier <code>convert-to-webp-logs</code>, dans votre "
+"dossier <code>wp-content</code>."
 
 #: includes/Admin/Settings.php:214
 msgid "Clean data on <strong>deactivate</strong>"
@@ -154,11 +135,11 @@ msgstr "Convertir les anciennes images"
 
 #: includes/Admin/Settings.php:247
 msgid ""
-"This will convert all existing images in your media library to WebP format. "
-"New images will be converted automatically upon upload."
+"This will convert all existing images in your media library to WebP format. New images will be "
+"converted automatically upon upload."
 msgstr ""
-"Ceci convertira toutes les images existantes de votre bibliothèque de médias au format WebP. "
-"Les nouvelles images seront automatiquement converties lors du téléchargement."
+"Ceci convertira toutes les images existantes de votre bibliothèque de médias au format WebP. Les "
+"nouvelles images seront automatiquement converties lors du téléchargement."
 
 #: includes/Admin/Settings.php:251
 msgid "Convert previously uploaded images"
@@ -200,8 +181,8 @@ msgstr "ID de pièce jointe fourni invalide."
 msgid "Invalid metadata provided."
 msgstr "Métadonnées fournies invalides."
 
-#: includes/Utils/Cleaner.php:132 includes/Utils/Cleaner.php:254
-#: includes/Utils/Converter.php:127 includes/Utils/Converter.php:258
+#: includes/Utils/Cleaner.php:132 includes/Utils/Cleaner.php:254 includes/Utils/Converter.php:127
+#: includes/Utils/Converter.php:258
 msgid "Failed to initialize WordPress filesystem."
 msgstr "Échec de l'initialisation du système de fichiers WordPress."
 
@@ -232,9 +213,7 @@ msgstr "[WP Convert to WebP] Erreur d'exécution dans la préparation de suppres
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Cleaner.php:202
 #, php-format
-msgid ""
-"[WP Convert to WebP] Unexpected error preparing deletion: %1$s in %2$s on "
-"line %3$d"
+msgid "[WP Convert to WebP] Unexpected error preparing deletion: %1$s in %2$s on line %3$d"
 msgstr ""
 "[WP Convert to WebP] Erreur inattendue lors de la préparation de suppression : %1$s dans %2$s à la "
 "ligne %3$d"
@@ -262,8 +241,8 @@ msgid "File is already a WebP file, nothing to delete: %s"
 msgstr "Le fichier est déjà un fichier WebP, rien à supprimer : %s"
 
 #. translators: %s is the MIME type of the unsupported file
-#: includes/Utils/Cleaner.php:283 includes/Utils/Converter.php:144
-#: includes/Utils/Converter.php:288 includes/Utils/Converter.php:320
+#: includes/Utils/Cleaner.php:283 includes/Utils/Converter.php:144 includes/Utils/Converter.php:288
+#: includes/Utils/Converter.php:320
 #, php-format
 msgid "Unsupported file type: %s"
 msgstr "Type de fichier non pris en charge : %s"
@@ -307,9 +286,7 @@ msgstr "[WP Convert to WebP] Erreur d'exécution dans la suppression WebP : %s"
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Cleaner.php:341
 #, php-format
-msgid ""
-"[WP Convert to WebP] Unexpected error deleting WebP file: %1$s in %2$s on "
-"line %3$d"
+msgid "[WP Convert to WebP] Unexpected error deleting WebP file: %1$s in %2$s on line %3$d"
 msgstr ""
 "[WP Convert to WebP] Erreur inattendue lors de la suppression du fichier WebP : %1$s dans %2$s à la "
 "ligne %3$d"
@@ -330,9 +307,7 @@ msgstr "[WP Convert to WebP] Erreur d'exécution dans la préparation de convers
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Converter.php:202
 #, php-format
-msgid ""
-"[WP Convert to WebP] Unexpected error preparing conversion: %1$s in %2$s on "
-"line %3$d"
+msgid "[WP Convert to WebP] Unexpected error preparing conversion: %1$s in %2$s on line %3$d"
 msgstr ""
 "[WP Convert to WebP] Erreur inattendue lors de la préparation de conversion : %1$s dans %2$s à la "
 "ligne %3$d"
@@ -382,9 +357,7 @@ msgstr "[WP Convert to WebP] Erreur d'exécution dans la conversion du fichier :
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Converter.php:375
 #, php-format
-msgid ""
-"[WP Convert to WebP] Unexpected error converting file: %1$s in %2$s on line "
-"%3$d"
+msgid "[WP Convert to WebP] Unexpected error converting file: %1$s in %2$s on line %3$d"
 msgstr ""
 "[WP Convert to WebP] Erreur inattendue lors de la conversion du fichier : %1$s dans %2$s à la ligne "
 "%3$d"
@@ -408,5 +381,9 @@ msgstr "[WP Convert to WebP] Erreur lors de l'exécution de %1$s : %2$s dans %3$
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: wp-convert-to-webp.php:265
 #, php-format
-msgid "[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d"
-msgstr "[WP Convert to WebP] Erreur dans run_files() : %1$s dans %2$s à la ligne %3$d"
+msgid "[WP Convert to WebP] Error in autoload(): %1$s in %2$s on line %3$d"
+msgstr "[WP Convert to WebP] Erreur de la fonction autoload() : %1$s dans %2$s à la ligne %3$d"
+
+#: wp-convert-to-webp.php:303
+msgid "Settings"
+msgstr "Paramètres"

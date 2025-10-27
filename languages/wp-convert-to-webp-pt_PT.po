@@ -22,25 +22,10 @@ msgstr ""
 msgid "Convert to WebP"
 msgstr "Converter para WebP"
 
-#. Plugin URI of the plugin
-#: wp-convert-to-webp.php
-msgid "https://github.com/PierreHunout/wp-convert-to-webp"
-msgstr "https://github.com/PierreHunout/wp-convert-to-webp"
-
 #. Description of the plugin
 #: wp-convert-to-webp.php
-msgid "Convert images to WebP format for better performance."
-msgstr "Converte imagens para o formato WebP para melhor desempenho."
-
-#. Author of the plugin
-#: wp-convert-to-webp.php
-msgid "Pierre Hunout"
-msgstr "Pierre Hunout"
-
-#. Author URI of the plugin
-#: wp-convert-to-webp.php
-msgid "https://pierrehunout.com/"
-msgstr "https://pierrehunout.com/"
+msgid "Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images."
+msgstr "Converta automaticamente as imagens para o formato WebP após o upload no WordPress. Melhore o desempenho do seu website com imagens otimizadas."
 
 #: includes/Admin/BulkConvert.php:109 includes/Admin/BulkConvert.php:129
 msgid "Access denied."
@@ -397,7 +382,7 @@ msgstr "A pasta em %s não existe"
 
 #: wp-convert-to-webp.php:158
 msgid "Unable to resolve includes directory path"
-msgstr "Não foi possível resolver o caminho do diretório includes"
+msgstr "Não foi possível resolver o caminho da pasta includes"
 
 #. translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
 #: wp-convert-to-webp.php:235 wp-convert-to-webp.php:251
@@ -408,5 +393,9 @@ msgstr "[WP Convert to WebP] Erro ao executar %1$s: %2$s em %3$s na linha %4$d"
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: wp-convert-to-webp.php:265
 #, php-format
-msgid "[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d"
-msgstr "[WP Convert to WebP] Erro em run_files(): %1$s em %2$s na linha %3$d"
+msgid "[WP Convert to WebP] Error in autoload(): %1$s in %2$s on line %3$d"
+msgstr "[WP Convert to WebP] Erro em autoload(): %1$s em %2$s na linha %3$d"
+
+#: wp-convert-to-webp.php:303
+msgid "Settings"
+msgstr "Configurações"

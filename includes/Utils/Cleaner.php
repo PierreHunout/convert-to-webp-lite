@@ -178,7 +178,7 @@ class Cleaner {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'cleaner-' . __FUNCTION__, $message );
 			}
 
 			// Add error message to results
@@ -191,7 +191,7 @@ class Cleaner {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'cleaner-' . __FUNCTION__, $message );
 			}
 
 			// Add error message to results
@@ -206,7 +206,7 @@ class Cleaner {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'cleaner-' . __FUNCTION__, $message );
 			}
 
 			// Add error message to results
@@ -317,7 +317,7 @@ class Cleaner {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'cleaner-' . __FUNCTION__, $message );
 			}
 
 			// Return error message
@@ -330,7 +330,7 @@ class Cleaner {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'cleaner-' . __FUNCTION__, $message );
 			}
 
 			// Return error message
@@ -345,7 +345,7 @@ class Cleaner {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'cleaner-' . __FUNCTION__, $message );
 			}
 
 			// Return error message

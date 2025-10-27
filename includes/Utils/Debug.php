@@ -91,10 +91,10 @@ class Debug {
 			$filesystem->put_contents( $path . 'index.php', $index, 0644 );
 		}
 
-		$file_path = (string) $path . sanitize_file_name( $file ) . '-' . time() . '.json';
-		$type      = (string) gettype( $data );
-		$date      = (object) new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-		$date      = (string) $date->format( 'Y-m-d H:i:sP' );
+		$name = (string) sanitize_file_name( strtolower( $file ) ) . '-' . time() . '.json';
+		$type = (string) gettype( $data );
+		$date = (object) new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date = (string) $date->format( 'Y-m-d H:i:sP' );
 
 		$log = [
 			'date' => $date,
@@ -106,7 +106,7 @@ class Debug {
 
 		if ( false !== $json_data ) {
 			// Attempt to write log file with error handling
-			$filesystem->put_contents( $file_path, PHP_EOL . $json_data, 0644 );
+			$filesystem->put_contents( $name, PHP_EOL . $json_data, 0644 );
 		}
 	}
 

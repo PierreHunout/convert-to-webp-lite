@@ -178,7 +178,7 @@ class Converter {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
 			// Add error message to results
@@ -191,7 +191,7 @@ class Converter {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
 			// Add error message to results
@@ -206,7 +206,7 @@ class Converter {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
 			// Add error message to results
@@ -315,11 +315,13 @@ class Converter {
 					$webp = imagecreatefromgif( $filepath );
 				imagepalettetotruecolor( $webp );
 				break;
-			default:
-				// translators: %s is the MIME type of the unsupported file
-				$message = (string) wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
-				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
-		}			// Get quality setting from plugin options
+				default:
+					// translators: %s is the MIME type of the unsupported file
+					$message = (string) wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
+					return Helpers::get_message( false, $message, $this->process, $size ?? '' );
+			}
+
+			// Get quality setting from plugin options
 			$quality = (int) get_option( 'convert_to_webp_quality', 85 );
 
 			// If image resource creation failed
@@ -351,7 +353,7 @@ class Converter {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
 			// Return error message
@@ -364,7 +366,7 @@ class Converter {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
 			// Return error message
@@ -379,7 +381,7 @@ class Converter {
 			);
 
 			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
-				Debug::log( __CLASS__, $message );
+				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
 			// Return error message

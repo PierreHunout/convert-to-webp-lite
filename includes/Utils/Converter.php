@@ -297,7 +297,7 @@ class Converter {
 				throw new RuntimeException( wp_kses( sprintf( __( 'WebP file already exists: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html ) );
 			}
 
-			$webp = null;
+			$webp = false;
 
 			// Create image resource based on file extension
 			switch ( strtolower( $pathinfo['extension'] ) ) {
@@ -307,14 +307,18 @@ class Converter {
 					break;
 				case 'png':
 					$webp = imagecreatefrompng( $filepath );
-					imagepalettetotruecolor( $webp );
-					imagealphablending( $webp, true );
-					imagesavealpha( $webp, true );
+					if ( false !== $webp ) {
+						imagepalettetotruecolor( $webp );
+						imagealphablending( $webp, true );
+						imagesavealpha( $webp, true );
+					}
 					break;
 				case 'gif':
 					$webp = imagecreatefromgif( $filepath );
-				imagepalettetotruecolor( $webp );
-				break;
+					if ( false !== $webp ) {
+						imagepalettetotruecolor( $webp );
+					}
+					break;
 				default:
 					// translators: %s is the MIME type of the unsupported file
 					$message = (string) wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
@@ -325,7 +329,7 @@ class Converter {
 			$quality = (int) get_option( 'convert_to_webp_quality', 85 );
 
 			// If image resource creation failed
-			if ( empty( $webp ) ) {
+			if ( false === $webp ) {
 				// translators: %s is the basename of the file for which image resource creation failed
 				$message = (string) wp_kses( sprintf( __( 'Failed to create image resource: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
 				return Helpers::get_message( false, $message, $this->process, $size ?? '' );

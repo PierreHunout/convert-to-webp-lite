@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-27T00:45:30+00:00\n"
+"POT-Creation-Date: 2025-10-27T16:35:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-convert-to-webp\n"
@@ -19,24 +19,9 @@ msgstr ""
 msgid "Convert to WebP"
 msgstr ""
 
-#. Plugin URI of the plugin
-#: wp-convert-to-webp.php
-msgid "https://github.com/PierreHunout/wp-convert-to-webp"
-msgstr ""
-
 #. Description of the plugin
 #: wp-convert-to-webp.php
-msgid "Convert images to WebP format for better performance."
-msgstr ""
-
-#. Author of the plugin
-#: wp-convert-to-webp.php
-msgid "Pierre Hunout"
-msgstr ""
-
-#. Author URI of the plugin
-#: wp-convert-to-webp.php
-msgid "https://pierrehunout.com/"
+msgid "Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images."
 msgstr ""
 
 #: includes/Admin/BulkConvert.php:109
@@ -363,24 +348,27 @@ msgid "[WP Convert to WebP] Unexpected error converting file: %1$s in %2$s on li
 msgstr ""
 
 #. translators: %s is the folder path that doesn't exist
-#: wp-convert-to-webp.php:151
+#: wp-convert-to-webp.php:154
 #, php-format
 msgid "The folder at %s does not exist"
 msgstr ""
 
-#: wp-convert-to-webp.php:158
+#: wp-convert-to-webp.php:161
 msgid "Unable to resolve includes directory path"
 msgstr ""
 
 #. translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-#: wp-convert-to-webp.php:235
-#: wp-convert-to-webp.php:251
+#: wp-convert-to-webp.php:238
 #, php-format
 msgid "[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d"
 msgstr ""
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: wp-convert-to-webp.php:265
+#: wp-convert-to-webp.php:256
 #, php-format
-msgid "[WP Convert to WebP] Error in run_files(): %1$s in %2$s on line %3$d"
+msgid "[WP Convert to WebP] Error in autoload(): %1$s in %2$s on line %3$d"
+msgstr ""
+
+#: wp-convert-to-webp.php:303
+msgid "Settings"
 msgstr ""

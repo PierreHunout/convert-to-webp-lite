@@ -1,10 +1,10 @@
-# WP Convert to WebP
+# Convert to WebP Lite
 
 A simple and efficient WordPress plugin to convert your images to the WebP format for better performance and reduced bandwidth.
 
 ## Screenshot
 
-![Plugin Screenshot](./assets/images/screenshot.png?raw=true "WP Convert to WebP Screenshot")
+![Plugin Screenshot](./assets/images/screenshot.png?raw=true "Convert to WebP Lite Screenshot")
 
 ## Features
 
@@ -26,7 +26,7 @@ This plugin uses Composer for dependency management and provides several useful 
 
 ```bash
 # Navigate to the plugin directory
-cd wp-content/plugins/wp-convert-to-webp
+cd wp-content/plugins/convert-to-webp-lite
 
 # Install dependencies
 composer install
@@ -110,7 +110,7 @@ composer run phpcs:report
 
 The plugin uses PSR-4 autoloading for better code organization:
 
-- Namespace: `WpConvertToWebp\`
+- Namespace: `ConvertToWebpLite\`
 - Classes are located in the `includes/` directory
 
 ## Usage

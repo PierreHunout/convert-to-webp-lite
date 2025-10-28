@@ -2,14 +2,14 @@
 /**
  * Handles actions for bulk deletion of WebP files.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Admin;
+namespace ConvertToWebpLite\Admin;
 
-use WpConvertToWebp\Utils\Helpers;
-use WpConvertToWebp\Utils\Cleaner;
+use ConvertToWebpLite\Utils\Helpers;
+use ConvertToWebpLite\Utils\Cleaner;
 use RuntimeException;
 
 /**
@@ -101,7 +101,7 @@ class BulkDelete {
 	 */
 	public static function delete_all_webp(): void {
 		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'delete_all_webp' ) ) {
-			wp_die( esc_html__( 'Not allowed', 'wp-convert-to-webp' ) );
+			wp_die( esc_html__( 'Not allowed', 'convert-to-webp-lite' ) );
 		}
 
 		$attachments = (array) Helpers::get_attachments();
@@ -110,9 +110,9 @@ class BulkDelete {
 			$redirect_url = (string) add_query_arg(
 				[
 					'no_files' => '1',
-					'_wpnonce' => wp_create_nonce( 'wp_convert_to_webp_notice' ),
+					'_wpnonce' => wp_create_nonce( 'convert_to_webp_lite_notice' ),
 				],
-				admin_url( 'admin.php?page=wp-convert-to-webp' )
+				admin_url( 'admin.php?page=convert-to-webp-lite' )
 			);
 			wp_safe_redirect( $redirect_url );
 			exit;
@@ -126,7 +126,7 @@ class BulkDelete {
 			$cleaner  = Cleaner::get_instance();
 			$result[] = (array) $cleaner->prepare( $attachment_id, $metadata );
 		}       // Store details for notice
-		set_transient( 'wp_convert_to_webp_deletion_data', $result, 60 );
+		set_transient( 'convert_to_webp_lite_deletion_data', $result, 60 );
 
 		// Clear the cache
 		wp_cache_flush();
@@ -138,9 +138,9 @@ class BulkDelete {
 		$redirect_url = (string) add_query_arg(
 			[
 				'deleted'  => '1',
-				'_wpnonce' => wp_create_nonce( 'wp_convert_to_webp_notice' ),
+				'_wpnonce' => wp_create_nonce( 'convert_to_webp_lite_notice' ),
 			],
-			admin_url( 'admin.php?page=wp-convert-to-webp' )
+			admin_url( 'admin.php?page=convert-to-webp-lite' )
 		);
 
 		wp_safe_redirect( $redirect_url );

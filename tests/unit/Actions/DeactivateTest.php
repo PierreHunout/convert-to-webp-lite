@@ -2,13 +2,13 @@
 /**
  * Tests for Deactivate class
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
-namespace WpConvertToWebp\Tests\Unit\Actions;
+namespace ConvertToWebpLite\Tests\Unit\Actions;
 
-use WpConvertToWebp\Tests\TestCase;
-use WpConvertToWebp\Actions\Deactivate;
+use ConvertToWebpLite\Tests\TestCase;
+use ConvertToWebpLite\Actions\Deactivate;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -39,7 +39,7 @@ class DeactivateTest extends TestCase {
 	 * direct instantiation of the Deactivate class.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::__construct
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -53,7 +53,7 @@ class DeactivateTest extends TestCase {
 	 * of the Deactivate class instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::__clone
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -67,7 +67,7 @@ class DeactivateTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::__wakeup
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -86,7 +86,7 @@ class DeactivateTest extends TestCase {
 	 * is publicly accessible, and is declared as static.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_method_exists(): void {
@@ -108,7 +108,7 @@ class DeactivateTest extends TestCase {
 	 * the deactivate() method returns early without processing.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_returns_early_when_delete_option_false(): void {
@@ -130,7 +130,7 @@ class DeactivateTest extends TestCase {
 	 * the cleanup process is triggered without errors.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_option_enabled_triggers_cleanup(): void {
@@ -153,24 +153,24 @@ class DeactivateTest extends TestCase {
 	 * Test that delete_option is called for plugin options.
 	 *
 	 * Verifies that deactivate() deletes the correct plugin options:
-	 * delete_webp_on_deactivate, convert_to_webp_quality, and convert_to_webp_replace_mode.
+	 * delete_webp_on_deactivate, convert_to_webp_lite_quality, and convert_to_webp_lite_replace_mode.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_deletes_correct_options(): void {
 		// Test the list of options that should be deleted
 		$expected_options = [
 			'delete_webp_on_deactivate',
-			'convert_to_webp_quality',
-			'convert_to_webp_replace_mode',
+			'convert_to_webp_lite_quality',
+			'convert_to_webp_lite_replace_mode',
 		];
 
 		$this->assertCount( 3, $expected_options );
 		$this->assertContains( 'delete_webp_on_deactivate', $expected_options );
-		$this->assertContains( 'convert_to_webp_quality', $expected_options );
-		$this->assertContains( 'convert_to_webp_replace_mode', $expected_options );
+		$this->assertContains( 'convert_to_webp_lite_quality', $expected_options );
+		$this->assertContains( 'convert_to_webp_lite_replace_mode', $expected_options );
 	}
 
 	/**
@@ -180,7 +180,7 @@ class DeactivateTest extends TestCase {
 	 * values to empty arrays before processing.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_converts_false_metadata_to_array(): void {
@@ -202,7 +202,7 @@ class DeactivateTest extends TestCase {
 	 * indicating it performs an action without returning a value.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_returns_void(): void {
@@ -221,7 +221,7 @@ class DeactivateTest extends TestCase {
 	 * designed to be called directly without arguments.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Deactivate::deactivate
+	 * @covers \ConvertToWebpLite\Actions\Deactivate::deactivate
 	 * @return void
 	 */
 	public function test_deactivate_method_signature(): void {

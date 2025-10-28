@@ -4,11 +4,11 @@
  *
  * This class provides utility functions for handling WebP files in WordPress.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Utils;
+namespace ConvertToWebpLite\Utils;
 
 use WP_Filesystem_Base;
 use RuntimeException;
@@ -277,10 +277,10 @@ class Helpers {
 		}
 
 		// Create cache key based on URL
-		$cache_key = (string) 'wp_convert_to_webp_attachment_id_' . md5( $url );
+		$cache_key = (string) 'convert_to_webp_lite_attachment_id_' . md5( $url );
 
 		// Try to get from cache first
-		$result = wp_cache_get( $cache_key, 'wp_convert_to_webp' );
+		$result = wp_cache_get( $cache_key, 'convert_to_webp_lite' );
 
 		if ( $result !== false ) {
 			return $result;
@@ -291,7 +291,7 @@ class Helpers {
 
 		if ( $attachment_id ) {
 			// Cache the result for 1 hour (3600 seconds)
-			wp_cache_set( $cache_key, $attachment_id, 'wp_convert_to_webp', 3600 );
+			wp_cache_set( $cache_key, $attachment_id, 'convert_to_webp_lite', 3600 );
 			return $attachment_id;
 		}
 
@@ -299,10 +299,10 @@ class Helpers {
 		$file = (string) basename( $url );
 
 		// Create cache key for file-based lookup
-		$file_cache_key = (string) 'wp_convert_to_webp_file_lookup_' . md5( $file );
+		$file_cache_key = (string) 'convert_to_webp_lite_file_lookup_' . md5( $file );
 
 		// Try to get file lookup from cache
-		$data = wp_cache_get( $file_cache_key, 'wp_convert_to_webp' );
+		$data = wp_cache_get( $file_cache_key, 'convert_to_webp_lite' );
 
 		if ( $data === false ) {
 			global $wpdb;
@@ -312,7 +312,7 @@ class Helpers {
 			$data = (array) $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s", '%' . $wpdb->esc_like( $file ) . '%' ) );
 
 			// Cache the database result for 1 hour
-			wp_cache_set( $file_cache_key, $data, 'wp_convert_to_webp', 3600 );
+			wp_cache_set( $file_cache_key, $data, 'convert_to_webp_lite', 3600 );
 		}
 
 		// Ensure $data is an array.
@@ -330,14 +330,14 @@ class Helpers {
 			foreach ( $metadata['sizes'] as $size ) {
 				if ( isset( $size['file'] ) && $size['file'] === $file ) {
 					// Cache the positive result for 1 hour
-					wp_cache_set( $cache_key, $post_id, 'wp_convert_to_webp', 3600 );
+					wp_cache_set( $cache_key, $post_id, 'convert_to_webp_lite', 3600 );
 					return $post_id;
 				}
 			}
 		}
 
 		// Cache the negative result for 30 minutes (to avoid repeated failed lookups)
-		wp_cache_set( $cache_key, false, 'wp_convert_to_webp', 1800 );
+		wp_cache_set( $cache_key, false, 'convert_to_webp_lite', 1800 );
 		return false;
 	}
 
@@ -354,16 +354,16 @@ class Helpers {
 	public static function clear_attachment_cache( ?string $url = null ): void {
 		if ( $url !== null ) {
 			// Clear specific URL cache
-			$cache_key = (string) 'wp_convert_to_webp_attachment_id_' . md5( $url );
-			wp_cache_delete( $cache_key, 'wp_convert_to_webp' );
+			$cache_key = (string) 'convert_to_webp_lite_attachment_id_' . md5( $url );
+			wp_cache_delete( $cache_key, 'convert_to_webp_lite' );
 
 			// Also clear file-based cache
 			$file           = (string) basename( $url );
-			$file_cache_key = (string) 'wp_convert_to_webp_file_lookup_' . md5( $file );
-			wp_cache_delete( $file_cache_key, 'wp_convert_to_webp' );
+			$file_cache_key = (string) 'convert_to_webp_lite_file_lookup_' . md5( $file );
+			wp_cache_delete( $file_cache_key, 'convert_to_webp_lite' );
 		} else {
 			// Clear all attachment cache for this plugin
-			wp_cache_flush_group( 'wp_convert_to_webp' );
+			wp_cache_flush_group( 'convert_to_webp_lite' );
 		}
 	}
 

@@ -2,13 +2,13 @@
 /**
  * Tests for browser WebP support detection
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
-namespace WpConvertToWebp\Tests\Unit\Utils;
+namespace ConvertToWebpLite\Tests\Unit\Utils;
 
-use WpConvertToWebp\Utils\Helpers;
-use WpConvertToWebp\Tests\TestCase;
+use ConvertToWebpLite\Utils\Helpers;
+use ConvertToWebpLite\Tests\TestCase;
 use Brain\Monkey\Functions as BrainMonkey;
 
 /**
@@ -59,7 +59,7 @@ class BrowserSupportTest extends TestCase {
 	 * contains 'image/webp', regardless of user agent.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_with_webp_accept_header(): void {
@@ -77,7 +77,7 @@ class BrowserSupportTest extends TestCase {
 	 * Internet Explorer, as IE does not support WebP format.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_ie(): void {
@@ -96,7 +96,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is well above the minimum version 32 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_chrome_90(): void {
@@ -115,7 +115,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is below the minimum version 32 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_chrome_31(): void {
@@ -134,7 +134,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is well above the minimum version 65 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_firefox_85(): void {
@@ -153,7 +153,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is below the minimum version 65 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_firefox_64(): void {
@@ -172,7 +172,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is well above the minimum version 18 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_edge_90(): void {
@@ -191,7 +191,7 @@ class BrowserSupportTest extends TestCase {
 	 * which meets the minimum version 16 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_safari_16(): void {
@@ -210,7 +210,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is below the minimum version 16 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_safari_15(): void {
@@ -229,7 +229,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is well above the minimum version 19 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_opera_75(): void {
@@ -248,7 +248,7 @@ class BrowserSupportTest extends TestCase {
 	 * which meets the minimum version 5 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_android_5(): void {
@@ -267,7 +267,7 @@ class BrowserSupportTest extends TestCase {
 	 * which is well above the minimum version 4 required for WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_true_for_samsung_browser(): void {
@@ -286,7 +286,7 @@ class BrowserSupportTest extends TestCase {
 	 * is not recognized as a supported browser.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_false_for_unknown_browser(): void {
@@ -305,7 +305,7 @@ class BrowserSupportTest extends TestCase {
 	 * but its version number cannot be determined from the user agent.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_returns_false_when_version_unknown(): void {
@@ -324,7 +324,7 @@ class BrowserSupportTest extends TestCase {
 	 * nor HTTP_USER_AGENT headers are present in the request.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::browser_support
+	 * @covers \ConvertToWebpLite\Utils\Helpers::browser_support
 	 * @return void
 	 */
 	public function test_browser_support_with_no_headers(): void {
@@ -340,7 +340,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from a Chrome user agent string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_chrome(): void {
@@ -359,7 +359,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from a Firefox user agent string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_firefox(): void {
@@ -378,7 +378,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from an Edge user agent string containing "Edge".
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_edge(): void {
@@ -397,7 +397,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from a Safari user agent string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_safari(): void {
@@ -416,7 +416,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from an Opera user agent string containing "OPR".
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_opera(): void {
@@ -435,7 +435,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from an Internet Explorer user agent string containing "Trident".
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_ie_trident(): void {
@@ -454,7 +454,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from an Internet Explorer user agent string containing "MSIE".
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_ie_msie(): void {
@@ -473,7 +473,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from a Samsung Internet user agent string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_samsung_browser(): void {
@@ -492,7 +492,7 @@ class BrowserSupportTest extends TestCase {
 	 * version number from an Android browser user agent string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_detects_android_browser(): void {
@@ -511,7 +511,7 @@ class BrowserSupportTest extends TestCase {
 	 * version when the user agent string does not match any known browser pattern.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_returns_unknown_for_unrecognized(): void {
@@ -530,7 +530,7 @@ class BrowserSupportTest extends TestCase {
 	 * version when the HTTP_USER_AGENT header is not set.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_returns_unknown_when_no_user_agent(): void {
@@ -547,7 +547,7 @@ class BrowserSupportTest extends TestCase {
 	 * appear in the user agent string, following browser detection best practices.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_prioritizes_chrome_over_safari(): void {
@@ -566,7 +566,7 @@ class BrowserSupportTest extends TestCase {
 	 * version when the HTTP_USER_AGENT header is set but contains an empty string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_browser
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_browser
 	 * @return void
 	 */
 	public function test_get_browser_with_empty_user_agent(): void {

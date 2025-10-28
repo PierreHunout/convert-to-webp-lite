@@ -4,20 +4,20 @@
  *
  * Tests automatic WebP conversion on image upload.
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Tests\Integration\Actions;
+namespace ConvertToWebpLite\Tests\Integration\Actions;
 
-use WpConvertToWebp\Tests\IntegrationTestCase;
-use WpConvertToWebp\Actions\Add;
+use ConvertToWebpLite\Tests\IntegrationTestCase;
+use ConvertToWebpLite\Actions\Add;
 
 /**
  * Class AddTest
  *
  * @since 1.0.0
- * @covers \WpConvertToWebp\Actions\Add
+ * @covers \ConvertToWebpLite\Actions\Add
  */
 class AddTest extends IntegrationTestCase {
 
@@ -152,7 +152,7 @@ class AddTest extends IntegrationTestCase {
 	 */
 	public function test_respects_quality_setting(): void {
 		// Set high quality
-		update_option( 'convert_to_webp_quality', 95 );
+		update_option( 'convert_to_webp_lite_quality', 95 );
 
 		$attachment_id_high = $this->create_test_attachment( 'test-quality-high.jpg' );
 		$file_high          = get_attached_file( $attachment_id_high );
@@ -168,7 +168,7 @@ class AddTest extends IntegrationTestCase {
 		}
 
 		// Set low quality
-		update_option( 'convert_to_webp_quality', 50 );
+		update_option( 'convert_to_webp_lite_quality', 50 );
 
 		$attachment_id_low = $this->create_test_attachment( 'test-quality-low.jpg' );
 		$file_low          = get_attached_file( $attachment_id_low );

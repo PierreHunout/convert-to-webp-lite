@@ -2,13 +2,13 @@
 /**
  * Handles replacement of <img> tags in WordPress content with <picture> elements including WebP sources.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Actions;
+namespace ConvertToWebpLite\Actions;
 
-use WpConvertToWebp\Utils\Replacer;
+use ConvertToWebpLite\Utils\Replacer;
 use RuntimeException;
 
 /**

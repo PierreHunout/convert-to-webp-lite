@@ -1,6 +1,6 @@
 {
-    "name": "pierrehunoutplugins/wpconverttowebp",
-    "description": "A WordPress plugin to convert images to WebP format.",
+    "name": "hunoutpierre/converttowebplite",
+    "description": "Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images.",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
     "version": "1.0.0",
@@ -72,7 +72,7 @@
         ]
     },
     "extra": {
-        "installer-name": "wp-convert-to-webp",
+        "installer-name": "convert-to-webp-lite",
         "installer-paths": {
             "wp-content/plugins/{$name}/": [
                 "type:wordpress-plugin"
@@ -81,12 +81,12 @@
     },
     "autoload": {
         "psr-4": {
-            "WpConvertToWebp\\": "includes/"
+            "ConvertToWebpLite\\": "includes/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "WpConvertToWebp\\Tests\\": "tests/"
+            "ConvertToWebpLite\\Tests\\": "tests/"
         }
     }
 }

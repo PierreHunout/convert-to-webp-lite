@@ -2,14 +2,14 @@
 /**
  * Handles the logic for replacing <img> tags with WebP versions in WordPress content.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Utils;
+namespace ConvertToWebpLite\Utils;
 
-use WpConvertToWebp\Modes\Picture;
-use WpConvertToWebp\Modes\Image;
+use ConvertToWebpLite\Modes\Picture;
+use ConvertToWebpLite\Modes\Image;
 use RuntimeException;
 
 /**
@@ -92,7 +92,7 @@ class Replacer {
 	public static function prepare( array $matches ): string {
 		$image        = (string) $matches[0];
 		$src          = (string) $matches[1];
-		$replace_mode = (bool) get_option( 'convert_to_webp_replace_mode', false );
+		$replace_mode = (bool) get_option( 'convert_to_webp_lite_replace_mode', false );
 
 		if ( empty( $replace_mode ) ) {
 			$support = (array) Helpers::browser_support();
@@ -160,7 +160,7 @@ class Replacer {
 	 * @return string The modified <img> HTML with WebP sources or <picture> element.
 	 */
 	private static function replace( mixed $image ): string {
-		$replace_mode = (bool) get_option( 'convert_to_webp_replace_mode', false );
+		$replace_mode = (bool) get_option( 'convert_to_webp_lite_replace_mode', false );
 
 		if ( $replace_mode ) {
 			// Picture mode (option enabled): create picture element

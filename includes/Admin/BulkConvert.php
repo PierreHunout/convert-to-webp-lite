@@ -2,14 +2,14 @@
 /**
  * Handles AJAX actions for the bulk conversion WebP process and progress bar.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Admin;
+namespace ConvertToWebpLite\Admin;
 
-use WpConvertToWebp\Utils\Helpers;
-use WpConvertToWebp\Utils\Converter;
+use ConvertToWebpLite\Utils\Helpers;
+use ConvertToWebpLite\Utils\Converter;
 use RuntimeException;
 
 /**
@@ -106,10 +106,10 @@ class BulkConvert {
 	public static function get_attachments(): void {
 		// Verify user capabilities
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'wp-convert-to-webp' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'convert-to-webp-lite' ) ] );
 		}
 
-		check_ajax_referer( 'convert_to_webp_ajax' );
+		check_ajax_referer( 'convert_to_webp_lite_ajax' );
 		$attachments = (array) Helpers::get_attachments();
 		wp_send_json_success( [ 'attachments' => $attachments ] );
 	}
@@ -126,20 +126,20 @@ class BulkConvert {
 	public static function convert(): void {
 		// Verify user capabilities
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'wp-convert-to-webp' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'convert-to-webp-lite' ) ] );
 		}
 
-		check_ajax_referer( 'convert_to_webp_ajax' );
+		check_ajax_referer( 'convert_to_webp_lite_ajax' );
 
 		// Validate and sanitize the attachment ID
 		if ( ! isset( $_POST['attachment_id'] ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'wp-convert-to-webp' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'convert-to-webp-lite' ) ] );
 		}
 
 		$attachment_id = intval( sanitize_text_field( wp_unslash( $_POST['attachment_id'] ) ) );
 
 		if ( $attachment_id <= 0 ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'wp-convert-to-webp' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'convert-to-webp-lite' ) ] );
 		}
 
 		$metadata = wp_get_attachment_metadata( $attachment_id );
@@ -153,7 +153,7 @@ class BulkConvert {
 		$result    = (array) $converter->prepare( $attachment_id, $metadata );
 
 		// Get message and classes from converter result for frontend display
-		$message = (string) ( isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'wp-convert-to-webp' ) );
+		$message = (string) ( isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'convert-to-webp-lite' ) );
 		$classes = (array) ( isset( $result[0]['classes'] ) ? $result[0]['classes'] : [] );
 
 		wp_send_json_success(

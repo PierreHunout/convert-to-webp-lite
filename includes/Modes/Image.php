@@ -2,13 +2,13 @@
 /**
  * Handles the logic for replacing <img> tags with WebP versions in WordPress content.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Modes;
+namespace ConvertToWebpLite\Modes;
 
-use WpConvertToWebp\Utils\Helpers;
+use ConvertToWebpLite\Utils\Helpers;
 use RuntimeException;
 
 /**

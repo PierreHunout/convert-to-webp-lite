@@ -4,11 +4,11 @@
  *
  * This class handles the conversion of image files to WebP format.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Utils;
+namespace ConvertToWebpLite\Utils;
 
 use InvalidArgumentException;
 use RuntimeException;
@@ -112,19 +112,19 @@ class Converter {
 		try {
 			// Validate the attachment ID and metadata
 			if ( ! is_int( $attachment_id ) || $attachment_id <= 0 ) {
-				throw new InvalidArgumentException( __( 'Invalid attachment ID provided.', 'wp-convert-to-webp' ) );
+				throw new InvalidArgumentException( __( 'Invalid attachment ID provided.', 'convert-to-webp-lite' ) );
 			}
 
 			// Check if metadata is an array and not empty
 			if ( ! is_array( $metadata ) || empty( $metadata ) ) {
-				throw new InvalidArgumentException( __( 'Invalid metadata provided.', 'wp-convert-to-webp' ) );
+				throw new InvalidArgumentException( __( 'Invalid metadata provided.', 'convert-to-webp-lite' ) );
 			}
 
 			// Initialize filesystem
 			$filesystem = Helpers::get_filesystem();
 
 			if ( false === $filesystem ) {
-				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
+				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'convert-to-webp-lite' ) );
 			}
 
 			// Get the main file path for the attachment
@@ -133,7 +133,7 @@ class Converter {
 			// Check if the file exists
 			if ( empty( $file ) || ! $filesystem->exists( $file ) ) {
 				// translators: %s is the attachment ID of the file that doesn't exist
-				throw new RuntimeException( wp_kses( sprintf( __( 'File does not exist for attachment ID: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $attachment_id ) . '</span>' ), $allowed_html ) );
+				throw new RuntimeException( wp_kses( sprintf( __( 'File does not exist for attachment ID: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $attachment_id ) . '</span>' ), $allowed_html ) );
 			}
 
 			// Check supported mime types
@@ -141,7 +141,7 @@ class Converter {
 
 			if ( ! in_array( $mime_type, [ 'image/jpeg', 'image/png', 'image/gif' ], true ) ) {
 				// translators: %s is the MIME type of the unsupported file
-				throw new RuntimeException( wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $mime_type ) . '</span>' ), $allowed_html ) );
+				throw new RuntimeException( wp_kses( sprintf( __( 'Unsupported file type: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $mime_type ) . '</span>' ), $allowed_html ) );
 			}
 
 			// Convert the main file
@@ -173,11 +173,11 @@ class Converter {
 		} catch ( InvalidArgumentException $error ) {
 			$message = (string) sprintf(
 				// translators: %s is the error message
-				__( '[WP Convert to WebP] Invalid argument in conversion preparation: %s', 'wp-convert-to-webp' ),
+				__( '[Convert to WebP Lite] Invalid argument in conversion preparation: %s', 'convert-to-webp-lite' ),
 				$error->getMessage()
 			);
 
-			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+			if ( (bool) get_option( 'convert_to_webp_lite_debug_mode', true ) ) {
 				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
@@ -186,11 +186,11 @@ class Converter {
 		} catch ( RuntimeException $error ) {
 			$message = (string) sprintf(
 				// translators: %s is the error message
-				__( '[WP Convert to WebP] Runtime error in conversion preparation: %s', 'wp-convert-to-webp' ),
+				__( '[Convert to WebP Lite] Runtime error in conversion preparation: %s', 'convert-to-webp-lite' ),
 				$error->getMessage()
 			);
 
-			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+			if ( (bool) get_option( 'convert_to_webp_lite_debug_mode', true ) ) {
 				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
@@ -199,13 +199,13 @@ class Converter {
 		} catch ( Throwable $error ) {
 			$message = (string) sprintf(
 				// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-				__( '[WP Convert to WebP] Unexpected error preparing conversion: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
+				__( '[Convert to WebP Lite] Unexpected error preparing conversion: %1$s in %2$s on line %3$d', 'convert-to-webp-lite' ),
 				$error->getMessage(),
 				basename( $error->getFile() ),
 				$error->getLine()
 			);
 
-			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+			if ( (bool) get_option( 'convert_to_webp_lite_debug_mode', true ) ) {
 				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
@@ -248,20 +248,20 @@ class Converter {
 		try {
 			// Validate the file path
 			if ( ! is_string( $filepath ) || empty( $filepath ) ) {
-				throw new InvalidArgumentException( __( 'Invalid file path provided.', 'wp-convert-to-webp' ) );
+				throw new InvalidArgumentException( __( 'Invalid file path provided.', 'convert-to-webp-lite' ) );
 			}
 
 			// Initialize filesystem
 			$filesystem = Helpers::get_filesystem();
 
 			if ( false === $filesystem ) {
-				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'wp-convert-to-webp' ) );
+				throw new RuntimeException( __( 'Failed to initialize WordPress filesystem.', 'convert-to-webp-lite' ) );
 			}
 
 			// Check if the file exists
 			if ( ! $filesystem->exists( $filepath ) ) {
 				// translators: %s is the file path that does not exist
-				throw new RuntimeException( wp_kses( sprintf( __( 'File does not exist: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $filepath ) . '</span>' ), $allowed_html ) );
+				throw new RuntimeException( wp_kses( sprintf( __( 'File does not exist: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $filepath ) . '</span>' ), $allowed_html ) );
 			}
 
 			$pathinfo = (array) pathinfo( $filepath );
@@ -269,7 +269,7 @@ class Converter {
 			// Ensure that the dirname and filename are not empty
 			if ( empty( $pathinfo['dirname'] ) || empty( $pathinfo['filename'] ) ) {
 				// translators: %s is the basename of the file for which path parsing failed
-				throw new RuntimeException( wp_kses( sprintf( __( 'Unable to parse file path: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html ) );
+				throw new RuntimeException( wp_kses( sprintf( __( 'Unable to parse file path: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html ) );
 			}
 
 			// Check if file is already a WebP
@@ -277,7 +277,7 @@ class Converter {
 
 			if ( $is_webp ) {
 				// translators: %s is the basename of the WebP file that already exists
-				throw new RuntimeException( wp_kses( sprintf( __( 'The original file is already a WebP file: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html ) );
+				throw new RuntimeException( wp_kses( sprintf( __( 'The original file is already a WebP file: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html ) );
 			}
 
 			// Check supported mime types
@@ -285,7 +285,7 @@ class Converter {
 
 			if ( ! in_array( $mime_type, [ 'image/jpeg', 'image/png', 'image/gif' ], true ) ) {
 				// translators: %s is the MIME type of the unsupported file
-				throw new RuntimeException( wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $mime_type ) . '</span>' ), $allowed_html ) );
+				throw new RuntimeException( wp_kses( sprintf( __( 'Unsupported file type: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $mime_type ) . '</span>' ), $allowed_html ) );
 			}
 
 			// Build the WebP file path
@@ -294,7 +294,7 @@ class Converter {
 			// If the WebP file already exists, do not convert again
 			if ( $filesystem->exists( $path ) ) {
 				// translators: %s is the WebP filename that already exists
-				throw new RuntimeException( wp_kses( sprintf( __( 'WebP file already exists: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html ) );
+				throw new RuntimeException( wp_kses( sprintf( __( 'WebP file already exists: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html ) );
 			}
 
 			$webp = false;
@@ -321,17 +321,17 @@ class Converter {
 					break;
 				default:
 					// translators: %s is the MIME type of the unsupported file
-					$message = (string) wp_kses( sprintf( __( 'Unsupported file type: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
+					$message = (string) wp_kses( sprintf( __( 'Unsupported file type: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
 					return Helpers::get_message( false, $message, $this->process, $size ?? '' );
 			}
 
 			// Get quality setting from plugin options
-			$quality = (int) get_option( 'convert_to_webp_quality', 85 );
+			$quality = (int) get_option( 'convert_to_webp_lite_quality', 85 );
 
 			// If image resource creation failed
 			if ( false === $webp ) {
 				// translators: %s is the basename of the file for which image resource creation failed
-				$message = (string) wp_kses( sprintf( __( 'Failed to create image resource: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
+				$message = (string) wp_kses( sprintf( __( 'Failed to create image resource: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
 				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
 			}
 
@@ -340,23 +340,23 @@ class Converter {
 				imagedestroy( $webp );
 
 				// translators: %s is the basename of the file that was successfully converted to WebP
-				$message = (string) wp_kses( sprintf( __( 'Successfully converted: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
+				$message = (string) wp_kses( sprintf( __( 'Successfully converted: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $pathinfo['basename'] ) . '</span>' ), $allowed_html );
 				return Helpers::get_message( true, $message, $this->process, $size ?? '' );
 			} else {
 				imagedestroy( $webp );
 
 				// translators: %s is the filename of the WebP file that couldn't be saved
-				$message = (string) wp_kses( sprintf( __( 'Failed to save WebP file: %s', 'wp-convert-to-webp' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html );
+				$message = (string) wp_kses( sprintf( __( 'Failed to save WebP file: %s', 'convert-to-webp-lite' ), '<span>' . esc_html( $pathinfo['filename'] ) . '.webp</span>' ), $allowed_html );
 				return Helpers::get_message( false, $message, $this->process, $size ?? '' );
 			}
 		} catch ( InvalidArgumentException $error ) {
 			$message = (string) sprintf(
 				// translators: %s is the error message
-				__( '[WP Convert to WebP] Invalid argument in file conversion: %s', 'wp-convert-to-webp' ),
+				__( '[Convert to WebP Lite] Invalid argument in file conversion: %s', 'convert-to-webp-lite' ),
 				$error->getMessage()
 			);
 
-			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+			if ( (bool) get_option( 'convert_to_webp_lite_debug_mode', true ) ) {
 				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
@@ -365,11 +365,11 @@ class Converter {
 		} catch ( RuntimeException $error ) {
 			$message = (string) sprintf(
 				// translators: %s is the error message
-				__( '[WP Convert to WebP] Runtime error in file conversion: %s', 'wp-convert-to-webp' ),
+				__( '[Convert to WebP Lite] Runtime error in file conversion: %s', 'convert-to-webp-lite' ),
 				$error->getMessage()
 			);
 
-			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+			if ( (bool) get_option( 'convert_to_webp_lite_debug_mode', true ) ) {
 				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 
@@ -378,13 +378,13 @@ class Converter {
 		} catch ( Throwable $error ) {
 			$message = (string) sprintf(
 				// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-				__( '[WP Convert to WebP] Unexpected error converting file: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
+				__( '[Convert to WebP Lite] Unexpected error converting file: %1$s in %2$s on line %3$d', 'convert-to-webp-lite' ),
 				$error->getMessage(),
 				basename( $error->getFile() ),
 				$error->getLine()
 			);
 
-			if ( (bool) get_option( 'convert_to_webp_debug_mode', true ) ) {
+			if ( (bool) get_option( 'convert_to_webp_lite_debug_mode', true ) ) {
 				Debug::log( 'converter-' . __FUNCTION__, $message );
 			}
 

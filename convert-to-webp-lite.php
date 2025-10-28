@@ -1,28 +1,28 @@
 <?php
 /**
- * Plugin Name:       Convert to WebP
- * Plugin Slug:       wp-convert-to-webp
- * Plugin URI:        https://github.com/PierreHunout/wp-convert-to-webp
+ * Plugin Name:       Convert to WebP Lite
+ * Plugin Slug:       convert-to-webp-lite
+ * Plugin URI:        https://github.com/PierreHunout/convert-to-webp-lite
  * Description:       Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images.
  * Version:           1.0.0
  * Author:            Pierre Hunout
  * Author URI:        https://github.com/PierreHunout
- * Text Domain:       wp-convert-to-webp
+ * Text Domain:       convert-to-webp-lite
  * Domain Path:      /languages
  * License:           GPL-3.0
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 5.0
  * Requires PHP:      7.4
- * GitHub Plugin URI:  PierreHunout/wp-convert-to-webp
+ * GitHub Plugin URI:  PierreHunout/convert-to-webp-lite
  * 
  * @since             1.0.0
- * @package           WPConvertToWebp
+ * @package           ConvertToWebpLite
  */
 
-namespace WpConvertToWebp;
+namespace ConvertToWebpLite;
 
-use WpConvertToWebp\Actions\Deactivate;
-use WpConvertToWebp\Actions\Uninstall;
+use ConvertToWebpLite\Actions\Deactivate;
+use ConvertToWebpLite\Actions\Uninstall;
 use RuntimeException;
 use Throwable;
 use ReflectionClass;
@@ -42,13 +42,13 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @since 1.0.0
  */
-define( 'WP_CONVERT_TO_WEBP_VERSION', '1.0.0' );
-define( 'WP_CONVERT_TO_WEBP_FILE', __FILE__ );
-define( 'WP_CONVERT_TO_WEBP_PATH', plugin_dir_path( WP_CONVERT_TO_WEBP_FILE ) );
-define( 'WP_CONVERT_TO_WEBP_BASENAME', plugin_basename( WP_CONVERT_TO_WEBP_FILE ) );
-define( 'WP_CONVERT_TO_WEBP_SLUG', dirname( WP_CONVERT_TO_WEBP_BASENAME ) );
-define( 'WP_CONVERT_TO_WEBP_CSS', plugins_url( 'assets/css/', __FILE__ ) );
-define( 'WP_CONVERT_TO_WEBP_JS', plugins_url( 'assets/js/', __FILE__ ) );
+define( 'convert_to_webp_lite_VERSION', '1.0.0' );
+define( 'convert_to_webp_lite_FILE', __FILE__ );
+define( 'convert_to_webp_lite_PATH', plugin_dir_path( convert_to_webp_lite_FILE ) );
+define( 'convert_to_webp_lite_BASENAME', plugin_basename( convert_to_webp_lite_FILE ) );
+define( 'convert_to_webp_lite_SLUG', dirname( convert_to_webp_lite_BASENAME ) );
+define( 'convert_to_webp_lite_CSS', plugins_url( 'assets/css/', __FILE__ ) );
+define( 'convert_to_webp_lite_JS', plugins_url( 'assets/js/', __FILE__ ) );
 
 /**
  * Optionally include Composer autoload if available.
@@ -60,20 +60,20 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 /**
- * Main plugin class for Convert to WebP.
+ * Main plugin class for Convert to WebP Lite.
  *
  * Implements the Singleton pattern to ensure a single instance.
  * Handles plugin loading, file inclusion, and asset enqueueing.
  */
-class WpConvertToWebp {
+class ConvertToWebpLite {
 
 	/**
 	 * Holds the Singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @var WpConvertToWebp|null The Singleton instance.
+	 * @var ConvertToWebpLite|null The Singleton instance.
 	 */
-	protected static ?WpConvertToWebp $instance = null;
+	protected static ?ConvertToWebpLite $instance = null;
 
 	/**
 	 * Private constructor to prevent direct instantiation.
@@ -105,9 +105,9 @@ class WpConvertToWebp {
 	 * Returns the Singleton instance of the plugin.
 	 *
 	 * @since 1.0.0
-	 * @return WpConvertToWebp The Singleton instance.
+	 * @return ConvertToWebpLite The Singleton instance.
 	 */
-	public static function get_instance(): WpConvertToWebp {
+	public static function get_instance(): ConvertToWebpLite {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -131,7 +131,7 @@ class WpConvertToWebp {
 		register_uninstall_hook( __FILE__, [ Uninstall::class, 'uninstall' ] );
 
 		// Add plugin action links
-		add_filter( 'plugin_action_links_' . WP_CONVERT_TO_WEBP_BASENAME, [ __CLASS__, 'add_action_links' ] );
+		add_filter( 'plugin_action_links_' . convert_to_webp_lite_BASENAME, [ __CLASS__, 'add_action_links' ] );
 	}
 
 	/**
@@ -146,19 +146,19 @@ class WpConvertToWebp {
 	 */
 	private static function autoload(): void {
 		try {
-			$path = (string) WP_CONVERT_TO_WEBP_PATH . 'includes/';
+			$path = (string) convert_to_webp_lite_PATH . 'includes/';
 
 			// Check if the includes directory exists
 			if ( ! is_dir( $path ) ) {
 				// translators: %s is the folder path that doesn't exist
-				throw new RuntimeException( sprintf( __( 'The folder at %s does not exist', 'wp-convert-to-webp' ), $path ) );
+				throw new RuntimeException( sprintf( __( 'The folder at %s does not exist', 'convert-to-webp-lite' ), $path ) );
 			}
 
 			// Normalize the base path for security checks.
 			$normalized_base = (string) realpath( $path );
 
 			if ( false === $normalized_base ) {
-				throw new RuntimeException( __( 'Unable to resolve includes directory path', 'wp-convert-to-webp' ) );
+				throw new RuntimeException( __( 'Unable to resolve includes directory path', 'convert-to-webp-lite' ) );
 			}
 
 			// Get all subdirectories in the includes folder
@@ -203,10 +203,10 @@ class WpConvertToWebp {
 
 					// Get the class name based on folder and file name.
 					$name  = (string) basename( $file, '.php' );
-					$class = (string) 'WpConvertToWebp\\' . $directory . '\\' . $name;
+					$class = (string) 'ConvertToWebpLite\\' . $directory . '\\' . $name;
 
 					// Enhanced class validation.
-					if ( ! class_exists( $class ) || 0 !== strpos( $class, 'WpConvertToWebp' ) ) {
+					if ( ! class_exists( $class ) || 0 !== strpos( $class, 'ConvertToWebpLite' ) ) {
 						continue;
 					}
 
@@ -235,7 +235,7 @@ class WpConvertToWebp {
 							error_log(
 								sprintf(
 									// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-									__( '[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'wp-convert-to-webp' ),
+									__( '[Convert to WebP Lite] Error running %1$s: %2$s in %3$s on line %4$d', 'convert-to-webp-lite' ),
 									$class,
 									$inner_error->getMessage(),
 									basename( $inner_error->getFile() ),
@@ -253,7 +253,7 @@ class WpConvertToWebp {
 				error_log(
 					sprintf(
 						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-						__( '[WP Convert to WebP] Error in autoload: %1$s in %2$s on line %3$d', 'wp-convert-to-webp' ),
+						__( '[Convert to WebP Lite] Error in autoload: %1$s in %2$s on line %3$d', 'convert-to-webp-lite' ),
 						$error->getMessage(),
 						basename( $error->getFile() ),
 						$error->getLine()
@@ -280,11 +280,11 @@ class WpConvertToWebp {
 	 * @return void
 	 */
 	public static function admin_enqueue(): void {
-		wp_enqueue_style( 'wp-convert-to-webp', WP_CONVERT_TO_WEBP_CSS . 'styles.css', [], WP_CONVERT_TO_WEBP_VERSION, 'all' );
-		wp_enqueue_script( 'wp-convert-to-webp', WP_CONVERT_TO_WEBP_JS . 'scripts.js', [], WP_CONVERT_TO_WEBP_VERSION, true );
-		wp_enqueue_script( 'wp-convert-to-webp-ajax', WP_CONVERT_TO_WEBP_JS . 'ajax.js', [], WP_CONVERT_TO_WEBP_VERSION, true );
+		wp_enqueue_style( 'convert-to-webp-lite', convert_to_webp_lite_CSS . 'styles.css', [], convert_to_webp_lite_VERSION, 'all' );
+		wp_enqueue_script( 'convert-to-webp-lite', convert_to_webp_lite_JS . 'scripts.js', [], convert_to_webp_lite_VERSION, true );
+		wp_enqueue_script( 'convert-to-webp-lite-ajax', convert_to_webp_lite_JS . 'ajax.js', [], convert_to_webp_lite_VERSION, true );
 
-		wp_localize_script( 'wp-convert-to-webp-ajax', 'wpConvertToWebp', [ 'nonce' => wp_create_nonce( 'convert_to_webp_ajax' ) ] );
+		wp_localize_script( 'convert-to-webp-lite-ajax', 'ConvertToWebpLite', [ 'nonce' => wp_create_nonce( 'convert_to_webp_lite_ajax' ) ] );
 	}
 
 	/**
@@ -299,8 +299,8 @@ class WpConvertToWebp {
 	public static function add_action_links( array $links ): array {
 		$links[] = sprintf(
 			'<a href="%s">%s</a>',
-			esc_url( admin_url( 'admin.php?page=wp-convert-to-webp' ) ),
-			esc_html__( 'Settings', 'wp-convert-to-webp' )
+			esc_url( admin_url( 'admin.php?page=convert-to-webp-lite' ) ),
+			esc_html__( 'Settings', 'convert-to-webp-lite' )
 		);
 
 		return $links;
@@ -316,6 +316,6 @@ class WpConvertToWebp {
 add_action(
 	'plugin_loaded',
 	function () {
-		return WpConvertToWebp::get_instance();
+		return ConvertToWebpLite::get_instance();
 	}
 );

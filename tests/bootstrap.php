@@ -11,8 +11,8 @@ if ( ! defined( 'PHPUNIT_COMPOSER_INSTALL' ) && ! defined( 'PHPUNIT_TESTSUITE' )
 }
 
 // Define plugin constants for testing.
-if ( ! defined( 'convert_to_webp_lite_TESTING' ) ) {
-	define( 'convert_to_webp_lite_TESTING', true );
+if ( ! defined( 'CONVERT_TO_WEBP_LITE_TESTING' ) ) {
+	define( 'CONVERT_TO_WEBP_LITE_TESTING', true );
 }
 
 // Load Composer autoloader.

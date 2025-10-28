@@ -42,13 +42,13 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @since 1.0.0
  */
-define( 'convert_to_webp_lite_VERSION', '1.0.0' );
-define( 'convert_to_webp_lite_FILE', __FILE__ );
-define( 'convert_to_webp_lite_PATH', plugin_dir_path( convert_to_webp_lite_FILE ) );
-define( 'convert_to_webp_lite_BASENAME', plugin_basename( convert_to_webp_lite_FILE ) );
-define( 'convert_to_webp_lite_SLUG', dirname( convert_to_webp_lite_BASENAME ) );
-define( 'convert_to_webp_lite_CSS', plugins_url( 'assets/css/', __FILE__ ) );
-define( 'convert_to_webp_lite_JS', plugins_url( 'assets/js/', __FILE__ ) );
+define( 'CONVERT_TO_WEBP_LITE_VERSION', '1.0.0' );
+define( 'CONVERT_TO_WEBP_LITE_FILE', __FILE__ );
+define( 'CONVERT_TO_WEBP_LITE_PATH', plugin_dir_path( CONVERT_TO_WEBP_LITE_FILE ) );
+define( 'CONVERT_TO_WEBP_LITE_BASENAME', plugin_basename( CONVERT_TO_WEBP_LITE_FILE ) );
+define( 'CONVERT_TO_WEBP_LITE_SLUG', dirname( CONVERT_TO_WEBP_LITE_BASENAME ) );
+define( 'CONVERT_TO_WEBP_LITE_CSS', plugins_url( 'assets/css/', __FILE__ ) );
+define( 'CONVERT_TO_WEBP_LITE_JS', plugins_url( 'assets/js/', __FILE__ ) );
 
 /**
  * Optionally include Composer autoload if available.
@@ -131,7 +131,7 @@ class ConvertToWebpLite {
 		register_uninstall_hook( __FILE__, [ Uninstall::class, 'uninstall' ] );
 
 		// Add plugin action links
-		add_filter( 'plugin_action_links_' . convert_to_webp_lite_BASENAME, [ __CLASS__, 'add_action_links' ] );
+		add_filter( 'plugin_action_links_' . CONVERT_TO_WEBP_LITE_BASENAME, [ __CLASS__, 'add_action_links' ] );
 	}
 
 	/**
@@ -146,7 +146,7 @@ class ConvertToWebpLite {
 	 */
 	private static function autoload(): void {
 		try {
-			$path = (string) convert_to_webp_lite_PATH . 'includes/';
+			$path = (string) CONVERT_TO_WEBP_LITE_PATH . 'includes/';
 
 			// Check if the includes directory exists
 			if ( ! is_dir( $path ) ) {
@@ -280,9 +280,9 @@ class ConvertToWebpLite {
 	 * @return void
 	 */
 	public static function admin_enqueue(): void {
-		wp_enqueue_style( 'convert-to-webp-lite', convert_to_webp_lite_CSS . 'styles.css', [], convert_to_webp_lite_VERSION, 'all' );
-		wp_enqueue_script( 'convert-to-webp-lite', convert_to_webp_lite_JS . 'scripts.js', [], convert_to_webp_lite_VERSION, true );
-		wp_enqueue_script( 'convert-to-webp-lite-ajax', convert_to_webp_lite_JS . 'ajax.js', [], convert_to_webp_lite_VERSION, true );
+		wp_enqueue_style( 'convert-to-webp-lite', CONVERT_TO_WEBP_LITE_CSS . 'styles.css', [], CONVERT_TO_WEBP_LITE_VERSION, 'all' );
+		wp_enqueue_script( 'convert-to-webp-lite', CONVERT_TO_WEBP_LITE_JS . 'scripts.js', [], CONVERT_TO_WEBP_LITE_VERSION, true );
+		wp_enqueue_script( 'convert-to-webp-lite-ajax', CONVERT_TO_WEBP_LITE_JS . 'ajax.js', [], CONVERT_TO_WEBP_LITE_VERSION, true );
 
 		wp_localize_script( 'convert-to-webp-lite-ajax', 'ConvertToWebpLite', [ 'nonce' => wp_create_nonce( 'convert_to_webp_lite_ajax' ) ] );
 	}

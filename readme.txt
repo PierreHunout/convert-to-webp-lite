@@ -1,5 +1,5 @@
 === Convert to WebP ===
-Contributors: pierre.hunout@gmail.com, pierrehunout
+Contributors: hunoutpierre, Pierre Hunout, pierre.hunout@gmail.com
 Donate link: https://www.buymeacoffee.com/pierrehunout
 Tags: webp, images, performance, optimization, speed
 Requires at least: 5.0

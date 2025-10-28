@@ -29,9 +29,6 @@
         </include>
         <exclude>
             <directory>vendor</directory>
-            <directory>node_modules</directory>
-            <directory>build</directory>
-            <directory>src</directory>
             <directory>assets</directory>
             <directory>languages</directory>
             <directory>tests</directory>
@@ -55,7 +52,7 @@
         <env name="WP_CORE_DIR" value=""/>
         
         <!-- Plugin specific constants (WP_DEBUG and WP_TESTS_* are defined in wp-tests-config.php) -->
-        <const name="convert_to_webp_lite_TESTING" value="true"/>
+        <const name="CONVERT_TO_WEBP_LITE_TESTING" value="true"/>
     </php>
 
     <!-- Logging -->

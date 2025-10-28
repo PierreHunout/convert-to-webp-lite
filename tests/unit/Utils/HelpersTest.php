@@ -2,13 +2,13 @@
 /**
  * Tests for browser WebP support detection
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
-namespace WpConvertToWebp\Tests\Unit\Utils;
+namespace ConvertToWebpLite\Tests\Unit\Utils;
 
-use WpConvertToWebp\Tests\TestCase;
-use WpConvertToWebp\Utils\Helpers;
+use ConvertToWebpLite\Tests\TestCase;
+use ConvertToWebpLite\Utils\Helpers;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -48,7 +48,7 @@ class HelpersTest extends TestCase {
 	 * instantiation of the Helpers class.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::__construct
+	 * @covers \ConvertToWebpLite\Utils\Helpers::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -62,7 +62,7 @@ class HelpersTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::__clone
+	 * @covers \ConvertToWebpLite\Utils\Helpers::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -76,7 +76,7 @@ class HelpersTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::__wakeup
+	 * @covers \ConvertToWebpLite\Utils\Helpers::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -95,7 +95,7 @@ class HelpersTest extends TestCase {
 	 * and includes the 'success' class when status is true.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_message
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_message
 	 * @return void
 	 */
 	public function test_get_message_returns_success_message(): void {
@@ -114,7 +114,7 @@ class HelpersTest extends TestCase {
 	 * Verifies that get_message() includes the 'error' class when status is false.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_message
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_message
 	 * @return void
 	 */
 	public function test_get_message_returns_error_message(): void {
@@ -131,7 +131,7 @@ class HelpersTest extends TestCase {
 	 * (e.g., 'delete', 'convert').
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_message
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_message
 	 * @return void
 	 */
 	public function test_get_message_adds_context_class(): void {
@@ -148,7 +148,7 @@ class HelpersTest extends TestCase {
 	 * (e.g., 'thumbnail', 'medium').
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_message
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_message
 	 * @return void
 	 */
 	public function test_get_message_adds_size_class(): void {
@@ -166,7 +166,7 @@ class HelpersTest extends TestCase {
 	 * additional_classes parameter.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_message
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_message
 	 * @return void
 	 */
 	public function test_get_message_preserves_additional_classes(): void {
@@ -184,7 +184,7 @@ class HelpersTest extends TestCase {
 	 * is an empty string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_message
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_message
 	 * @return void
 	 */
 	public function test_get_message_ignores_empty_size(): void {
@@ -202,7 +202,7 @@ class HelpersTest extends TestCase {
 	 * with a trailing slash added by trailingslashit().
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_basedir
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_basedir
 	 * @return void
 	 */
 	public function test_get_basedir_returns_upload_dir(): void {
@@ -222,7 +222,7 @@ class HelpersTest extends TestCase {
 	 * from WordPress get_posts().
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_attachments
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_attachments
 	 * @return void
 	 */
 	public function test_get_attachments_returns_attachment_ids(): void {
@@ -244,7 +244,7 @@ class HelpersTest extends TestCase {
 	 * WordPress get_posts() finds no attachments.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_attachments
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_attachments
 	 * @return void
 	 */
 	public function test_get_attachments_returns_empty_array_when_none_found(): void {
@@ -265,7 +265,7 @@ class HelpersTest extends TestCase {
 	 * provided with an empty URL string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_attachment_id_from_url
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_attachment_id_from_url
 	 * @return void
 	 */
 	public function test_get_attachment_id_from_url_returns_false_for_empty_url(): void {
@@ -281,7 +281,7 @@ class HelpersTest extends TestCase {
 	 * when wp_cache_get() finds a cached value.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_attachment_id_from_url
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_attachment_id_from_url
 	 * @return void
 	 */
 	public function test_get_attachment_id_from_url_returns_cached_result(): void {
@@ -289,7 +289,7 @@ class HelpersTest extends TestCase {
 
 		BrainMonkey\expect( 'wp_cache_get' )
 			->once()
-			->with( 'wp_convert_to_webp_attachment_id_' . md5( $url ), 'wp_convert_to_webp' )
+			->with( 'convert_to_webp_lite_attachment_id_' . md5( $url ), 'convert_to_webp_lite' )
 			->andReturn( 123 );
 
 		$result = Helpers::get_attachment_id_from_url( $url );
@@ -304,7 +304,7 @@ class HelpersTest extends TestCase {
 	 * when no cached result exists and caches the result with wp_cache_set().
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_attachment_id_from_url
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_attachment_id_from_url
 	 * @return void
 	 */
 	public function test_get_attachment_id_from_url_uses_attachment_url_to_postid(): void {
@@ -321,7 +321,7 @@ class HelpersTest extends TestCase {
 
 		BrainMonkey\expect( 'wp_cache_set' )
 			->once()
-			->with( 'wp_convert_to_webp_attachment_id_' . md5( $url ), 456, 'wp_convert_to_webp', 3600 );
+			->with( 'convert_to_webp_lite_attachment_id_' . md5( $url ), 456, 'convert_to_webp_lite', 3600 );
 
 		$result = Helpers::get_attachment_id_from_url( $url );
 
@@ -335,7 +335,7 @@ class HelpersTest extends TestCase {
 	 * using wp_cache_delete() when a URL is provided.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::clear_attachment_cache
+	 * @covers \ConvertToWebpLite\Utils\Helpers::clear_attachment_cache
 	 * @return void
 	 */
 	public function test_clear_attachment_cache_clears_specific_url(): void {
@@ -362,13 +362,13 @@ class HelpersTest extends TestCase {
 	 * using wp_cache_flush_group() when no URL is provided.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::clear_attachment_cache
+	 * @covers \ConvertToWebpLite\Utils\Helpers::clear_attachment_cache
 	 * @return void
 	 */
 	public function test_clear_attachment_cache_flushes_group_when_no_url(): void {
 		BrainMonkey\expect( 'wp_cache_flush_group' )
 			->once()
-			->with( 'wp_convert_to_webp' )
+			->with( 'convert_to_webp_lite' )
 			->andReturn( true );
 
 		Helpers::clear_attachment_cache();
@@ -384,7 +384,7 @@ class HelpersTest extends TestCase {
 	 * with an empty string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::parse_srcset
+	 * @covers \ConvertToWebpLite\Utils\Helpers::parse_srcset
 	 * @return void
 	 */
 	public function test_parse_srcset_returns_empty_array_for_empty_string(): void {
@@ -401,7 +401,7 @@ class HelpersTest extends TestCase {
 	 * a single image with URL and width descriptor.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::parse_srcset
+	 * @covers \ConvertToWebpLite\Utils\Helpers::parse_srcset
 	 * @return void
 	 */
 	public function test_parse_srcset_parses_single_image(): void {
@@ -421,7 +421,7 @@ class HelpersTest extends TestCase {
 	 * multiple images with their respective width descriptors.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::parse_srcset
+	 * @covers \ConvertToWebpLite\Utils\Helpers::parse_srcset
 	 * @return void
 	 */
 	public function test_parse_srcset_parses_multiple_images(): void {
@@ -441,7 +441,7 @@ class HelpersTest extends TestCase {
 	 * in ascending order.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::parse_srcset
+	 * @covers \ConvertToWebpLite\Utils\Helpers::parse_srcset
 	 * @return void
 	 */
 	public function test_parse_srcset_sorts_by_width(): void {
@@ -460,7 +460,7 @@ class HelpersTest extends TestCase {
 	 * with an empty input string.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_srcset
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_srcset
 	 * @return void
 	 */
 	public function test_get_srcset_returns_empty_string_for_empty_input(): void {
@@ -476,7 +476,7 @@ class HelpersTest extends TestCase {
 	 * maintaining URLs and width descriptors.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_srcset
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_srcset
 	 * @return void
 	 */
 	public function test_get_srcset_rebuilds_srcset_string(): void {
@@ -496,7 +496,7 @@ class HelpersTest extends TestCase {
 	 * with smaller widths appearing before larger ones.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::get_srcset
+	 * @covers \ConvertToWebpLite\Utils\Helpers::get_srcset
 	 * @return void
 	 */
 	public function test_get_srcset_sorts_images_by_width(): void {
@@ -517,7 +517,7 @@ class HelpersTest extends TestCase {
 	 * cannot be resolved to a valid attachment ID.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::attachment_is_webp
+	 * @covers \ConvertToWebpLite\Utils\Helpers::attachment_is_webp
 	 * @return void
 	 */
 	public function test_attachment_is_webp_returns_false_for_invalid_id(): void {
@@ -546,7 +546,7 @@ class HelpersTest extends TestCase {
 	 * file has a .webp extension.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::attachment_is_webp
+	 * @covers \ConvertToWebpLite\Utils\Helpers::attachment_is_webp
 	 * @return void
 	 */
 	public function test_attachment_is_webp_returns_true_for_webp_file(): void {
@@ -580,7 +580,7 @@ class HelpersTest extends TestCase {
 	 * file has a non-webp extension (e.g., .jpg, .png).
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Utils\Helpers::attachment_is_webp
+	 * @covers \ConvertToWebpLite\Utils\Helpers::attachment_is_webp
 	 * @return void
 	 */
 	public function test_attachment_is_webp_returns_false_for_non_webp_file(): void {

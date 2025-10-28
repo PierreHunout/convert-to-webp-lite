@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPUnit Bootstrap for WpConvertToWebp\Tests
+ * PHPUnit Bootstrap for ConvertToWebpLite\Tests
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
 // Prevent direct access.
@@ -11,8 +11,8 @@ if ( ! defined( 'PHPUNIT_COMPOSER_INSTALL' ) && ! defined( 'PHPUNIT_TESTSUITE' )
 }
 
 // Define plugin constants for testing.
-if ( ! defined( 'WP_CONVERT_TO_WEBP_TESTING' ) ) {
-	define( 'WP_CONVERT_TO_WEBP_TESTING', true );
+if ( ! defined( 'convert_to_webp_lite_TESTING' ) ) {
+	define( 'convert_to_webp_lite_TESTING', true );
 }
 
 // Load Composer autoloader.
@@ -82,7 +82,7 @@ if ( $is_integration ) {
 	 * Manually load the plugin for integration testing.
 	 */
 	function _manually_load_plugin() {
-		require dirname( __DIR__ ) . '/wp-convert-to-webp.php';
+		require dirname( __DIR__ ) . '/convert-to-webp-lite.php';
 	}
 	tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 

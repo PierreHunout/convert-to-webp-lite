@@ -1,7 +1,7 @@
 /**
  * Handles the UI logic for the WebP comparison tool in the WordPress admin.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
@@ -138,14 +138,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /**
  * Displays a notice with the provided message.
- * Creates a new div element, sets its class and content, and appends it to the parent element of "convert-to-webp".
+ * Creates a new div element, sets its class and content, and appends it to the parent element of "convert-to-webp-lite".
  *
  * @param {string} message - The message to display in the notice.
  * @return {void}
  */
 const displayNotice = (message) => {
     const notice = document.createElement('div');
-    notice.className = `notice is-dismissible error convert-to-webp__notice`;
+    notice.className = `notice is-dismissible error convert-to-webp-lite__notice`;
 
     const child = document.createElement('p');
     child.textContent = message;
@@ -161,7 +161,7 @@ const displayNotice = (message) => {
     notice.appendChild(dismiss);
     notice.appendChild(child);
 
-    const grid = document.getElementById('convert-to-webp-grid');
+    const grid = document.getElementById('convert-to-webp-lite-grid');
 
     if (grid && grid.parentNode) {
         grid.parentNode.insertBefore(notice, grid);
@@ -170,12 +170,12 @@ const displayNotice = (message) => {
 
 /**
  * Removes the notice element from the DOM.
- * Selects the notice element with the class 'convert-to-webp__notice' and removes it if it exists.
+ * Selects the notice element with the class 'convert-to-webp-lite__notice' and removes it if it exists.
  *
  * @returns {void}
  */
 const removeNotice = () => {
-    const notice = document.querySelector('.convert-to-webp__notice');
+    const notice = document.querySelector('.convert-to-webp-lite__notice');
     if (notice) {
         notice.remove();
     }

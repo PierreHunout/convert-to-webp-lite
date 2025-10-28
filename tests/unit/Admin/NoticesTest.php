@@ -2,13 +2,13 @@
 /**
  * Tests for Notices class
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
-namespace WpConvertToWebp\Tests\Unit\Admin;
+namespace ConvertToWebpLite\Tests\Unit\Admin;
 
-use WpConvertToWebp\Tests\TestCase;
-use WpConvertToWebp\Admin\Notices;
+use ConvertToWebpLite\Tests\TestCase;
+use ConvertToWebpLite\Admin\Notices;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -50,7 +50,7 @@ class NoticesTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::__clone
+	 * @covers \ConvertToWebpLite\Admin\Notices::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -64,7 +64,7 @@ class NoticesTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::__wakeup
+	 * @covers \ConvertToWebpLite\Admin\Notices::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -83,7 +83,7 @@ class NoticesTest extends TestCase {
 	 * and returns the same instance on subsequent calls.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::get_instance
+	 * @covers \ConvertToWebpLite\Admin\Notices::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -105,7 +105,7 @@ class NoticesTest extends TestCase {
 	 * with the display_notices callback exactly once.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::init
+	 * @covers \ConvertToWebpLite\Admin\Notices::init
 	 * @return void
 	 */
 	public function test_init_registers_admin_notices_action(): void {
@@ -132,7 +132,7 @@ class NoticesTest extends TestCase {
 	 * allowing it to be called as an action hook callback.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_method_exists(): void {
@@ -159,7 +159,7 @@ class NoticesTest extends TestCase {
 	 * when the current page is not the plugin's admin page.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_returns_early_when_not_on_plugin_page(): void {
@@ -183,7 +183,7 @@ class NoticesTest extends TestCase {
 	 * when the $_GET['page'] parameter is not set.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_returns_early_when_page_param_missing(): void {
@@ -204,11 +204,11 @@ class NoticesTest extends TestCase {
 	 * when the current user does not have 'manage_options' capability.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_returns_early_when_user_lacks_capability(): void {
-		$_GET['page'] = 'wp-convert-to-webp';
+		$_GET['page'] = 'convert-to-webp-lite';
 
 		BrainMonkey\when( 'sanitize_text_field' )->returnArg();
 		BrainMonkey\when( 'wp_unslash' )->returnArg();
@@ -232,11 +232,11 @@ class NoticesTest extends TestCase {
 	 * when nonce verification fails for the no_files notice parameter.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_returns_early_when_nonce_fails_for_no_files(): void {
-		$_GET['page']     = 'wp-convert-to-webp';
+		$_GET['page']     = 'convert-to-webp-lite';
 		$_GET['no_files'] = '1';
 		$_GET['_wpnonce'] = 'invalid-nonce';
 
@@ -250,7 +250,7 @@ class NoticesTest extends TestCase {
 
 		BrainMonkey\expect( 'wp_verify_nonce' )
 			->once()
-			->with( 'invalid-nonce', 'wp_convert_to_webp_notice' )
+			->with( 'invalid-nonce', 'convert_to_webp_lite_notice' )
 			->andReturn( false );
 
 		ob_start();
@@ -267,11 +267,11 @@ class NoticesTest extends TestCase {
 	 * notice with proper styling when the no_files parameter is present and verified.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_shows_no_files_notice(): void {
-		$_GET['page']     = 'wp-convert-to-webp';
+		$_GET['page']     = 'convert-to-webp-lite';
 		$_GET['no_files'] = '1';
 		$_GET['_wpnonce'] = 'valid-nonce';
 
@@ -285,12 +285,12 @@ class NoticesTest extends TestCase {
 
 		BrainMonkey\expect( 'wp_verify_nonce' )
 			->once()
-			->with( 'valid-nonce', 'wp_convert_to_webp_notice' )
+			->with( 'valid-nonce', 'convert_to_webp_lite_notice' )
 			->andReturn( true );
 
 		BrainMonkey\expect( 'esc_html__' )
 			->once()
-			->with( 'No files found to process.', 'wp-convert-to-webp' )
+			->with( 'No files found to process.', 'convert-to-webp-lite' )
 			->andReturn( 'No files found to process.' );
 
 		BrainMonkey\expect( 'esc_html' )
@@ -301,7 +301,7 @@ class NoticesTest extends TestCase {
 		Notices::display_notices();
 		$output = ob_get_clean();
 
-		$this->assertStringContainsString( 'convert-to-webp__notice--nofiles', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__notice--nofiles', $output );
 		$this->assertStringContainsString( 'No files found to process.', $output );
 	}
 
@@ -312,11 +312,11 @@ class NoticesTest extends TestCase {
 	 * including message content and CSS classes for success/error states.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_shows_deletion_notice_with_data(): void {
-		$_GET['page']     = 'wp-convert-to-webp';
+		$_GET['page']     = 'convert-to-webp-lite';
 		$_GET['deleted']  = '1';
 		$_GET['_wpnonce'] = 'valid-nonce';
 
@@ -339,7 +339,7 @@ class NoticesTest extends TestCase {
 
 		BrainMonkey\expect( 'wp_verify_nonce' )
 			->once()
-			->with( 'valid-nonce', 'wp_convert_to_webp_notice' )
+			->with( 'valid-nonce', 'convert_to_webp_lite_notice' )
 			->andReturn( true );
 
 		BrainMonkey\expect( 'esc_html__' )
@@ -352,12 +352,12 @@ class NoticesTest extends TestCase {
 
 		BrainMonkey\expect( 'get_transient' )
 			->once()
-			->with( 'wp_convert_to_webp_deletion_data' )
+			->with( 'convert_to_webp_lite_deletion_data' )
 			->andReturn( $deletion_data );
 
 		BrainMonkey\expect( 'delete_transient' )
 			->once()
-			->with( 'wp_convert_to_webp_deletion_data' )
+			->with( 'convert_to_webp_lite_deletion_data' )
 			->andReturn( true );
 
 		BrainMonkey\when( 'esc_html' )->returnArg();
@@ -369,10 +369,10 @@ class NoticesTest extends TestCase {
 		Notices::display_notices();
 		$output = ob_get_clean();
 
-		$this->assertStringContainsString( 'convert-to-webp__notice--deletion', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__notice--deletion', $output );
 		$this->assertStringContainsString( 'Deleted WebP files', $output );
 		$this->assertStringContainsString( 'File deleted successfully', $output );
-		$this->assertStringContainsString( 'convert-to-webp__message--success', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__message--success', $output );
 	}
 
 	/**
@@ -382,11 +382,11 @@ class NoticesTest extends TestCase {
 	 * gracefully by displaying a notice with 0 files processed.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_handles_empty_deletion_data(): void {
-		$_GET['page']     = 'wp-convert-to-webp';
+		$_GET['page']     = 'convert-to-webp-lite';
 		$_GET['deleted']  = '1';
 		$_GET['_wpnonce'] = 'valid-nonce';
 
@@ -400,29 +400,29 @@ class NoticesTest extends TestCase {
 
 		BrainMonkey\expect( 'wp_verify_nonce' )
 			->once()
-			->with( 'valid-nonce', 'wp_convert_to_webp_notice' )
+			->with( 'valid-nonce', 'convert_to_webp_lite_notice' )
 			->andReturn( true );
 
 		BrainMonkey\expect( 'esc_html__' )
 			->once()
-			->with( 'No files found to process.', 'wp-convert-to-webp' )
+			->with( 'No files found to process.', 'convert-to-webp-lite' )
 			->andReturn( 'No files found to process.' );
 
 		BrainMonkey\when( 'esc_html' )->returnArg();
 
 		BrainMonkey\expect( 'esc_html__' )
 			->once()
-			->with( 'Deleted WebP files', 'wp-convert-to-webp' )
+			->with( 'Deleted WebP files', 'convert-to-webp-lite' )
 			->andReturn( 'Deleted WebP files' );
 
 		BrainMonkey\expect( 'get_transient' )
 			->once()
-			->with( 'wp_convert_to_webp_deletion_data' )
+			->with( 'convert_to_webp_lite_deletion_data' )
 			->andReturn( [] ); // Empty array
 
 		BrainMonkey\expect( 'delete_transient' )
 			->once()
-			->with( 'wp_convert_to_webp_deletion_data' )
+			->with( 'convert_to_webp_lite_deletion_data' )
 			->andReturn( true );
 
 		ob_start();
@@ -430,7 +430,7 @@ class NoticesTest extends TestCase {
 		$output = ob_get_clean();
 
 		// Empty array still displays notice with count of 0
-		$this->assertStringContainsString( 'convert-to-webp__notice--deletion', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__notice--deletion', $output );
 		$this->assertStringContainsString( 'Deleted WebP files', $output );
 		$this->assertStringContainsString( '<strong>0</strong>', $output );
 	}
@@ -442,11 +442,11 @@ class NoticesTest extends TestCase {
 	 * multiple deletion messages with different CSS classes for various states.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_formats_multiple_messages_correctly(): void {
-		$_GET['page']     = 'wp-convert-to-webp';
+		$_GET['page']     = 'convert-to-webp-lite';
 		$_GET['deleted']  = '1';
 		$_GET['_wpnonce'] = 'valid-nonce';
 
@@ -502,9 +502,9 @@ class NoticesTest extends TestCase {
 
 		$this->assertStringContainsString( 'File 1 deleted', $output );
 		$this->assertStringContainsString( 'File 2 failed', $output );
-		$this->assertStringContainsString( 'convert-to-webp__message--success', $output );
-		$this->assertStringContainsString( 'convert-to-webp__message--error', $output );
-		$this->assertStringContainsString( 'convert-to-webp__message--critical', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__message--success', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__message--error', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__message--critical', $output );
 	}
 
 	/**
@@ -514,11 +514,11 @@ class NoticesTest extends TestCase {
 	 * from the deletion data using sanitize_html_class() for security.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_sanitizes_html_classes(): void {
-		$_GET['page']     = 'wp-convert-to-webp';
+		$_GET['page']     = 'convert-to-webp-lite';
 		$_GET['deleted']  = '1';
 		$_GET['_wpnonce'] = 'valid-nonce';
 
@@ -572,7 +572,7 @@ class NoticesTest extends TestCase {
 		Notices::display_notices();
 		$output = ob_get_clean();
 
-		$this->assertStringContainsString( 'convert-to-webp__message--success-class', $output );
+		$this->assertStringContainsString( 'convert-to-webp-lite__message--success-class', $output );
 	}
 
 	/**
@@ -582,11 +582,11 @@ class NoticesTest extends TestCase {
 	 * message output while allowing safe HTML tags like span.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::display_notices
+	 * @covers \ConvertToWebpLite\Admin\Notices::display_notices
 	 * @return void
 	 */
 	public function test_display_notices_uses_wp_kses_for_message_output(): void {
-		$_GET['page']     = 'wp-convert-to-webp';
+		$_GET['page']     = 'convert-to-webp-lite';
 		$_GET['deleted']  = '1';
 		$_GET['_wpnonce'] = 'valid-nonce';
 
@@ -649,7 +649,7 @@ class NoticesTest extends TestCase {
 	 * for storing the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices
+	 * @covers \ConvertToWebpLite\Admin\Notices
 	 * @return void
 	 */
 	public function test_instance_property_exists(): void {
@@ -677,8 +677,8 @@ class NoticesTest extends TestCase {
 	 * is called to register WordPress action hooks.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Notices::__construct
-	 * @covers \WpConvertToWebp\Admin\Notices::init
+	 * @covers \ConvertToWebpLite\Admin\Notices::__construct
+	 * @covers \ConvertToWebpLite\Admin\Notices::init
 	 * @return void
 	 */
 	public function test_constructor_calls_init(): void {

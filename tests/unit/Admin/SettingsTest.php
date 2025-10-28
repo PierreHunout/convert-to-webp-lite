@@ -2,13 +2,13 @@
 /**
  * Tests for Settings class
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
-namespace WpConvertToWebp\Tests\Unit\Admin;
+namespace ConvertToWebpLite\Tests\Unit\Admin;
 
-use WpConvertToWebp\Tests\TestCase;
-use WpConvertToWebp\Admin\Settings;
+use ConvertToWebpLite\Tests\TestCase;
+use ConvertToWebpLite\Admin\Settings;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -50,7 +50,7 @@ class SettingsTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::__clone
+	 * @covers \ConvertToWebpLite\Admin\Settings::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -64,7 +64,7 @@ class SettingsTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::__wakeup
+	 * @covers \ConvertToWebpLite\Admin\Settings::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -83,7 +83,7 @@ class SettingsTest extends TestCase {
 	 * and returns the same instance on subsequent calls.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::get_instance
+	 * @covers \ConvertToWebpLite\Admin\Settings::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -105,7 +105,7 @@ class SettingsTest extends TestCase {
 	 * WordPress action hooks.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::init
+	 * @covers \ConvertToWebpLite\Admin\Settings::init
 	 * @return void
 	 */
 	public function test_init_registers_admin_actions(): void {
@@ -132,7 +132,7 @@ class SettingsTest extends TestCase {
 	 * allowing it to be called as an action hook callback.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::add_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::add_settings
 	 * @return void
 	 */
 	public function test_add_settings_method_exists(): void {
@@ -159,7 +159,7 @@ class SettingsTest extends TestCase {
 	 * allowing it to be called as an action hook callback.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_method_exists(): void {
@@ -186,7 +186,7 @@ class SettingsTest extends TestCase {
 	 * allowing it to be called as a menu page callback.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::render_page
+	 * @covers \ConvertToWebpLite\Admin\Settings::render_page
 	 * @return void
 	 */
 	public function test_render_page_method_exists(): void {
@@ -213,7 +213,7 @@ class SettingsTest extends TestCase {
 	 * when the current user does not have 'manage_options' capability.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_returns_early_when_user_lacks_capability(): void {
@@ -235,7 +235,7 @@ class SettingsTest extends TestCase {
 	 * when the $_POST['action'] parameter is not set.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_returns_early_when_action_missing(): void {
@@ -259,12 +259,12 @@ class SettingsTest extends TestCase {
 	 * to the minimum allowed value of 0.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_validates_quality_minimum(): void {
 		$_POST['action']                  = 'save_options';
-		$_POST['convert_to_webp_quality'] = '-10';
+		$_POST['convert_to_webp_lite_quality'] = '-10';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
 		$updated_quality = null;
@@ -279,12 +279,12 @@ class SettingsTest extends TestCase {
 
 		BrainMonkey\expect( 'check_admin_referer' )
 			->once()
-			->with( 'convert_to_webp_save_options' )
+			->with( 'convert_to_webp_lite_save_options' )
 			->andReturn( true );
 
 		BrainMonkey\when( 'update_option' )->alias(
 			function ( $key, $value ) use ( &$updated_quality ) {
-				if ( $key === 'convert_to_webp_quality' ) {
+				if ( $key === 'convert_to_webp_lite_quality' ) {
 					$updated_quality = $value;
 				}
 				return true;
@@ -305,12 +305,12 @@ class SettingsTest extends TestCase {
 	 * to the maximum allowed value of 100.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_validates_quality_maximum(): void {
 		$_POST['action']                  = 'save_options';
-		$_POST['convert_to_webp_quality'] = '150';
+		$_POST['convert_to_webp_lite_quality'] = '150';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
 		$updated_quality = null;
@@ -325,12 +325,12 @@ class SettingsTest extends TestCase {
 
 		BrainMonkey\expect( 'check_admin_referer' )
 			->once()
-			->with( 'convert_to_webp_save_options' )
+			->with( 'convert_to_webp_lite_save_options' )
 			->andReturn( true );
 
 		BrainMonkey\when( 'update_option' )->alias(
 			function ( $key, $value ) use ( &$updated_quality ) {
-				if ( $key === 'convert_to_webp_quality' ) {
+				if ( $key === 'convert_to_webp_lite_quality' ) {
 					$updated_quality = $value;
 				}
 				return true;
@@ -351,12 +351,12 @@ class SettingsTest extends TestCase {
 	 * within the allowed range (0-100).
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_saves_valid_quality(): void {
 		$_POST['action']                  = 'save_options';
-		$_POST['convert_to_webp_quality'] = '75';
+		$_POST['convert_to_webp_lite_quality'] = '75';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
 		$updated_quality = null;
@@ -371,12 +371,12 @@ class SettingsTest extends TestCase {
 
 		BrainMonkey\expect( 'check_admin_referer' )
 			->once()
-			->with( 'convert_to_webp_save_options' )
+			->with( 'convert_to_webp_lite_save_options' )
 			->andReturn( true );
 
 		BrainMonkey\when( 'update_option' )->alias(
 			function ( $key, $value ) use ( &$updated_quality ) {
-				if ( $key === 'convert_to_webp_quality' ) {
+				if ( $key === 'convert_to_webp_lite_quality' ) {
 					$updated_quality = $value;
 				}
 				return true;
@@ -397,13 +397,13 @@ class SettingsTest extends TestCase {
 	 * option when it is enabled (value = 1).
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_saves_replace_mode_enabled(): void {
 		$_POST['action']                       = 'save_options';
-		$_POST['convert_to_webp_quality']      = '85';
-		$_POST['convert_to_webp_replace_mode'] = '1';
+		$_POST['convert_to_webp_lite_quality']      = '85';
+		$_POST['convert_to_webp_lite_replace_mode'] = '1';
 		$_POST['_wpnonce']                     = 'valid-nonce';
 
 		$updated_mode = null;
@@ -421,7 +421,7 @@ class SettingsTest extends TestCase {
 
 		BrainMonkey\when( 'update_option' )->alias(
 			function ( $key, $value ) use ( &$updated_mode ) {
-				if ( $key === 'convert_to_webp_replace_mode' ) {
+				if ( $key === 'convert_to_webp_lite_replace_mode' ) {
 					$updated_mode = $value;
 				}
 				return true;
@@ -442,12 +442,12 @@ class SettingsTest extends TestCase {
 	 * option when it is disabled (value = 0).
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_saves_replace_mode_disabled(): void {
 		$_POST['action']                  = 'save_options';
-		$_POST['convert_to_webp_quality'] = '85';
+		$_POST['convert_to_webp_lite_quality'] = '85';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
 		$updated_mode = null;
@@ -465,7 +465,7 @@ class SettingsTest extends TestCase {
 
 		BrainMonkey\when( 'update_option' )->alias(
 			function ( $key, $value ) use ( &$updated_mode ) {
-				if ( $key === 'convert_to_webp_replace_mode' ) {
+				if ( $key === 'convert_to_webp_lite_replace_mode' ) {
 					$updated_mode = $value;
 				}
 				return true;
@@ -486,13 +486,13 @@ class SettingsTest extends TestCase {
 	 * including quality, replace mode, deactivate and uninstall settings.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_saves_all_options(): void {
 		$_POST['action']                       = 'save_options';
-		$_POST['convert_to_webp_quality']      = '90';
-		$_POST['convert_to_webp_replace_mode'] = '1';
+		$_POST['convert_to_webp_lite_quality']      = '90';
+		$_POST['convert_to_webp_lite_replace_mode'] = '1';
 		$_POST['delete_webp_on_deactivate']    = '1';
 		$_POST['delete_webp_on_uninstall']     = '1';
 		$_POST['_wpnonce']                     = 'valid-nonce';
@@ -521,8 +521,8 @@ class SettingsTest extends TestCase {
 
 		Settings::save_settings();
 
-		$this->assertEquals( 90, $saved_options['convert_to_webp_quality'] );
-		$this->assertEquals( 1, $saved_options['convert_to_webp_replace_mode'] );
+		$this->assertEquals( 90, $saved_options['convert_to_webp_lite_quality'] );
+		$this->assertEquals( 1, $saved_options['convert_to_webp_lite_replace_mode'] );
 		$this->assertEquals( 1, $saved_options['delete_webp_on_deactivate'] );
 		$this->assertEquals( 1, $saved_options['delete_webp_on_uninstall'] );
 	}
@@ -534,12 +534,12 @@ class SettingsTest extends TestCase {
 	 * after successfully saving settings.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_adds_admin_notice_on_success(): void {
 		$_POST['action']                  = 'save_options';
-		$_POST['convert_to_webp_quality'] = '85';
+		$_POST['convert_to_webp_lite_quality'] = '85';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
 		$notice_added = false;
@@ -578,7 +578,7 @@ class SettingsTest extends TestCase {
 	 * for storing the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings
+	 * @covers \ConvertToWebpLite\Admin\Settings
 	 * @return void
 	 */
 	public function test_instance_property_exists(): void {
@@ -606,8 +606,8 @@ class SettingsTest extends TestCase {
 	 * is called to register WordPress action hooks.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::__construct
-	 * @covers \WpConvertToWebp\Admin\Settings::init
+	 * @covers \ConvertToWebpLite\Admin\Settings::__construct
+	 * @covers \ConvertToWebpLite\Admin\Settings::init
 	 * @return void
 	 */
 	public function test_constructor_calls_init(): void {
@@ -627,7 +627,7 @@ class SettingsTest extends TestCase {
 	 * with correct parameters including title, capability, slug, and icon.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::add_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::add_settings
 	 * @return void
 	 */
 	public function test_add_settings_registers_menu_page(): void {
@@ -647,7 +647,7 @@ class SettingsTest extends TestCase {
 					$page_title === 'WebP Conversion' &&
 					$menu_title === 'WebP Conversion' &&
 					$capability === 'manage_options' &&
-					$menu_slug === 'wp-convert-to-webp' &&
+					$menu_slug === 'convert-to-webp-lite' &&
 					$callback === [ Settings::class, 'render_page' ] &&
 					$icon === 'dashicons-images-alt2' &&
 					$position === 99
@@ -668,7 +668,7 @@ class SettingsTest extends TestCase {
 	 * callbacks for admin_menu and admin_init.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::init
+	 * @covers \ConvertToWebpLite\Admin\Settings::init
 	 * @return void
 	 */
 	public function test_init_hooks_callbacks_correctly(): void {
@@ -694,7 +694,7 @@ class SettingsTest extends TestCase {
 	 * and stores it in the static instance property.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::get_instance
+	 * @covers \ConvertToWebpLite\Admin\Settings::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_creates_instance_on_first_call(): void {
@@ -723,7 +723,7 @@ class SettingsTest extends TestCase {
 	 * when no quality parameter is provided in the POST data.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\Settings::save_settings
+	 * @covers \ConvertToWebpLite\Admin\Settings::save_settings
 	 * @return void
 	 */
 	public function test_save_settings_uses_default_quality_when_not_provided(): void {
@@ -745,7 +745,7 @@ class SettingsTest extends TestCase {
 
 		BrainMonkey\when( 'update_option' )->alias(
 			function ( $key, $value ) use ( &$updated_quality ) {
-				if ( $key === 'convert_to_webp_quality' ) {
+				if ( $key === 'convert_to_webp_lite_quality' ) {
 					$updated_quality = $value;
 				}
 				return true;

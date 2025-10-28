@@ -2,17 +2,17 @@
  * Handles the UI logic for the legacy WebP conversion process in the WordPress admin.
  * Manages popup display, progress donut chart, success counter, and disables the delete button during conversion.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
 document.addEventListener('DOMContentLoaded', function () {
     // Get DOM elements for conversion and UI
-    const openButton = document.getElementById('convert-to-webp-legacy');
-    const popup = document.getElementById('convert-to-webp-progress-popup');
-    const progressMessages = document.getElementById('convert-to-webp-progress-messages');
-    const closeButton = document.getElementById('convert-to-webp-progress-close');
-    const deleteButton = document.getElementById('convert-to-webp-delete-all'); // Add your button's ID here
+    const openButton = document.getElementById('convert-to-webp-lite-legacy');
+    const popup = document.getElementById('convert-to-webp-lite-progress-popup');
+    const progressMessages = document.getElementById('convert-to-webp-lite-progress-messages');
+    const closeButton = document.getElementById('convert-to-webp-lite-progress-close');
+    const deleteButton = document.getElementById('convert-to-webp-lite-delete-all'); // Add your button's ID here
 
     // Exit if any required element is missing
     if (!openButton || !popup || !progressMessages || !closeButton || !deleteButton) {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchAttachments(function (attachments) {
             if (!attachments || attachments.length === 0) {
                 // No images found, reset state and UI
-                appendMessage('<li class="convert-to-webp__message convert-to-webp__message--nofiles">No images found.</li>', true);
+                appendMessage('<li class="convert-to-webp-lite__message convert-to-webp-lite__message--nofiles">No images found.</li>', true);
 
                 isProcessing = false;
                 processStarted = false;
@@ -90,13 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Get donut chart canvas and create counter element below it
-            const donut = document.getElementById('convert-to-webp-progress-donut');
-            let counter = document.getElementById('convert-to-webp-progress-counter');
+            const donut = document.getElementById('convert-to-webp-lite-progress-donut');
+            let counter = document.getElementById('convert-to-webp-lite-progress-counter');
 
             if (!counter) {
                 counter = document.createElement('div');
-                counter.id = 'convert-to-webp-progress-counter';
-                counter.className = 'convert-to-webp__counter';
+                counter.id = 'convert-to-webp-lite-progress-counter';
+                counter.className = 'convert-to-webp-lite__counter';
                 donut.parentNode.insertBefore(counter, donut.nextSibling);
             }
 
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (current >= attachments.length) {
                     // All images processed, reset state and UI
                     updateProgress(attachments.length, attachments.length);
-                    appendMessage('<li class="convert-to-webp__message convert-to-webp__message--finished">Conversion finished!</li>', true);
+                    appendMessage('<li class="convert-to-webp-lite__message convert-to-webp-lite__message--finished">Conversion finished!</li>', true);
                     isProcessing = false;
                     processStarted = false;
 
@@ -141,13 +141,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 jQuery.post(ajaxurl, {
                     action: 'convert',
                     attachment_id: id,
-                    _ajax_nonce: wpConvertToWebp.nonce
+                    _ajax_nonce: ConvertToWebpLite.nonce
                 }, function (response) {
                     // Build message classes from PHP response
-                    let classes = 'convert-to-webp__message';
+                    let classes = 'convert-to-webp-lite__message';
 
                     if (response.data.classes && Array.isArray(response.data.classes)) {
-                        classes += ' convert-to-webp__message--' + response.data.classes.join(' ');
+                        classes += ' convert-to-webp-lite__message--' + response.data.classes.join(' ');
                     }
 
                     appendMessage(`<li class="${classes}">${response.data.message}</li>`);
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     updateProgress(current, attachments.length);
                     processNext();
                 }).fail(function () {
-                    appendMessage('<li class="convert-to-webp__message convert-to-webp__message--error">An error occurred during conversion.</li>', true);
+                    appendMessage('<li class="convert-to-webp-lite__message convert-to-webp-lite__message--error">An error occurred during conversion.</li>', true);
                     isProcessing = false;
                     processStarted = false;
 
@@ -208,12 +208,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const fetchAttachments = (callback) => {
         jQuery.post(ajaxurl, {
             action: 'get_attachments',
-            _ajax_nonce: wpConvertToWebp.nonce
+            _ajax_nonce: ConvertToWebpLite.nonce
         }, function (response) {
             callback(response.data.attachments);
         }).fail(function () {
             // Handle AJAX failure
-            appendMessage('<li class="convert-to-webp__message convert-to-webp__message--error">Failed to fetch attachments. Please try again.</li>', true);
+            appendMessage('<li class="convert-to-webp-lite__message convert-to-webp-lite__message--error">Failed to fetch attachments. Please try again.</li>', true);
             isProcessing = false;
             processStarted = false;
 

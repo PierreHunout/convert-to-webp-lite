@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Convert to WebP">
-    <description>PHPCS ruleset for Convert to WebP</description>
+<ruleset name="Convert to WebP Lite">
+    <description>PHPCS ruleset for Convert to WebP Lite</description>
 
     <!-- Include WordPress Coding Standards -->
     <rule ref="WordPress"/>
@@ -15,7 +15,7 @@
     <config name="testVersion" value="7.4-"/>
 
     <!-- Files and directories to check -->
-    <file>./wp-convert-to-webp.php</file>
+    <file>./convert-to-webp-lite.php</file>
     <file>./includes</file>
 
     <!-- Exclude patterns -->
@@ -41,9 +41,9 @@
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
             <property name="prefixes" type="array">
-                <element value="wp_convert_to_webp"/>
-                <element value="WP_CONVERT_TO_WEBP"/>
-                <element value="WpConvertToWebp"/>
+                <element value="convert_to_webp_lite"/>
+                <element value="convert_to_webp_lite"/>
+                <element value="ConvertToWebpLite"/>
             </property>
         </properties>
     </rule>

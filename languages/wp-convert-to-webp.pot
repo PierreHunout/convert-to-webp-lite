@@ -2,8 +2,8 @@
 # This file is distributed under the GPL-3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Convert to WebP 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-convert-to-webp\n"
+"Project-Id-Version: Convert to WebP Lite 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convert-to-webp-lite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,15 +12,15 @@ msgstr ""
 "POT-Creation-Date: 2025-10-27T16:35:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: wp-convert-to-webp\n"
+"X-Domain: convert-to-webp-lite\n"
 
 #. Plugin Name of the plugin
-#: wp-convert-to-webp.php
-msgid "Convert to WebP"
+#: convert-to-webp-lite.php
+msgid "Convert to WebP Lite"
 msgstr ""
 
 #. Description of the plugin
-#: wp-convert-to-webp.php
+#: convert-to-webp-lite.php
 msgid "Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images."
 msgstr ""
 
@@ -96,7 +96,7 @@ msgid "Enable debug logging"
 msgstr ""
 
 #: includes/Admin/Settings.php:206
-msgid " Logs can be viewed in the <code>convert-to-webp-logs</code> folder, in your <code>wp-content</code> folder."
+msgid " Logs can be viewed in the <code>convert-to-webp-lite-logs</code> folder, in your <code>wp-content</code> folder."
 msgstr ""
 
 #: includes/Admin/Settings.php:214
@@ -190,19 +190,19 @@ msgstr ""
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:176
 #, php-format
-msgid "[WP Convert to WebP] Invalid argument in deletion preparation: %s"
+msgid "[Convert to WebP Lite] Invalid argument in deletion preparation: %s"
 msgstr ""
 
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:189
 #, php-format
-msgid "[WP Convert to WebP] Runtime error in deletion preparation: %s"
+msgid "[Convert to WebP Lite] Runtime error in deletion preparation: %s"
 msgstr ""
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Cleaner.php:202
 #, php-format
-msgid "[WP Convert to WebP] Unexpected error preparing deletion: %1$s in %2$s on line %3$d"
+msgid "[Convert to WebP Lite] Unexpected error preparing deletion: %1$s in %2$s on line %3$d"
 msgstr ""
 
 #: includes/Utils/Cleaner.php:247
@@ -266,37 +266,37 @@ msgstr ""
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:315
 #, php-format
-msgid "[WP Convert to WebP] Invalid argument in WebP deletion: %s"
+msgid "[Convert to WebP Lite] Invalid argument in WebP deletion: %s"
 msgstr ""
 
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:328
 #, php-format
-msgid "[WP Convert to WebP] Runtime error in WebP deletion: %s"
+msgid "[Convert to WebP Lite] Runtime error in WebP deletion: %s"
 msgstr ""
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Cleaner.php:341
 #, php-format
-msgid "[WP Convert to WebP] Unexpected error deleting WebP file: %1$s in %2$s on line %3$d"
+msgid "[Convert to WebP Lite] Unexpected error deleting WebP file: %1$s in %2$s on line %3$d"
 msgstr ""
 
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:176
 #, php-format
-msgid "[WP Convert to WebP] Invalid argument in conversion preparation: %s"
+msgid "[Convert to WebP Lite] Invalid argument in conversion preparation: %s"
 msgstr ""
 
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:189
 #, php-format
-msgid "[WP Convert to WebP] Runtime error in conversion preparation: %s"
+msgid "[Convert to WebP Lite] Runtime error in conversion preparation: %s"
 msgstr ""
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Converter.php:202
 #, php-format
-msgid "[WP Convert to WebP] Unexpected error preparing conversion: %1$s in %2$s on line %3$d"
+msgid "[Convert to WebP Lite] Unexpected error preparing conversion: %1$s in %2$s on line %3$d"
 msgstr ""
 
 #. translators: %s is the basename of the WebP file that already exists
@@ -332,43 +332,43 @@ msgstr ""
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:349
 #, php-format
-msgid "[WP Convert to WebP] Invalid argument in file conversion: %s"
+msgid "[Convert to WebP Lite] Invalid argument in file conversion: %s"
 msgstr ""
 
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:362
 #, php-format
-msgid "[WP Convert to WebP] Runtime error in file conversion: %s"
+msgid "[Convert to WebP Lite] Runtime error in file conversion: %s"
 msgstr ""
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Converter.php:375
 #, php-format
-msgid "[WP Convert to WebP] Unexpected error converting file: %1$s in %2$s on line %3$d"
+msgid "[Convert to WebP Lite] Unexpected error converting file: %1$s in %2$s on line %3$d"
 msgstr ""
 
 #. translators: %s is the folder path that doesn't exist
-#: wp-convert-to-webp.php:154
+#: convert-to-webp-lite.php:154
 #, php-format
 msgid "The folder at %s does not exist"
 msgstr ""
 
-#: wp-convert-to-webp.php:161
+#: convert-to-webp-lite.php:161
 msgid "Unable to resolve includes directory path"
 msgstr ""
 
 #. translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-#: wp-convert-to-webp.php:238
+#: convert-to-webp-lite.php:238
 #, php-format
-msgid "[WP Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d"
+msgid "[Convert to WebP Lite] Error running %1$s: %2$s in %3$s on line %4$d"
 msgstr ""
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: wp-convert-to-webp.php:256
+#: convert-to-webp-lite.php:256
 #, php-format
-msgid "[WP Convert to WebP] Error in autoload(): %1$s in %2$s on line %3$d"
+msgid "[Convert to WebP Lite] Error in autoload(): %1$s in %2$s on line %3$d"
 msgstr ""
 
-#: wp-convert-to-webp.php:303
+#: convert-to-webp-lite.php:303
 msgid "Settings"
 msgstr ""

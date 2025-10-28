@@ -1,12 +1,12 @@
 <?php
 /**
- * Displays admin notices for the WP Convert to WebP plugin.
+ * Displays admin notices for the Convert to WebP Lite plugin.
  *
- * @package WpConvertToWebp
+ * @package ConvertToWebpLite
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Admin;
+namespace ConvertToWebpLite\Admin;
 
 use RuntimeException;
 
@@ -100,7 +100,7 @@ class Notices {
 	 */
 	public static function display_notices(): void {
 		// Only show notices on our plugin's admin page
-		if ( ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== 'wp-convert-to-webp' ) {
+		if ( ! isset( $_GET['page'] ) || sanitize_text_field( wp_unslash( $_GET['page'] ) ) !== 'convert-to-webp-lite' ) {
 			return;
 		}
 
@@ -112,37 +112,37 @@ class Notices {
 		// Verify nonce for notice parameters to prevent tampering
 		if (
 			( isset( $_GET['no_files'] ) || isset( $_GET['deleted'] ) ) &&
-			( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'wp_convert_to_webp_notice' ) )
+			( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'convert_to_webp_lite_notice' ) )
 		) {
 			return;
 		}
 
-		$title = (string) esc_html__( 'No files found to process.', 'wp-convert-to-webp' );
+		$title = (string) esc_html__( 'No files found to process.', 'convert-to-webp-lite' );
 
 		// No files found notice
 		if ( isset( $_GET['no_files'] ) && sanitize_text_field( wp_unslash( $_GET['no_files'] ) ) === '1' ) {
-			echo '<div class="notice is-dismissible convert-to-webp__notice convert-to-webp__notice--nofiles">
+			echo '<div class="notice is-dismissible convert-to-webp-lite__notice convert-to-webp-lite__notice--nofiles">
                 <p>' . esc_html( $title ) . '</p>
             </div>';
 		}
 
 		// Deletion notice
 		if ( isset( $_GET['deleted'] ) && sanitize_text_field( wp_unslash( $_GET['deleted'] ) ) === '1' ) {
-			$title = (string) esc_html__( 'Deleted WebP files', 'wp-convert-to-webp' );
-			$data  = (array) get_transient( 'wp_convert_to_webp_deletion_data' );
-			delete_transient( 'wp_convert_to_webp_deletion_data' );
+			$title = (string) esc_html__( 'Deleted WebP files', 'convert-to-webp-lite' );
+			$data  = (array) get_transient( 'convert_to_webp_lite_deletion_data' );
+			delete_transient( 'convert_to_webp_lite_deletion_data' );
 
 			// Display notice if there is data
 			if ( isset( $data ) && is_array( $data ) ) {
 				$count = (int) count( $data );
-				echo '<div class="notice is-dismissible convert-to-webp__notice convert-to-webp__notice--deletion">
-                    <p class="convert-to-webp__subtitle">' . esc_html( $title ) . ': <strong>' . esc_html( $count ) . '</strong></p>
-                    <div class="convert-to-webp__container convert-to-webp__container--notice">
-                        <div class="convert-to-webp__inner convert-to-webp__inner--notice">
+				echo '<div class="notice is-dismissible convert-to-webp-lite__notice convert-to-webp-lite__notice--deletion">
+                    <p class="convert-to-webp-lite__subtitle">' . esc_html( $title ) . ': <strong>' . esc_html( $count ) . '</strong></p>
+                    <div class="convert-to-webp-lite__container convert-to-webp-lite__container--notice">
+                        <div class="convert-to-webp-lite__inner convert-to-webp-lite__inner--notice">
                 ';
 
 				foreach ( $data as $images ) {
-					echo '<ul class="convert-to-webp__messages">';
+					echo '<ul class="convert-to-webp-lite__messages">';
 
 					foreach ( $images as $image ) {
 						$message = (string) $image['message'];
@@ -150,14 +150,14 @@ class Notices {
 
 						$class_list = [];
 						foreach ( $classes as $class ) {
-							$class        = (string) 'convert-to-webp__message--' . sanitize_html_class( $class );
+							$class        = (string) 'convert-to-webp-lite__message--' . sanitize_html_class( $class );
 							$class_list[] = $class;
 						}
 
 						$classes = (string) implode( ' ', $class_list );
 
 						$allowed_html = (array) [ 'span' => [] ];
-						echo '<li class="convert-to-webp__message ' . esc_attr( $classes ) . '">' . wp_kses( $message, $allowed_html ) . '</li>';
+						echo '<li class="convert-to-webp-lite__message ' . esc_attr( $classes ) . '">' . wp_kses( $message, $allowed_html ) . '</li>';
 					}
 
 					echo '</ul>';

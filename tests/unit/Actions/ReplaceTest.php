@@ -2,13 +2,13 @@
 /**
  * Tests for Replace class
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
-namespace WpConvertToWebp\Tests\Unit\Actions;
+namespace ConvertToWebpLite\Tests\Unit\Actions;
 
-use WpConvertToWebp\Tests\TestCase;
-use WpConvertToWebp\Actions\Replace;
+use ConvertToWebpLite\Tests\TestCase;
+use ConvertToWebpLite\Actions\Replace;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -39,7 +39,7 @@ class ReplaceTest extends TestCase {
 	 * instance, confirming the singleton pattern implementation.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::get_instance
+	 * @covers \ConvertToWebpLite\Actions\Replace::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -61,7 +61,7 @@ class ReplaceTest extends TestCase {
 	 * and stores it in the static instance property.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::get_instance
+	 * @covers \ConvertToWebpLite\Actions\Replace::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_creates_instance_on_first_call(): void {
@@ -91,8 +91,8 @@ class ReplaceTest extends TestCase {
 	 * is called to register WordPress filter hooks.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::__construct
-	 * @covers \WpConvertToWebp\Actions\Replace::init
+	 * @covers \ConvertToWebpLite\Actions\Replace::__construct
+	 * @covers \ConvertToWebpLite\Actions\Replace::init
 	 * @return void
 	 */
 	public function test_constructor_calls_init(): void {
@@ -112,7 +112,7 @@ class ReplaceTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::__clone
+	 * @covers \ConvertToWebpLite\Actions\Replace::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -126,7 +126,7 @@ class ReplaceTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::__wakeup
+	 * @covers \ConvertToWebpLite\Actions\Replace::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -145,7 +145,7 @@ class ReplaceTest extends TestCase {
 	 * for content replacement: the_content, post_thumbnail_html, and widget_text.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::init
+	 * @covers \ConvertToWebpLite\Actions\Replace::init
 	 * @return void
 	 */
 	public function test_init_registers_filters(): void {
@@ -175,7 +175,7 @@ class ReplaceTest extends TestCase {
 	 * is a public static method, and can be called without instantiating the class.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
+	 * @covers \ConvertToWebpLite\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_method_exists(): void {
@@ -197,7 +197,7 @@ class ReplaceTest extends TestCase {
 	 * is public, allowing it to be called during initialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::init
+	 * @covers \ConvertToWebpLite\Actions\Replace::init
 	 * @return void
 	 */
 	public function test_init_method_exists(): void {
@@ -218,7 +218,7 @@ class ReplaceTest extends TestCase {
 	 * ensuring it always returns modified or original content.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
+	 * @covers \ConvertToWebpLite\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_returns_string(): void {
@@ -237,7 +237,7 @@ class ReplaceTest extends TestCase {
 	 * that accepts exactly one parameter named 'content'.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
+	 * @covers \ConvertToWebpLite\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_method_signature(): void {
@@ -259,7 +259,7 @@ class ReplaceTest extends TestCase {
 	 * input and returns an empty string without errors.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
+	 * @covers \ConvertToWebpLite\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_handles_empty_content(): void {
@@ -277,7 +277,7 @@ class ReplaceTest extends TestCase {
 	 * when no img tags are present in the input.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
+	 * @covers \ConvertToWebpLite\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_handles_content_without_images(): void {
@@ -295,7 +295,7 @@ class ReplaceTest extends TestCase {
 	 * structure of content when processing, without breaking tags or nesting.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Actions\Replace::replace_webp
+	 * @covers \ConvertToWebpLite\Actions\Replace::replace_webp
 	 * @return void
 	 */
 	public function test_replace_webp_preserves_content_structure(): void {

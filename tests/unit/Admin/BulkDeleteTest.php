@@ -2,13 +2,13 @@
 /**
  * Tests for BulkDelete class
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  */
 
-namespace WpConvertToWebp\Tests\Unit\Admin;
+namespace ConvertToWebpLite\Tests\Unit\Admin;
 
-use WpConvertToWebp\Tests\TestCase;
-use WpConvertToWebp\Admin\BulkDelete;
+use ConvertToWebpLite\Tests\TestCase;
+use ConvertToWebpLite\Admin\BulkDelete;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -40,7 +40,7 @@ class BulkDeleteTest extends TestCase {
 	 * and returns the same instance on subsequent calls.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\BulkDelete::get_instance
+	 * @covers \ConvertToWebpLite\Admin\BulkDelete::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -62,7 +62,7 @@ class BulkDeleteTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\BulkDelete::__clone
+	 * @covers \ConvertToWebpLite\Admin\BulkDelete::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -76,7 +76,7 @@ class BulkDeleteTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\BulkDelete::__wakeup
+	 * @covers \ConvertToWebpLite\Admin\BulkDelete::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -95,7 +95,7 @@ class BulkDeleteTest extends TestCase {
 	 * WordPress action hook for handling bulk deletion requests.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\BulkDelete::init
+	 * @covers \ConvertToWebpLite\Admin\BulkDelete::init
 	 * @return void
 	 */
 	public function test_init_registers_admin_post_action(): void {
@@ -121,7 +121,7 @@ class BulkDeleteTest extends TestCase {
 	 * allowing it to be called as an action hook callback.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\BulkDelete::delete_all_webp
+	 * @covers \ConvertToWebpLite\Admin\BulkDelete::delete_all_webp
 	 * @return void
 	 */
 	public function test_delete_all_webp_method_exists(): void {
@@ -143,7 +143,7 @@ class BulkDeleteTest extends TestCase {
 	 * allowing it to be called during plugin initialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \WpConvertToWebp\Admin\BulkDelete::init
+	 * @covers \ConvertToWebpLite\Admin\BulkDelete::init
 	 * @return void
 	 */
 	public function test_init_method_exists(): void {

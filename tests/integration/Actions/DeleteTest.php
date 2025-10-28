@@ -4,21 +4,21 @@
  *
  * Tests automatic WebP deletion when attachments are deleted.
  *
- * @package WpConvertToWebp\Tests
+ * @package ConvertToWebpLite\Tests
  * @since 1.0.0
  */
 
-namespace WpConvertToWebp\Tests\Integration\Actions;
+namespace ConvertToWebpLite\Tests\Integration\Actions;
 
-use WpConvertToWebp\Tests\IntegrationTestCase;
-use WpConvertToWebp\Actions\Delete;
-use WpConvertToWebp\Actions\Add;
+use ConvertToWebpLite\Tests\IntegrationTestCase;
+use ConvertToWebpLite\Actions\Delete;
+use ConvertToWebpLite\Actions\Add;
 
 /**
  * Class DeleteTest
  *
  * @since 1.0.0
- * @covers \WpConvertToWebp\Actions\Delete
+ * @covers \ConvertToWebpLite\Actions\Delete
  */
 class DeleteTest extends IntegrationTestCase {
 

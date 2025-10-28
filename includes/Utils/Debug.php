@@ -106,7 +106,7 @@ class Debug {
 
 		if ( false !== $json_data ) {
 			// Attempt to write log file with error handling
-			$filesystem->put_contents( $name, PHP_EOL . $json_data, 0644 );
+			$filesystem->put_contents( $path . $name, PHP_EOL . $json_data, 0644 );
 		}
 	}
 

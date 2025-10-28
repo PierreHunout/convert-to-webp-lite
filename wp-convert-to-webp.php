@@ -144,7 +144,7 @@ class WpConvertToWebp {
 	 * @throws RuntimeException If the includes directory doesn't exist.
 	 * @return void
 	 */
-	public static function autoload(): void {
+	private static function autoload(): void {
 		try {
 			$path = (string) WP_CONVERT_TO_WEBP_PATH . 'includes/';
 
@@ -269,7 +269,7 @@ class WpConvertToWebp {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function enqueue(): void {
+	private static function enqueue(): void {
 		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue' ], 1 );
 	}
 

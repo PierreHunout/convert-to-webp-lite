@@ -1,4 +1,4 @@
-# ![Icon](./assets/images/icon.svg "Convert to WebP Lite") Convert to WebP Lite
+# Convert to WebP Lite
 
 ![A simple and efficient WordPress plugin to convert your images to the WebP format for better performance and reduced bandwidth.](./assets/images/banner.png "Plugin Banner")
 

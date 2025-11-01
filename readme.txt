@@ -1,5 +1,5 @@
 === Convert to WebP Lite ===
-Contributors: hunoutpierre, Pierre Hunout, pierre.hunout@gmail.com
+Contributors: hunoutpierre
 Donate link: https://www.buymeacoffee.com/pierrehunout
 Tags: webp, images, performance, optimization, speed
 Requires at least: 5.0
@@ -62,7 +62,7 @@ The plugin includes smart fallback mechanisms:
 
 = Technical Features =
 
-* Supports both **GD** and **Imagick** PHP extensions
+* Supports the **GD** PHP extension with WebP support
 * Processes all WordPress image sizes (thumbnail, medium, large, full)
 * Handles JPG, PNG, and GIF formats
 * Comprehensive error handling with detailed logging
@@ -114,9 +114,7 @@ The plugin preserves your original images while creating optimized WebP versions
 Before installation, ensure your server has:
 * PHP 7.4 or higher
 * WordPress 5.0 or higher
-* **One of the following:**
-  * PHP GD extension with WebP support, **OR**
-  * PHP Imagick extension with WebP support
+* **PHP GD extension with WebP support**
 
 = Post-Installation =
 
@@ -142,11 +140,10 @@ The plugin uses HTML5 `<picture>` tags (when enabled) that provide automatic fal
 
 = What PHP extensions are required? =
 
-You need either:
-* **PHP GD extension** with WebP support, OR
-* **PHP Imagick extension** with WebP support
+You need:
+* **PHP GD extension** with WebP support
 
-The plugin will automatically detect and use whichever is available. Most modern servers have at least one of these installed.
+The plugin will automatically detect if GD is available with WebP support. Most modern servers have this extension installed by default.
 
 = Can I convert existing images in my media library? =
 
@@ -189,7 +186,7 @@ Go to **Settings → Convert to WebP Lite** and enable **"Debug mode"**. Logs wi
 
 1. Enable **Debug mode** in the settings
 2. Check the log files in `/wp-content/convert-to-webp-lite-logs/`
-3. Verify your server has GD or Imagick with WebP support
+3. Verify your server has GD extension with WebP support
 4. Increase PHP memory limit if needed (add `define('WP_MEMORY_LIMIT', '256M');` to wp-config.php)
 5. Contact support with the error logs
 
@@ -199,16 +196,21 @@ Yes! We welcome contributions. Visit our [GitHub repository](https://github.com/
 
 == Screenshots ==
 
-1. **Settings Page** - Clean, intuitive interface with quality control, picture tag mode, debug options, and data cleanup settings
-2. **Bulk Conversion** - Convert your entire media library with real-time progress tracking and detailed status updates
-3. **Image Comparison** - Side-by-side comparison tool to preview original vs WebP quality before bulk conversion
-4. **Progress Modal** - Visual feedback during bulk operations with conversion speed and estimated time remaining
+1. **Plugin Settings Page** - Configure WebP quality settings (0-100%), enable picture tag mode for automatic browser fallback, toggle debug mode for troubleshooting. The clean interface makes it easy to customize the plugin behavior to your needs.
+
+2. **Image Quality Comparison** - Preview the difference between original and WebP images before bulk conversion. Side-by-side comparison helps you choose the optimal quality setting that balances file size reduction with visual quality for your specific needs.
+
+3. **Bulk Operations Tool** - Convert your entire media library to WebP format with one click or safely delete all previously converted WebP images in a single operation.
+
+4. **Conversion Progress Modal** - Visual feedback during bulk operations showing current file being processed and overall progress percentage. The tool safely processes images in batches to prevent server timeouts.
+
+5. **WebP Deletion Confirmation** - Safety confirmation dialog when deleting all WebP files from your media library. This ensures you don't accidentally remove converted files, while preserving all original images as backup. 
 
 == Changelog ==
 
-= 1.0.0 - 2025-10-27 =
+= 1.0.0 - 2025-11-01 =
 
-** Initial Release**
+Automatically convert images to WebP format for better performance. Reduces image file sizes while maintaining quality. Includes bulk conversion tool, browser fallback support, and quality controls. Preserves all original images.
 
 **Core Features:**
 * Automatic WebP conversion on image upload
@@ -232,37 +234,16 @@ Yes! We welcome contributions. Visit our [GitHub repository](https://github.com/
 
 **Developer Features:**
 * WordPress Coding Standards compliant
-* 276 unit tests + 40 integration tests
 * Comprehensive PHPDoc documentation
 * OOP architecture with dependency injection
-* Extensible filter and action hooks
-
-**Technical:**
-* PHP 7.4+ support
-* WordPress 5.0+ compatibility
-* GD and Imagick support
-* Original image preservation
-* Lazy loading compatible
-
-**Documentation:**
-* Complete user guide
-* Security policy
-* Contributing guidelines
-* Comprehensive FAQ
-* Multi-language support (English, French, Portuguese)
 
 For detailed documentation, visit the [GitHub repository](https://github.com/pierrehunout/convert-to-webp-lite)
-
-== Upgrade Notice ==
-
-= 1.0.0 =
-Automatically convert images to WebP format for better performance. Reduces image file sizes while maintaining quality. Includes bulk conversion tool, browser fallback support, and quality controls. Preserves all original images.
 
 == Requirements ==
 
 * PHP 7.4 or higher
 * WordPress 5.0 or higher
-* The PHP GD or Imagick extension with WebP support enabled
+* The PHP GD extension with WebP support enabled
 
 == Credits ==
 

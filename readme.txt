@@ -1,4 +1,4 @@
-=== Convert to WebP Lite ===
+=== Poetry Convert to WebP ===
 Contributors: hunoutpierre
 Donate link: https://www.buymeacoffee.com/pierrehunout
 Tags: webp, images, performance, optimization, speed
@@ -13,7 +13,7 @@ Automatically convert your images to WebP format for faster page loads and bette
 
 == Description ==
 
-**Convert to WebP Lite** is a powerful yet lightweight WordPress plugin that automatically converts your images to the modern WebP format, delivering up to 30-50% smaller file sizes without sacrificing quality. Give your visitors a faster, smoother browsing experience while reducing bandwidth costs and improving your SEO rankings.
+**Poetry Convert to WebP** is a powerful yet lightweight WordPress plugin that automatically converts your images to the modern WebP format, delivering up to 30-50% smaller file sizes without sacrificing quality. Give your visitors a faster, smoother browsing experience while reducing bandwidth costs and improving your SEO rankings.
 
 = Why WebP? =
 
@@ -70,7 +70,7 @@ The plugin includes smart fallback mechanisms:
 
 = Support =
 
-* **GitHub:** [Report issues and contribute](https://github.com/PierreHunout/convert-to-webp-lite)
+* **GitHub:** [Report issues and contribute](https://github.com/PierreHunout/poetry-convert-to-webp)
 
 = Privacy =
 
@@ -90,17 +90,17 @@ The plugin preserves your original images while creating optimized WebP versions
 
 1. Log in to your WordPress admin panel
 2. Navigate to **Plugins → Add New**
-3. Search for "Convert to WebP Lite"
+3. Search for "Poetry Convert to WebP"
 4. Click **Install Now** and then **Activate**
-5. Go to **Settings → Convert to WebP Lite** to configure options
+5. Go to **Settings → Poetry Convert to WebP** to configure options
 6. Use the bulk conversion tool to convert existing images
 
 = Manual Installation =
 
 1. Download the plugin ZIP file
-2. Upload the `convert-to-webp-lite` folder to `/wp-content/plugins/`
+2. Upload the `poetry-convert-to-webp` folder to `/wp-content/plugins/`
 3. Activate the plugin through the **Plugins** menu in WordPress
-4. Go to **Settings → Convert to WebP Lite** to configure options
+4. Go to **Settings → Poetry Convert to WebP** to configure options
 
 = First Time Setup =
 
@@ -122,7 +122,7 @@ After activation:
 * **New uploads** are automatically converted to WebP
 * **Existing images** can be converted using the bulk tool in Settings
 * **Original images** are preserved as backup
-* **Settings** can be adjusted anytime under Settings → Convert to WebP Lite
+* **Settings** can be adjusted anytime under Settings → Poetry Convert to WebP
 
 == Frequently Asked Questions ==
 
@@ -147,7 +147,7 @@ The plugin will automatically detect if GD is available with WebP support. Most 
 
 = Can I convert existing images in my media library? =
 
-Absolutely! Go to **Settings → Convert to WebP Lite** and click the **"Convert previously uploaded images"** button. The plugin will process all images in your media library with a real-time progress indicator.
+Absolutely! Go to **Settings → Poetry Convert to WebP** and click the **"Convert previously uploaded images"** button. The plugin will process all images in your media library with a real-time progress indicator.
 
 = What quality setting should I use? =
 
@@ -162,7 +162,7 @@ No! Conversion only happens during image upload or bulk conversion, not when pag
 
 = Can I delete all WebP files if I change my mind? =
 
-Yes. Go to **Settings → Convert to WebP Lite** and scroll to the bottom. Click **"Delete all WebP files"** to remove all WebP versions. Your original images are never touched.
+Yes. Go to **Settings → Poetry Convert to WebP** and scroll to the bottom. Click **"Delete all WebP files"** to remove all WebP versions. Your original images are never touched.
 
 = Where are WebP files stored? =
 
@@ -180,19 +180,19 @@ No. All image processing happens **locally on your server**. The plugin does not
 
 = How do I enable debug mode? =
 
-Go to **Settings → Convert to WebP Lite** and enable **"Debug mode"**. Logs will be stored in `/wp-content/convert-to-webp-lite-logs/` folder. This is useful for troubleshooting conversion issues.
+Go to **Settings → Poetry Convert to WebP** and enable **"Debug mode"**. Logs will be stored in `/wp-content/poetry-convert-to-webp-logs/` folder. This is useful for troubleshooting conversion issues.
 
 = I'm getting conversion errors. What should I do? =
 
 1. Enable **Debug mode** in the settings
-2. Check the log files in `/wp-content/convert-to-webp-lite-logs/`
+2. Check the log files in `/wp-content/poetry-convert-to-webp-logs/`
 3. Verify your server has GD extension with WebP support
 4. Increase PHP memory limit if needed (add `define('WP_MEMORY_LIMIT', '256M');` to wp-config.php)
 5. Contact support with the error logs
 
 = Can I contribute to this plugin? =
 
-Yes! We welcome contributions. Visit our [GitHub repository](https://github.com/PierreHunout/convert-to-webp-lite) to report issues, suggest features, or submit pull requests.
+Yes! We welcome contributions. Visit our [GitHub repository](https://github.com/PierreHunout/poetry-convert-to-webp) to report issues, suggest features, or submit pull requests.
 
 == Screenshots ==
 
@@ -237,7 +237,7 @@ Automatically convert images to WebP format for better performance. Reduces imag
 * Comprehensive PHPDoc documentation
 * OOP architecture with dependency injection
 
-For detailed documentation, visit the [GitHub repository](https://github.com/pierrehunout/convert-to-webp-lite)
+For detailed documentation, visit the [GitHub repository](https://github.com/pierrehunout/poetry-convert-to-webp)
 
 == Requirements ==
 

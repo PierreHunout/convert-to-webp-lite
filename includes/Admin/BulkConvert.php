@@ -2,14 +2,14 @@
 /**
  * Handles AJAX actions for the bulk conversion WebP process and progress bar.
  *
- * @package ConvertToWebpLite
+ * @package PoetryConvertToWebp
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Admin;
+namespace PoetryConvertToWebp\Admin;
 
-use ConvertToWebpLite\Utils\Helpers;
-use ConvertToWebpLite\Utils\Converter;
+use PoetryConvertToWebp\Utils\Helpers;
+use PoetryConvertToWebp\Utils\Converter;
 use RuntimeException;
 
 /**
@@ -106,10 +106,10 @@ class BulkConvert {
 	public static function get_attachments(): void {
 		// Verify user capabilities
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'convert-to-webp-lite' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'poetry-convert-to-webp' ) ] );
 		}
 
-		check_ajax_referer( 'convert_to_webp_lite_ajax' );
+		check_ajax_referer( 'poetry_convert_to_webp_ajax' );
 		$attachments = (array) Helpers::get_attachments();
 		wp_send_json_success( [ 'attachments' => $attachments ] );
 	}
@@ -126,20 +126,20 @@ class BulkConvert {
 	public static function convert(): void {
 		// Verify user capabilities
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'convert-to-webp-lite' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Access denied.', 'poetry-convert-to-webp' ) ] );
 		}
 
-		check_ajax_referer( 'convert_to_webp_lite_ajax' );
+		check_ajax_referer( 'poetry_convert_to_webp_ajax' );
 
 		// Validate and sanitize the attachment ID
 		if ( ! isset( $_POST['attachment_id'] ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'convert-to-webp-lite' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'poetry-convert-to-webp' ) ] );
 		}
 
 		$attachment_id = intval( sanitize_text_field( wp_unslash( $_POST['attachment_id'] ) ) );
 
 		if ( $attachment_id <= 0 ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'convert-to-webp-lite' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid attachment ID.', 'poetry-convert-to-webp' ) ] );
 		}
 
 		$metadata = wp_get_attachment_metadata( $attachment_id );
@@ -153,7 +153,7 @@ class BulkConvert {
 		$result    = (array) $converter->prepare( $attachment_id, $metadata );
 
 		// Get message and classes from converter result for frontend display
-		$message = (string) ( isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'convert-to-webp-lite' ) );
+		$message = (string) ( isset( $result[0]['message'] ) ? $result[0]['message'] : esc_html__( 'Done', 'poetry-convert-to-webp' ) );
 		$classes = (array) ( isset( $result[0]['classes'] ) ? $result[0]['classes'] : [] );
 
 		wp_send_json_success(

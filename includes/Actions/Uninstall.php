@@ -2,14 +2,14 @@
 /**
  * Handles plugin uninstallation and cleanup of WebP files and options.
  *
- * @package ConvertToWebpLite
+ * @package PoetryConvertToWebp
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Actions;
+namespace PoetryConvertToWebp\Actions;
 
-use ConvertToWebpLite\Utils\Helpers;
-use ConvertToWebpLite\Utils\Cleaner;
+use PoetryConvertToWebp\Utils\Helpers;
+use PoetryConvertToWebp\Utils\Cleaner;
 use RuntimeException;
 
 /**
@@ -99,7 +99,7 @@ class Uninstall {
 		// Remove plugin options from the database
 		delete_option( 'delete_webp_on_uninstall' );
 		delete_option( 'delete_webp_on_deactivate' );
-		delete_option( 'convert_to_webp_lite_quality' );
-		delete_option( 'convert_to_webp_lite_replace_mode' );
+		delete_option( 'poetry_convert_to_webp_quality' );
+		delete_option( 'poetry_convert_to_webp_replace_mode' );
 	}
 }

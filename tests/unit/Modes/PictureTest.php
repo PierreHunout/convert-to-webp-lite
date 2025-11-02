@@ -2,13 +2,13 @@
 /**
  * Tests for Picture class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Modes;
+namespace PoetryConvertToWebp\Tests\Unit\Modes;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Modes\Picture;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Modes\Picture;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -41,7 +41,7 @@ class PictureTest extends TestCase {
 	 * instantiation of the Picture class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::__construct
+	 * @covers \PoetryConvertToWebp\Modes\Picture::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -55,7 +55,7 @@ class PictureTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::__clone
+	 * @covers \PoetryConvertToWebp\Modes\Picture::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -69,7 +69,7 @@ class PictureTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::__wakeup
+	 * @covers \PoetryConvertToWebp\Modes\Picture::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -88,7 +88,7 @@ class PictureTest extends TestCase {
 	 * allowing it to be called without instantiating the class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Picture::prepare
 	 * @return void
 	 */
 	public function test_prepare_method_exists(): void {
@@ -115,7 +115,7 @@ class PictureTest extends TestCase {
 	 * allowing it to be called without instantiating the class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_method_exists(): void {
@@ -142,7 +142,7 @@ class PictureTest extends TestCase {
 	 * all required keys: src, srcset, sizes, and fallback.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Picture::prepare
 	 * @return void
 	 */
 	public function test_prepare_returns_array_with_required_keys(): void {
@@ -174,7 +174,7 @@ class PictureTest extends TestCase {
 	 * in the returned array for use in the picture element.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Picture::prepare
 	 * @return void
 	 */
 	public function test_prepare_stores_original_src(): void {
@@ -199,7 +199,7 @@ class PictureTest extends TestCase {
 	 * when wp_calculate_image_sizes returns null.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Picture::prepare
 	 * @return void
 	 */
 	public function test_prepare_uses_default_sizes_when_null(): void {
@@ -224,7 +224,7 @@ class PictureTest extends TestCase {
 	 * various image extensions (jpg, jpeg, png, gif) to .webp, case-insensitively.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_regex_converts_extensions_to_webp(): void {
@@ -255,7 +255,7 @@ class PictureTest extends TestCase {
 	 * with source tag for WebP and fallback img tag.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_generates_picture_element_structure(): void {
@@ -274,7 +274,7 @@ class PictureTest extends TestCase {
 	 * the correct MIME type "image/webp".
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_source_element_has_webp_type(): void {
@@ -290,7 +290,7 @@ class PictureTest extends TestCase {
 	 * the srcset attribute with WebP image URLs.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_source_element_includes_srcset(): void {
@@ -308,7 +308,7 @@ class PictureTest extends TestCase {
 	 * the sizes attribute for responsive images.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_source_element_includes_sizes(): void {
@@ -326,7 +326,7 @@ class PictureTest extends TestCase {
 	 * containing multiple image URLs with width descriptors.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_parses_srcset_correctly(): void {
@@ -349,7 +349,7 @@ class PictureTest extends TestCase {
 	 * when parsing srcset strings with trailing or double commas.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_handles_empty_srcset_parts(): void {
@@ -374,7 +374,7 @@ class PictureTest extends TestCase {
 	 * to WebP format while preserving width descriptors.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_converts_srcset_items_to_webp(): void {
@@ -400,7 +400,7 @@ class PictureTest extends TestCase {
 	 * when processing srcset items.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_preserves_width_descriptor_in_srcset(): void {
@@ -419,7 +419,7 @@ class PictureTest extends TestCase {
 	 * that contain only a URL without a width descriptor.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_handles_srcset_item_without_descriptor(): void {
@@ -437,7 +437,7 @@ class PictureTest extends TestCase {
 	 * using sprintf with srcset and sizes parameters.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_formats_source_element_with_sprintf(): void {
@@ -456,7 +456,7 @@ class PictureTest extends TestCase {
 	 * with comma and space separators.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_joins_srcset_array_correctly(): void {
@@ -479,7 +479,7 @@ class PictureTest extends TestCase {
 	 * opening picture tag, source element, img tag, closing picture tag.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::print
+	 * @covers \PoetryConvertToWebp\Modes\Picture::print
 	 * @return void
 	 */
 	public function test_print_maintains_correct_element_order(): void {
@@ -502,7 +502,7 @@ class PictureTest extends TestCase {
 	 * generated by Image::prepare for browsers without WebP support.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Picture::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Picture::prepare
 	 * @return void
 	 */
 	public function test_prepare_returns_fallback_from_image_prepare(): void {

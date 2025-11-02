@@ -1,28 +1,28 @@
 <?php
 /**
- * Plugin Name:       Convert to WebP Lite
- * Plugin Slug:       convert-to-webp-lite
- * Plugin URI:        https://github.com/PierreHunout/convert-to-webp-lite
+ * Plugin Name:       Poetry Convert to WebP
+ * Plugin Slug:       poetry-convert-to-webp
+ * Plugin URI:        https://github.com/PierreHunout/poetry-convert-to-webp
  * Description:       Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images.
  * Version:           1.0.0
  * Author:            Pierre Hunout
  * Author URI:        https://github.com/PierreHunout
- * Text Domain:       convert-to-webp-lite
+ * Text Domain:       poetry-convert-to-webp
  * Domain Path:      /languages
  * License:           GPL-3.0
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 5.0
  * Requires PHP:      7.4
- * GitHub Plugin URI:  PierreHunout/convert-to-webp-lite
+ * GitHub Plugin URI:  PierreHunout/poetry-convert-to-webp
  * 
  * @since             1.0.0
- * @package           ConvertToWebpLite
+ * @package           PoetryConvertToWebp
  */
 
-namespace ConvertToWebpLite;
+namespace PoetryConvertToWebp;
 
-use ConvertToWebpLite\Actions\Deactivate;
-use ConvertToWebpLite\Actions\Uninstall;
+use PoetryConvertToWebp\Actions\Deactivate;
+use PoetryConvertToWebp\Actions\Uninstall;
 use RuntimeException;
 use Throwable;
 use ReflectionClass;
@@ -42,13 +42,13 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @since 1.0.0
  */
-define( 'CONVERT_TO_WEBP_LITE_VERSION', '1.0.0' );
-define( 'CONVERT_TO_WEBP_LITE_FILE', __FILE__ );
-define( 'CONVERT_TO_WEBP_LITE_PATH', plugin_dir_path( CONVERT_TO_WEBP_LITE_FILE ) );
-define( 'CONVERT_TO_WEBP_LITE_BASENAME', plugin_basename( CONVERT_TO_WEBP_LITE_FILE ) );
-define( 'CONVERT_TO_WEBP_LITE_SLUG', dirname( CONVERT_TO_WEBP_LITE_BASENAME ) );
-define( 'CONVERT_TO_WEBP_LITE_CSS', plugins_url( 'assets/css/', __FILE__ ) );
-define( 'CONVERT_TO_WEBP_LITE_JS', plugins_url( 'assets/js/', __FILE__ ) );
+define( 'POETRY_CONVERT_TO_WEBP_VERSION', '1.0.0' );
+define( 'POETRY_CONVERT_TO_WEBP_FILE', __FILE__ );
+define( 'POETRY_CONVERT_TO_WEBP_PATH', plugin_dir_path( POETRY_CONVERT_TO_WEBP_FILE ) );
+define( 'POETRY_CONVERT_TO_WEBP_BASENAME', plugin_basename( POETRY_CONVERT_TO_WEBP_FILE ) );
+define( 'POETRY_CONVERT_TO_WEBP_SLUG', dirname( POETRY_CONVERT_TO_WEBP_BASENAME ) );
+define( 'POETRY_CONVERT_TO_WEBP_CSS', plugins_url( 'assets/css/', __FILE__ ) );
+define( 'POETRY_CONVERT_TO_WEBP_JS', plugins_url( 'assets/js/', __FILE__ ) );
 
 /**
  * Optionally include Composer autoload if available.
@@ -60,20 +60,20 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 /**
- * Main plugin class for Convert to WebP Lite.
+ * Main plugin class for Poetry Convert to WebP.
  *
  * Implements the Singleton pattern to ensure a single instance.
  * Handles plugin loading, file inclusion, and asset enqueueing.
  */
-class ConvertToWebpLite {
+class PoetryConvertToWebp {
 
 	/**
 	 * Holds the Singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @var ConvertToWebpLite|null The Singleton instance.
+	 * @var PoetryConvertToWebp|null The Singleton instance.
 	 */
-	protected static ?ConvertToWebpLite $instance = null;
+	protected static ?PoetryConvertToWebp $instance = null;
 
 	/**
 	 * Private constructor to prevent direct instantiation.
@@ -105,9 +105,9 @@ class ConvertToWebpLite {
 	 * Returns the Singleton instance of the plugin.
 	 *
 	 * @since 1.0.0
-	 * @return ConvertToWebpLite The Singleton instance.
+	 * @return PoetryConvertToWebp The Singleton instance.
 	 */
-	public static function get_instance(): ConvertToWebpLite {
+	public static function get_instance(): PoetryConvertToWebp {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -131,7 +131,7 @@ class ConvertToWebpLite {
 		register_uninstall_hook( __FILE__, [ Uninstall::class, 'uninstall' ] );
 
 		// Add plugin action links
-		add_filter( 'plugin_action_links_' . CONVERT_TO_WEBP_LITE_BASENAME, [ __CLASS__, 'add_action_links' ] );
+		add_filter( 'plugin_action_links_' . POETRY_CONVERT_TO_WEBP_BASENAME, [ __CLASS__, 'add_action_links' ] );
 	}
 
 	/**
@@ -146,19 +146,19 @@ class ConvertToWebpLite {
 	 */
 	private static function autoload(): void {
 		try {
-			$path = (string) CONVERT_TO_WEBP_LITE_PATH . 'includes/';
+			$path = (string) POETRY_CONVERT_TO_WEBP_PATH . 'includes/';
 
 			// Check if the includes directory exists
 			if ( ! is_dir( $path ) ) {
 				// translators: %s is the folder path that doesn't exist
-				throw new RuntimeException( sprintf( __( 'The folder at %s does not exist', 'convert-to-webp-lite' ), $path ) );
+				throw new RuntimeException( sprintf( __( 'The folder at %s does not exist', 'poetry-convert-to-webp' ), $path ) );
 			}
 
 			// Normalize the base path for security checks.
 			$normalized_base = (string) realpath( $path );
 
 			if ( false === $normalized_base ) {
-				throw new RuntimeException( __( 'Unable to resolve includes directory path', 'convert-to-webp-lite' ) );
+				throw new RuntimeException( __( 'Unable to resolve includes directory path', 'poetry-convert-to-webp' ) );
 			}
 
 			// Get all subdirectories in the includes folder
@@ -203,10 +203,10 @@ class ConvertToWebpLite {
 
 					// Get the class name based on folder and file name.
 					$name  = (string) basename( $file, '.php' );
-					$class = (string) 'ConvertToWebpLite\\' . $directory . '\\' . $name;
+					$class = (string) 'PoetryConvertToWebp\\' . $directory . '\\' . $name;
 
 					// Enhanced class validation.
-					if ( ! class_exists( $class ) || 0 !== strpos( $class, 'ConvertToWebpLite' ) ) {
+					if ( ! class_exists( $class ) || 0 !== strpos( $class, 'PoetryConvertToWebp' ) ) {
 						continue;
 					}
 
@@ -235,7 +235,7 @@ class ConvertToWebpLite {
 							error_log(
 								sprintf(
 									// translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-									__( '[Convert to WebP Lite] Error running %1$s: %2$s in %3$s on line %4$d', 'convert-to-webp-lite' ),
+									__( '[Poetry Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d', 'poetry-convert-to-webp' ),
 									$class,
 									$inner_error->getMessage(),
 									basename( $inner_error->getFile() ),
@@ -253,7 +253,7 @@ class ConvertToWebpLite {
 				error_log(
 					sprintf(
 						// translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-						__( '[Convert to WebP Lite] Error in autoload: %1$s in %2$s on line %3$d', 'convert-to-webp-lite' ),
+						__( '[Poetry Convert to WebP] Error in autoload: %1$s in %2$s on line %3$d', 'poetry-convert-to-webp' ),
 						$error->getMessage(),
 						basename( $error->getFile() ),
 						$error->getLine()
@@ -280,11 +280,11 @@ class ConvertToWebpLite {
 	 * @return void
 	 */
 	public static function admin_enqueue(): void {
-		wp_enqueue_style( 'convert-to-webp-lite', CONVERT_TO_WEBP_LITE_CSS . 'styles.css', [], CONVERT_TO_WEBP_LITE_VERSION, 'all' );
-		wp_enqueue_script( 'convert-to-webp-lite', CONVERT_TO_WEBP_LITE_JS . 'scripts.js', [], CONVERT_TO_WEBP_LITE_VERSION, true );
-		wp_enqueue_script( 'convert-to-webp-lite-ajax', CONVERT_TO_WEBP_LITE_JS . 'ajax.js', [], CONVERT_TO_WEBP_LITE_VERSION, true );
+		wp_enqueue_style( 'poetry-convert-to-webp', POETRY_CONVERT_TO_WEBP_CSS . 'styles.css', [], POETRY_CONVERT_TO_WEBP_VERSION, 'all' );
+		wp_enqueue_script( 'poetry-convert-to-webp', POETRY_CONVERT_TO_WEBP_JS . 'scripts.js', [], POETRY_CONVERT_TO_WEBP_VERSION, true );
+		wp_enqueue_script( 'poetry-convert-to-webp-ajax', POETRY_CONVERT_TO_WEBP_JS . 'ajax.js', [], POETRY_CONVERT_TO_WEBP_VERSION, true );
 
-		wp_localize_script( 'convert-to-webp-lite-ajax', 'ConvertToWebpLite', [ 'nonce' => wp_create_nonce( 'convert_to_webp_lite_ajax' ) ] );
+		wp_localize_script( 'poetry-convert-to-webp-ajax', 'PoetryConvertToWebp', [ 'nonce' => wp_create_nonce( 'poetry_convert_to_webp_ajax' ) ] );
 	}
 
 	/**
@@ -299,8 +299,8 @@ class ConvertToWebpLite {
 	public static function add_action_links( array $links ): array {
 		$links[] = sprintf(
 			'<a href="%s">%s</a>',
-			esc_url( admin_url( 'admin.php?page=convert-to-webp-lite' ) ),
-			esc_html__( 'Settings', 'convert-to-webp-lite' )
+			esc_url( admin_url( 'admin.php?page=poetry-convert-to-webp' ) ),
+			esc_html__( 'Settings', 'poetry-convert-to-webp' )
 		);
 
 		return $links;
@@ -316,6 +316,6 @@ class ConvertToWebpLite {
 add_action(
 	'plugin_loaded',
 	function () {
-		return ConvertToWebpLite::get_instance();
+		return PoetryConvertToWebp::get_instance();
 	}
 );

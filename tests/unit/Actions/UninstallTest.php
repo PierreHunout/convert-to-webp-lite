@@ -2,13 +2,13 @@
 /**
  * Tests for Uninstall class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Actions;
+namespace PoetryConvertToWebp\Tests\Unit\Actions;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Actions\Uninstall;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Actions\Uninstall;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -39,7 +39,7 @@ class UninstallTest extends TestCase {
 	 * direct instantiation of the Uninstall class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::__construct
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -53,7 +53,7 @@ class UninstallTest extends TestCase {
 	 * of the Uninstall class instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::__clone
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -67,7 +67,7 @@ class UninstallTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::__wakeup
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -86,7 +86,7 @@ class UninstallTest extends TestCase {
 	 * is publicly accessible, and is declared as static.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_method_exists(): void {
@@ -108,7 +108,7 @@ class UninstallTest extends TestCase {
 	 * the uninstall() method returns early without processing.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_returns_early_when_delete_option_false(): void {
@@ -130,7 +130,7 @@ class UninstallTest extends TestCase {
 	 * the cleanup process is triggered without errors.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_option_enabled_triggers_cleanup(): void {
@@ -153,10 +153,10 @@ class UninstallTest extends TestCase {
 	 * Test that uninstall deletes all plugin options.
 	 *
 	 * Verifies that uninstall() deletes all 4 plugin options: delete_webp_on_uninstall,
-	 * delete_webp_on_deactivate, convert_to_webp_lite_quality, and convert_to_webp_lite_replace_mode.
+	 * delete_webp_on_deactivate, poetry_convert_to_webp_quality, and poetry_convert_to_webp_replace_mode.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_deletes_all_plugin_options(): void {
@@ -164,15 +164,15 @@ class UninstallTest extends TestCase {
 		$expected_options = [
 			'delete_webp_on_uninstall',
 			'delete_webp_on_deactivate',
-			'convert_to_webp_lite_quality',
-			'convert_to_webp_lite_replace_mode',
+			'poetry_convert_to_webp_quality',
+			'poetry_convert_to_webp_replace_mode',
 		];
 
 		$this->assertCount( 4, $expected_options );
 		$this->assertContains( 'delete_webp_on_uninstall', $expected_options );
 		$this->assertContains( 'delete_webp_on_deactivate', $expected_options );
-		$this->assertContains( 'convert_to_webp_lite_quality', $expected_options );
-		$this->assertContains( 'convert_to_webp_lite_replace_mode', $expected_options );
+		$this->assertContains( 'poetry_convert_to_webp_quality', $expected_options );
+		$this->assertContains( 'poetry_convert_to_webp_replace_mode', $expected_options );
 	}
 
 	/**
@@ -182,7 +182,7 @@ class UninstallTest extends TestCase {
 	 * values to empty arrays before processing.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_converts_false_metadata_to_array(): void {
@@ -204,7 +204,7 @@ class UninstallTest extends TestCase {
 	 * indicating it performs an action without returning a value.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_returns_void(): void {
@@ -223,7 +223,7 @@ class UninstallTest extends TestCase {
 	 * designed to be called directly without arguments.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_method_signature(): void {
@@ -242,21 +242,21 @@ class UninstallTest extends TestCase {
 	 * specifically 4 options vs 3, including the delete_webp_on_uninstall option.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Actions\Uninstall::uninstall
+	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
 	 * @return void
 	 */
 	public function test_uninstall_deletes_more_options_than_deactivate(): void {
 		$uninstall_options = [
 			'delete_webp_on_uninstall',
 			'delete_webp_on_deactivate',
-			'convert_to_webp_lite_quality',
-			'convert_to_webp_lite_replace_mode',
+			'poetry_convert_to_webp_quality',
+			'poetry_convert_to_webp_replace_mode',
 		];
 
 		$deactivate_options = [
 			'delete_webp_on_deactivate',
-			'convert_to_webp_lite_quality',
-			'convert_to_webp_lite_replace_mode',
+			'poetry_convert_to_webp_quality',
+			'poetry_convert_to_webp_replace_mode',
 		];
 
 		// Uninstall should delete all deactivate options plus additional ones

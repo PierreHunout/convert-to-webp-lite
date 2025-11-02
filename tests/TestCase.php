@@ -4,10 +4,10 @@
  *
  * Provides common functionality for all unit tests including Brain Monkey integration.
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests;
+namespace PoetryConvertToWebp\Tests;
 
 use Brain\Monkey;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase as PolyfillsTestCase;

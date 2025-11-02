@@ -2,14 +2,14 @@
 /**
  * Handles actions for bulk deletion of WebP files.
  *
- * @package ConvertToWebpLite
+ * @package PoetryConvertToWebp
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Admin;
+namespace PoetryConvertToWebp\Admin;
 
-use ConvertToWebpLite\Utils\Helpers;
-use ConvertToWebpLite\Utils\Cleaner;
+use PoetryConvertToWebp\Utils\Helpers;
+use PoetryConvertToWebp\Utils\Cleaner;
 use RuntimeException;
 
 /**
@@ -101,7 +101,7 @@ class BulkDelete {
 	 */
 	public static function delete_all_webp(): void {
 		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'delete_all_webp' ) ) {
-			wp_die( esc_html__( 'Not allowed', 'convert-to-webp-lite' ) );
+			wp_die( esc_html__( 'Not allowed', 'poetry-convert-to-webp' ) );
 		}
 
 		$attachments = (array) Helpers::get_attachments();
@@ -110,9 +110,9 @@ class BulkDelete {
 			$redirect_url = (string) add_query_arg(
 				[
 					'no_files' => '1',
-					'_wpnonce' => wp_create_nonce( 'convert_to_webp_lite_notice' ),
+					'_wpnonce' => wp_create_nonce( 'poetry_convert_to_webp_notice' ),
 				],
-				admin_url( 'admin.php?page=convert-to-webp-lite' )
+				admin_url( 'admin.php?page=poetry-convert-to-webp' )
 			);
 			wp_safe_redirect( $redirect_url );
 			exit;
@@ -126,7 +126,7 @@ class BulkDelete {
 			$cleaner  = Cleaner::get_instance();
 			$result[] = (array) $cleaner->prepare( $attachment_id, $metadata );
 		}       // Store details for notice
-		set_transient( 'convert_to_webp_lite_deletion_data', $result, 60 );
+		set_transient( 'poetry_convert_to_webp_deletion_data', $result, 60 );
 
 		// Clear the cache
 		wp_cache_flush();
@@ -138,9 +138,9 @@ class BulkDelete {
 		$redirect_url = (string) add_query_arg(
 			[
 				'deleted'  => '1',
-				'_wpnonce' => wp_create_nonce( 'convert_to_webp_lite_notice' ),
+				'_wpnonce' => wp_create_nonce( 'poetry_convert_to_webp_notice' ),
 			],
-			admin_url( 'admin.php?page=convert-to-webp-lite' )
+			admin_url( 'admin.php?page=poetry-convert-to-webp' )
 		);
 
 		wp_safe_redirect( $redirect_url );

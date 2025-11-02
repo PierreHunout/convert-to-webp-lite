@@ -2,13 +2,13 @@
 /**
  * Tests for Cleaner class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Utils;
+namespace PoetryConvertToWebp\Tests\Unit\Utils;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Utils\Cleaner;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Utils\Cleaner;
 use Brain\Monkey\Functions as BrainMonkey;
 use Mockery;
 use RuntimeException;
@@ -55,7 +55,7 @@ class CleanerTest extends TestCase {
 	 * instantiation of the Cleaner class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::__construct
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -69,7 +69,7 @@ class CleanerTest extends TestCase {
 	 * of the Cleaner singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::__clone
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -83,7 +83,7 @@ class CleanerTest extends TestCase {
 	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::__wakeup
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -102,7 +102,7 @@ class CleanerTest extends TestCase {
 	 * called with an invalid attachment ID (0 or negative).
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::prepare
 	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_attachment_id(): void {
@@ -124,7 +124,7 @@ class CleanerTest extends TestCase {
 	 * called with empty or invalid attachment metadata.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::prepare
 	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_metadata(): void {
@@ -145,7 +145,7 @@ class CleanerTest extends TestCase {
 	 * WP_Filesystem initialization fails.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::prepare
 	 * @return void
 	 */
 	public function test_prepare_returns_error_when_filesystem_fails(): void {
@@ -169,7 +169,7 @@ class CleanerTest extends TestCase {
 	 * the attachment file does not exist on the filesystem.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::prepare
 	 * @return void
 	 */
 	public function test_prepare_handles_missing_file(): void {
@@ -202,7 +202,7 @@ class CleanerTest extends TestCase {
 	 * the attachment file exists but is not writable.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::prepare
 	 * @return void
 	 */
 	public function test_prepare_handles_file_not_writable(): void {
@@ -239,7 +239,7 @@ class CleanerTest extends TestCase {
 	 * called with an empty or invalid file path.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_throws_exception_for_invalid_filepath(): void {
@@ -260,7 +260,7 @@ class CleanerTest extends TestCase {
 	 * WP_Filesystem initialization fails.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_returns_error_when_filesystem_fails(): void {
@@ -282,7 +282,7 @@ class CleanerTest extends TestCase {
 	 * the source file does not exist on the filesystem.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_handles_missing_file(): void {
@@ -313,7 +313,7 @@ class CleanerTest extends TestCase {
 	 * attempting to delete a WebP file of a file that is already WebP.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_handles_already_webp_file(): void {
@@ -345,7 +345,7 @@ class CleanerTest extends TestCase {
 	 * given a path with no filename (directory only).
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_handles_invalid_path_structure(): void {
@@ -376,7 +376,7 @@ class CleanerTest extends TestCase {
 	 * the corresponding WebP file does not exist.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_handles_webp_not_exists(): void {
@@ -411,7 +411,7 @@ class CleanerTest extends TestCase {
 	 * the WebP file exists but is not writable.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_handles_webp_not_writable(): void {
@@ -450,7 +450,7 @@ class CleanerTest extends TestCase {
 	 * the filesystem delete operation fails.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_handles_deletion_failure(): void {
@@ -493,7 +493,7 @@ class CleanerTest extends TestCase {
 	 * when all conditions are met (file exists and is writable).
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Cleaner::delete
+	 * @covers \PoetryConvertToWebp\Utils\Cleaner::delete
 	 * @return void
 	 */
 	public function test_delete_successfully_deletes_webp_file(): void {

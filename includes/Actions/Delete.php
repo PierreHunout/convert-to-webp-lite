@@ -2,13 +2,13 @@
 /**
  * Handles deletion of WebP files when attachments are deleted in WordPress.
  *
- * @package ConvertToWebpLite
+ * @package PoetryConvertToWebp
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Actions;
+namespace PoetryConvertToWebp\Actions;
 
-use ConvertToWebpLite\Utils\Cleaner;
+use PoetryConvertToWebp\Utils\Cleaner;
 use RuntimeException;
 
 /**

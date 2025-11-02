@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release of Convert to WebP Lite plugin
+- Initial release of Poetry Convert to WebP plugin
 - Automatic WebP conversion for newly uploaded images (JPG, PNG, GIF)
 - Bulk conversion tool for existing images in media library
 - WebP quality setting (configurable from 0-100, default 85)
@@ -54,4 +54,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Direct file access prevention
 - WordPress filesystem API for secure file operations
 
-[1.0.0]: https://github.com/PierreHunout/convert-to-webp-lite/releases/tag/v1.0.0
+[1.0.0]: https://github.com/PierreHunout/poetry-convert-to-webp/releases/tag/v1.0.0

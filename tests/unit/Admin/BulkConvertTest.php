@@ -2,13 +2,13 @@
 /**
  * Tests for BulkConvert class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Admin;
+namespace PoetryConvertToWebp\Tests\Unit\Admin;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Admin\BulkConvert;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Admin\BulkConvert;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -40,7 +40,7 @@ class BulkConvertTest extends TestCase {
 	 * multiple calls, enforcing the singleton pattern.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::get_instance
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -66,7 +66,7 @@ class BulkConvertTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::__clone
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -80,7 +80,7 @@ class BulkConvertTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::__wakeup
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -99,7 +99,7 @@ class BulkConvertTest extends TestCase {
 	 * for get_attachments and convert handlers.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::init
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::init
 	 * @return void
 	 */
 	public function test_init_registers_ajax_actions(): void {
@@ -124,7 +124,7 @@ class BulkConvertTest extends TestCase {
 	 * Verifies the get_attachments method can be called as an AJAX handler.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::get_attachments
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::get_attachments
 	 * @return void
 	 */
 	public function test_get_attachments_method_exists(): void {
@@ -150,7 +150,7 @@ class BulkConvertTest extends TestCase {
 	 * Verifies the convert method can be called as an AJAX handler.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::convert
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::convert
 	 * @return void
 	 */
 	public function test_convert_method_exists(): void {
@@ -176,7 +176,7 @@ class BulkConvertTest extends TestCase {
 	 * Verifies that attachment ID sanitization and validation works correctly.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::convert
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::convert
 	 * @return void
 	 */
 	public function test_attachment_id_validation(): void {
@@ -213,18 +213,18 @@ class BulkConvertTest extends TestCase {
 	 * Verifies that the correct nonce action is used for security checks.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::get_attachments
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::convert
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::get_attachments
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::convert
 	 * @return void
 	 */
 	public function test_ajax_nonce_action_name(): void {
-		$expected_nonce_action = 'convert_to_webp_lite_ajax';
+		$expected_nonce_action = 'poetry_convert_to_webp_ajax';
 
 		// The nonce action should be consistent
 		$this->assertEquals(
-			'convert_to_webp_lite_ajax',
+			'poetry_convert_to_webp_ajax',
 			$expected_nonce_action,
-			'Nonce action should be convert_to_webp_lite_ajax'
+			'Nonce action should be poetry_convert_to_webp_ajax'
 		);
 	}
 
@@ -234,8 +234,8 @@ class BulkConvertTest extends TestCase {
 	 * Verifies that both AJAX handlers require 'manage_options' capability.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::get_attachments
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::convert
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::get_attachments
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::convert
 	 * @return void
 	 */
 	public function test_requires_manage_options_capability(): void {
@@ -255,8 +255,8 @@ class BulkConvertTest extends TestCase {
 	 * Verifies that error messages use proper localization functions.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::get_attachments
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::convert
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::get_attachments
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::convert
 	 * @return void
 	 */
 	public function test_error_messages_are_translatable(): void {
@@ -278,7 +278,7 @@ class BulkConvertTest extends TestCase {
 	 * Verifies the expected structure of successful AJAX responses.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::convert
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::convert
 	 * @return void
 	 */
 	public function test_success_response_structure(): void {
@@ -297,8 +297,8 @@ class BulkConvertTest extends TestCase {
 	 * Since it's a singleton, we test get_instance instead.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::__construct
-	 * @covers \ConvertToWebpLite\Admin\BulkConvert::get_instance
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::__construct
+	 * @covers \PoetryConvertToWebp\Admin\BulkConvert::get_instance
 	 * @return void
 	 */
 	public function test_constructor_initializes_properly(): void {

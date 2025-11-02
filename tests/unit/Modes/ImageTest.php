@@ -2,13 +2,13 @@
 /**
  * Tests for Image class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Modes;
+namespace PoetryConvertToWebp\Tests\Unit\Modes;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Modes\Image;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Modes\Image;
 use Brain\Monkey\Functions as BrainMonkey;
 use RuntimeException;
 use ReflectionClass;
@@ -41,7 +41,7 @@ class ImageTest extends TestCase {
 	 * instantiation of the Image class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::__construct
+	 * @covers \PoetryConvertToWebp\Modes\Image::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -55,7 +55,7 @@ class ImageTest extends TestCase {
 	 * of the singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::__clone
+	 * @covers \PoetryConvertToWebp\Modes\Image::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -69,7 +69,7 @@ class ImageTest extends TestCase {
 	 * RuntimeException to prevent unserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::__wakeup
+	 * @covers \PoetryConvertToWebp\Modes\Image::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -88,7 +88,7 @@ class ImageTest extends TestCase {
 	 * allowing it to be called without instantiating the class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_method_exists(): void {
@@ -115,7 +115,7 @@ class ImageTest extends TestCase {
 	 * allowing it to be called without instantiating the class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_method_exists(): void {
@@ -142,7 +142,7 @@ class ImageTest extends TestCase {
 	 * when wp_image_src_get_dimensions returns an empty array.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_returns_original_when_dimensions_empty(): void {
@@ -167,7 +167,7 @@ class ImageTest extends TestCase {
 	 * to the img tag based on the dimensions from wp_image_src_get_dimensions.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_adds_width_and_height_attributes(): void {
@@ -195,7 +195,7 @@ class ImageTest extends TestCase {
 	 * but does not add srcset attribute when srcset is empty.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_handles_empty_srcset(): void {
@@ -221,7 +221,7 @@ class ImageTest extends TestCase {
 	 * (like false) gracefully without adding srcset attribute.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_handles_non_string_srcset(): void {
@@ -247,7 +247,7 @@ class ImageTest extends TestCase {
 	 * when wp_calculate_image_sizes returns an empty string.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_handles_empty_sizes(): void {
@@ -275,7 +275,7 @@ class ImageTest extends TestCase {
 	 * various image extensions (jpg, jpeg, png, gif) to .webp, case-insensitively.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_regex_converts_extensions(): void {
@@ -306,7 +306,7 @@ class ImageTest extends TestCase {
 	 * the src attribute value from img tags with single or double quotes.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_regex_extracts_src_attribute(): void {
@@ -335,7 +335,7 @@ class ImageTest extends TestCase {
 	 * the srcset attribute value from img tags.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_regex_extracts_srcset_attribute(): void {
@@ -356,7 +356,7 @@ class ImageTest extends TestCase {
 	 * containing multiple image URLs with width descriptors.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_parses_srcset_items(): void {
@@ -379,7 +379,7 @@ class ImageTest extends TestCase {
 	 * when parsing srcset strings with trailing or double commas.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_handles_empty_srcset_parts(): void {
@@ -404,7 +404,7 @@ class ImageTest extends TestCase {
 	 * when processing srcset items.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_preserves_width_descriptor(): void {
@@ -422,7 +422,7 @@ class ImageTest extends TestCase {
 	 * that contain only a URL without a width descriptor.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::print
+	 * @covers \PoetryConvertToWebp\Modes\Image::print
 	 * @return void
 	 */
 	public function test_print_handles_srcset_without_descriptor(): void {
@@ -440,7 +440,7 @@ class ImageTest extends TestCase {
 	 * width and height attributes into img tags.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_injects_attributes(): void {
@@ -460,7 +460,7 @@ class ImageTest extends TestCase {
 	 * formats including self-closing tags with or without spaces.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_handles_self_closing_tag(): void {
@@ -484,7 +484,7 @@ class ImageTest extends TestCase {
 	 * (alt, class, id, etc.) when adding width and height.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Modes\Image::prepare
+	 * @covers \PoetryConvertToWebp\Modes\Image::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_preserves_existing_attributes(): void {

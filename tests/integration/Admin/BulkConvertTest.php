@@ -4,20 +4,20 @@
  *
  * Tests AJAX handlers for bulk conversion of images.
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Tests\Integration\Admin;
+namespace PoetryConvertToWebp\Tests\Integration\Admin;
 
-use ConvertToWebpLite\Tests\IntegrationTestCase;
-use ConvertToWebpLite\Admin\BulkConvert;
+use PoetryConvertToWebp\Tests\IntegrationTestCase;
+use PoetryConvertToWebp\Admin\BulkConvert;
 
 /**
  * Class BulkConvertTest
  *
  * @since 1.0.0
- * @covers \ConvertToWebpLite\Admin\BulkConvert
+ * @covers \PoetryConvertToWebp\Admin\BulkConvert
  */
 class BulkConvertTest extends IntegrationTestCase {
 
@@ -100,7 +100,7 @@ class BulkConvertTest extends IntegrationTestCase {
 		}
 
 		// Set up AJAX request
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 
 		// Capture output
 		ob_start();
@@ -143,7 +143,7 @@ class BulkConvertTest extends IntegrationTestCase {
 		$subscriber_id = $this->factory->user->create( [ 'role' => 'subscriber' ] );
 		wp_set_current_user( $subscriber_id );
 
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 
 		ob_start();
 		try {
@@ -194,7 +194,7 @@ class BulkConvertTest extends IntegrationTestCase {
 		$this->assertFileDoesNotExist( $webp_path, 'WebP should not exist before AJAX conversion' );
 
 		// Set up AJAX request
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 		$_POST['attachment_id']  = $attachment_id;
 
 		ob_start();
@@ -223,7 +223,7 @@ class BulkConvertTest extends IntegrationTestCase {
 	 * @return void
 	 */
 	public function test_convert_requires_valid_attachment_id(): void {
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 		$_POST['attachment_id']  = 'invalid';
 
 		ob_start();
@@ -252,7 +252,7 @@ class BulkConvertTest extends IntegrationTestCase {
 		$subscriber_id = $this->factory->user->create( [ 'role' => 'subscriber' ] );
 		wp_set_current_user( $subscriber_id );
 
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 		$_POST['attachment_id']  = $attachment_id;
 
 		ob_start();
@@ -275,7 +275,7 @@ class BulkConvertTest extends IntegrationTestCase {
 	 * @return void
 	 */
 	public function test_convert_handles_missing_parameter(): void {
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 		// Don't set $_POST['attachment_id']
 
 		ob_start();
@@ -298,7 +298,7 @@ class BulkConvertTest extends IntegrationTestCase {
 	 * @return void
 	 */
 	public function test_convert_handles_nonexistent_attachment(): void {
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 		$_POST['attachment_id']  = 99999; // Non-existent
 
 		ob_start();
@@ -336,7 +336,7 @@ class BulkConvertTest extends IntegrationTestCase {
 		}
 
 		// Step 1: Get attachments
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 
 		ob_start();
 		try {
@@ -380,7 +380,7 @@ class BulkConvertTest extends IntegrationTestCase {
 	public function test_response_structure(): void {
 		$attachment_id = $this->create_test_attachment( 'test-response.jpg' );
 
-		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'convert_to_webp_lite_ajax' );
+		$_REQUEST['_ajax_nonce'] = wp_create_nonce( 'poetry_convert_to_webp_ajax' );
 		$_POST['attachment_id']  = $attachment_id;
 
 		ob_start();

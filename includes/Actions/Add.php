@@ -2,13 +2,13 @@
 /**
  * Handles automatic conversion of uploaded images to WebP format.
  *
- * @package ConvertToWebpLite
+ * @package PoetryConvertToWebp
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Actions;
+namespace PoetryConvertToWebp\Actions;
 
-use ConvertToWebpLite\Utils\Converter;
+use PoetryConvertToWebp\Utils\Converter;
 use RuntimeException;
 
 /**

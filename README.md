@@ -6,15 +6,22 @@ A simple and efficient WordPress plugin to convert your images to the WebP forma
 
 ## Screenshots
 
-### Plugin Interface
+### Plugin Settings Page
 
-1. **Plugin Settings Page** - Configure WebP quality settings (0-100%), enable picture tag mode for automatic browser fallback, toggle debug mode for troubleshooting. The clean interface makes it easy to customize the plugin behavior to your needs.
+Configure WebP quality settings (0-100%), enable picture tag mode for automatic browser fallback, toggle debug mode for troubleshooting. The clean interface makes it easy to customize the plugin behavior to your needs.
+
 ![Configure WebP quality settings (0-100%), enable picture tag mode for automatic browser fallback, toggle debug mode for troubleshooting. The clean interface makes it easy to customize the plugin behavior to your needs.](./assets/images/screenshot-1.png "Plugin Settings Page")
 
-1. **Image Quality Comparison** - Preview the difference between original and WebP images before bulk conversion. Side-by-side comparison helps you choose the optimal quality setting that balances file size reduction with visual quality for your specific needs.
+### Image Quality Comparison
+
+Preview the difference between original and WebP images before bulk conversion. Side-by-side comparison helps you choose the optimal quality setting that balances file size reduction with visual quality for your specific needs.
+
 ![Preview the difference between original and WebP images before bulk conversion. Side-by-side comparison helps you choose the optimal quality setting that balances file size reduction with visual quality for your specific needs.](./assets/images/screenshot-2.png "Image Quality Comparisone")
 
-1. **Bulk Operations Tool** - Convert your entire media library to WebP format with one click or safely delete all previously converted WebP images in a single operation.
+### Bulk Operations Tool
+
+Convert your entire media library to WebP format with one click or safely delete all previously converted WebP images in a single operation.
+
 ![Convert your entire media library to WebP format with one click or safely delete all previously converted WebP images in a single operation.](./assets/images/screenshot-3.png "Image Quality Comparisone")
 
 ## Features

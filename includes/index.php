@@ -11,4 +11,16 @@
  * le resurgis hors de
  * l'advenu)
  * 
+ * ***
+ * 
+ * learning to dig the verse
+ * through the window, ——————
+ * covering it with air
+ * to feed its fire
+ * 
+ * (tomorrow is not a coming:
+ * it is
+ * the resurging out of
+ * what has occurred)
+ * 
  */

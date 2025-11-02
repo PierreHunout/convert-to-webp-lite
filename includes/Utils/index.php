@@ -11,4 +11,16 @@
  * (parfois simultanée)
  * pour se rendre au silence
  * 
+ * ***
+ * 
+ * alone, and by nature,
+ * poetry holds place and ground,
+ * 
+ * no avant-garde ——————
+ * just close guards,
+ * 
+ * ahead of things
+ * (sometimes simultaneous)
+ * to surrender to silence
+ * 
  */

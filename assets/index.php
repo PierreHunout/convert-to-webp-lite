@@ -7,4 +7,12 @@
  * la froide tumeur nichée
  * dans la révolte
  * 
+ * ***
+ * 
+ * the oblique has hardly any other
+ * perspectives than
+ * 
+ * the cold tumor nestled
+ * in revolt
+ * 
  */

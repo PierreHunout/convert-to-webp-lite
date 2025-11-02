@@ -7,4 +7,12 @@
  * de la pensée
  * (les politiques seront nos pièges)
  * 
+ * ***
+ * 
+ * for a tomorrow
+ * of paths and olive trees,
+ * we will become poachers
+ * of thought
+ * (politics will be our traps)
+ * 
  */

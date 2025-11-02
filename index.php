@@ -1,7 +1,10 @@
 <?php
 /**
- * Code so quiet, you can hear the silence.
  * 
- * This file is intentionally left blank to prevent direct access.
- * It serves as a placeholder to ensure that the plugin's main file is not directly accessed.
+ * pour un lendemain
+ * de sentes et d'oliviers,
+ * nous nous ferons braconniers
+ * de la pensée
+ * (les politiques seront nos pièges)
+ * 
  */

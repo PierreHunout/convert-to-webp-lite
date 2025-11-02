@@ -2,12 +2,12 @@
 /**
  * This file is responsible for handling the debugging functionality.
  *
- * @package ConvertToWebpLite
+ * @package PoetryConvertToWebp
  *
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Utils;
+namespace PoetryConvertToWebp\Utils;
 
 use DateTime;
 use DateTimeZone;
@@ -62,7 +62,7 @@ class Debug {
 	/**
 	 * Logs data to a specified file.
 	 *
-	 * Creates JSON log files in wp-content/convert-to-webp-lite-logs/ directory
+	 * Creates JSON log files in wp-content/poetry-convert-to-webp-logs/ directory
 	 * with timestamp, data type, and the actual data being logged.
 	 *
 	 * @since 1.0.0
@@ -71,8 +71,8 @@ class Debug {
 	 * @return void
 	 */
 	public static function log( string $file, mixed $data ): void {
-		// Store logs in wp-content/convert-to-webp-lite-logs/ for persistence and security
-		$path       = (string) WP_CONTENT_DIR . '/convert-to-webp-lite-logs/';
+		// Store logs in wp-content/poetry-convert-to-webp-logs/ for persistence and security
+		$path       = (string) WP_CONTENT_DIR . '/poetry-convert-to-webp-logs/';
 		$filesystem = Helpers::get_filesystem();
 
 		if ( false === $filesystem ) {
@@ -123,7 +123,7 @@ class Debug {
 	 */
 	public static function print( mixed $data, bool $stop = false ): void {
 		echo '<div style="position: relative; margin: 24px 0; background: #2271b1; color: #fafafa; padding: 20px; border-radius: 3px; z-index: 9999;"><pre style="white-space: pre-wrap; word-wrap: break-word;">';
-		echo '<strong style="color: #b5ddfeff;">Convert to WebP Lite Debug Output:</strong>' . PHP_EOL . PHP_EOL;
+		echo '<strong style="color: #b5ddfeff;">Poetry Convert to WebP Debug Output:</strong>' . PHP_EOL . PHP_EOL;
 
 		// Get $data type
 		$data_type = (string) gettype( $data );

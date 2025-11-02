@@ -2,13 +2,13 @@
 /**
  * Tests for Debug class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Utils;
+namespace PoetryConvertToWebp\Tests\Unit\Utils;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Utils\Debug;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Utils\Debug;
 use Brain\Monkey\Functions as BrainMonkey;
 use Mockery;
 use RuntimeException;
@@ -55,7 +55,7 @@ class DebugTest extends TestCase {
 	 * instantiation of the Debug class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::__construct
+	 * @covers \PoetryConvertToWebp\Utils\Debug::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -69,7 +69,7 @@ class DebugTest extends TestCase {
 	 * of the Debug singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::__clone
+	 * @covers \PoetryConvertToWebp\Utils\Debug::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -83,7 +83,7 @@ class DebugTest extends TestCase {
 	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::__wakeup
+	 * @covers \PoetryConvertToWebp\Utils\Debug::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -102,7 +102,7 @@ class DebugTest extends TestCase {
 	 * by returning early without throwing errors when WP_Filesystem returns false.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::log
+	 * @covers \PoetryConvertToWebp\Utils\Debug::log
 	 * @return void
 	 */
 	public function test_log_returns_early_when_filesystem_fails(): void {
@@ -125,7 +125,7 @@ class DebugTest extends TestCase {
 	 * directory protection, index.php blank file, and the log file itself.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::log
+	 * @covers \PoetryConvertToWebp\Utils\Debug::log
 	 * @return void
 	 */
 	public function test_log_creates_log_file(): void {
@@ -136,7 +136,7 @@ class DebugTest extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$path = WP_CONTENT_DIR . '/convert-to-webp-lite-logs/';
+		$path = WP_CONTENT_DIR . '/poetry-convert-to-webp-logs/';
 
 		$filesystem->shouldReceive( 'is_dir' )
 			->once()
@@ -203,7 +203,7 @@ class DebugTest extends TestCase {
 	 * already exists and writes only the log file.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::log
+	 * @covers \PoetryConvertToWebp\Utils\Debug::log
 	 * @return void
 	 */
 	public function test_log_writes_to_existing_directory(): void {
@@ -214,7 +214,7 @@ class DebugTest extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$path = WP_CONTENT_DIR . '/convert-to-webp-lite-logs/';
+		$path = WP_CONTENT_DIR . '/poetry-convert-to-webp-logs/';
 
 		$filesystem->shouldReceive( 'is_dir' )
 			->once()
@@ -248,7 +248,7 @@ class DebugTest extends TestCase {
 	 * (arrays, strings, objects, etc.) with appropriate type information in JSON.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::log
+	 * @covers \PoetryConvertToWebp\Utils\Debug::log
 	 * @return void
 	 */
 	public function test_log_handles_different_data_types(): void {
@@ -290,7 +290,7 @@ class DebugTest extends TestCase {
 	 * keys for proper log entry structure and timestamp tracking.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::log
+	 * @covers \PoetryConvertToWebp\Utils\Debug::log
 	 * @return void
 	 */
 	public function test_log_includes_timestamp_in_json(): void {
@@ -332,7 +332,7 @@ class DebugTest extends TestCase {
 	 * before creating the file, preventing directory traversal or invalid filenames.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::log
+	 * @covers \PoetryConvertToWebp\Utils\Debug::log
 	 * @return void
 	 */
 	public function test_log_sanitizes_file_name(): void {
@@ -365,7 +365,7 @@ class DebugTest extends TestCase {
 	 * debug title, data type information, and the actual data content.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_outputs_html_with_data(): void {
@@ -374,7 +374,7 @@ class DebugTest extends TestCase {
 		$output = ob_get_clean();
 
 		$this->assertStringContainsString( '<div style=', $output );
-		$this->assertStringContainsString( 'Convert to WebP Lite Debug Output:', $output );
+		$this->assertStringContainsString( 'Poetry Convert to WebP Debug Output:', $output );
 		$this->assertStringContainsString( 'Type:', $output );
 		$this->assertStringContainsString( 'array', $output );
 	}
@@ -386,7 +386,7 @@ class DebugTest extends TestCase {
 	 * the type label "string" and the actual string content.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_displays_string_data(): void {
@@ -405,7 +405,7 @@ class DebugTest extends TestCase {
 	 * the type label "integer" and the actual numeric value.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_displays_integer_data(): void {
@@ -424,7 +424,7 @@ class DebugTest extends TestCase {
 	 * the type label "boolean" in the output.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_displays_boolean_data(): void {
@@ -442,7 +442,7 @@ class DebugTest extends TestCase {
 	 * when the stop parameter is set to true.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_stops_execution_when_requested(): void {
@@ -464,7 +464,7 @@ class DebugTest extends TestCase {
 	 * label "array" along with the array keys and values.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_handles_array_data(): void {
@@ -490,7 +490,7 @@ class DebugTest extends TestCase {
 	 * the type label "object" in the output.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_handles_object_data(): void {
@@ -511,7 +511,7 @@ class DebugTest extends TestCase {
 	 * HTML content, preventing XSS vulnerabilities in debug output.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Debug::print
+	 * @covers \PoetryConvertToWebp\Utils\Debug::print
 	 * @return void
 	 */
 	public function test_print_escapes_html_in_output(): void {

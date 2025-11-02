@@ -1,5 +1,5 @@
 {
-    "name": "hunoutpierre/converttowebplite",
+    "name": "wordofpoetry/poetryconverttowebp",
     "description": "Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images.",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
@@ -72,7 +72,7 @@
         ]
     },
     "extra": {
-        "installer-name": "convert-to-webp-lite",
+        "installer-name": "poetry-convert-to-webp",
         "installer-paths": {
             "wp-content/plugins/{$name}/": [
                 "type:wordpress-plugin"
@@ -81,12 +81,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ConvertToWebpLite\\": "includes/"
+            "PoetryConvertToWebp\\": "includes/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ConvertToWebpLite\\Tests\\": "tests/"
+            "PoetryConvertToWebp\\Tests\\": "tests/"
         }
     }
 }

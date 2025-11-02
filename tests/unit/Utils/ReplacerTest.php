@@ -2,13 +2,13 @@
 /**
  * Tests for Replacer class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Utils;
+namespace PoetryConvertToWebp\Tests\Unit\Utils;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Utils\Replacer;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Utils\Replacer;
 use RuntimeException;
 use ReflectionClass;
 use ReflectionMethod;
@@ -39,7 +39,7 @@ class ReplacerTest extends TestCase {
 	 * instantiation of the Replacer class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::__construct
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -53,7 +53,7 @@ class ReplacerTest extends TestCase {
 	 * of the Replacer singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::__clone
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -67,7 +67,7 @@ class ReplacerTest extends TestCase {
 	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::__wakeup
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -86,7 +86,7 @@ class ReplacerTest extends TestCase {
 	 * multiple calls, enforcing the singleton pattern.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::get_instance
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::get_instance
 	 * @return void
 	 */
 	public function test_get_instance_returns_singleton(): void {
@@ -112,7 +112,7 @@ class ReplacerTest extends TestCase {
 	 * ensuring it can be called without instantiating the singleton class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_method_exists(): void {
@@ -139,7 +139,7 @@ class ReplacerTest extends TestCase {
 	 * called internally by the Replacer class methods.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::replace
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::replace
 	 * @return void
 	 */
 	public function test_replace_method_is_private(): void {
@@ -153,7 +153,7 @@ class ReplacerTest extends TestCase {
 	 * (including uppercase variants) to .webp extension.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_converts_jpg_to_webp(): void {
@@ -181,7 +181,7 @@ class ReplacerTest extends TestCase {
 	 * (including uppercase variants) to .webp extension.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_converts_png_to_webp(): void {
@@ -207,7 +207,7 @@ class ReplacerTest extends TestCase {
 	 * (including uppercase variants) to .webp extension.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_converts_gif_to_webp(): void {
@@ -233,7 +233,7 @@ class ReplacerTest extends TestCase {
 	 * preserving the full path, domain, and filename structure.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_preserves_path(): void {
@@ -260,7 +260,7 @@ class ReplacerTest extends TestCase {
 	 * with WordPress thumbnail size suffixes (e.g., -150x150, -scaled).
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_handles_image_sizes(): void {
@@ -289,7 +289,7 @@ class ReplacerTest extends TestCase {
 	 * end of the string, ignoring extensions followed by query strings or anchors.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_regex_only_converts_extension_at_end(): void {
@@ -316,7 +316,7 @@ class ReplacerTest extends TestCase {
 	 * to avoid processing them again.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_detects_webp_extension(): void {
@@ -343,7 +343,7 @@ class ReplacerTest extends TestCase {
 	 * to .webp for checking file existence.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_prepare_builds_webp_paths_correctly(): void {
@@ -372,7 +372,7 @@ class ReplacerTest extends TestCase {
 	 * for Picture mode (true/1) vs Image mode (false/0).
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Replacer::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Replacer::prepare
 	 * @return void
 	 */
 	public function test_replace_mode_boolean_casting(): void {

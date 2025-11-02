@@ -4,20 +4,20 @@
  *
  * Tests real image conversion to WebP format with filesystem operations.
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Tests\Integration\Utils;
+namespace PoetryConvertToWebp\Tests\Integration\Utils;
 
-use ConvertToWebpLite\Tests\IntegrationTestCase;
-use ConvertToWebpLite\Utils\Converter;
+use PoetryConvertToWebp\Tests\IntegrationTestCase;
+use PoetryConvertToWebp\Utils\Converter;
 
 /**
  * Class ConverterTest
  *
  * @since 1.0.0
- * @covers \ConvertToWebpLite\Utils\Converter
+ * @covers \PoetryConvertToWebp\Utils\Converter
  */
 class ConverterTest extends IntegrationTestCase {
 
@@ -111,7 +111,7 @@ class ConverterTest extends IntegrationTestCase {
 	 */
 	public function test_quality_setting(): void {
 		// Test with high quality
-		update_option( 'convert_to_webp_lite_quality', 95 );
+		update_option( 'poetry_convert_to_webp_quality', 95 );
 
 		$attachment_id_high = $this->create_test_attachment( 'test-quality-95.jpg' );
 		$file_high          = get_attached_file( $attachment_id_high );
@@ -127,7 +127,7 @@ class ConverterTest extends IntegrationTestCase {
 		}
 
 		// Test with low quality
-		update_option( 'convert_to_webp_lite_quality', 50 );
+		update_option( 'poetry_convert_to_webp_quality', 50 );
 
 		$attachment_id_low = $this->create_test_attachment( 'test-quality-50.jpg' );
 		$file_low          = get_attached_file( $attachment_id_low );

@@ -4,21 +4,21 @@
  *
  * Tests automatic WebP deletion when attachments are deleted.
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Tests\Integration\Actions;
+namespace PoetryConvertToWebp\Tests\Integration\Actions;
 
-use ConvertToWebpLite\Tests\IntegrationTestCase;
-use ConvertToWebpLite\Actions\Delete;
-use ConvertToWebpLite\Actions\Add;
+use PoetryConvertToWebp\Tests\IntegrationTestCase;
+use PoetryConvertToWebp\Actions\Delete;
+use PoetryConvertToWebp\Actions\Add;
 
 /**
  * Class DeleteTest
  *
  * @since 1.0.0
- * @covers \ConvertToWebpLite\Actions\Delete
+ * @covers \PoetryConvertToWebp\Actions\Delete
  */
 class DeleteTest extends IntegrationTestCase {
 

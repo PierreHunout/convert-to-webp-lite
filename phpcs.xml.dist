@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Convert to WebP Lite">
-    <description>PHPCS ruleset for Convert to WebP Lite</description>
+<ruleset name="Poetry Convert to WebP">
+    <description>PHPCS ruleset for Poetry Convert to WebP</description>
 
     <!-- Include WordPress Coding Standards -->
     <rule ref="WordPress"/>
@@ -15,7 +15,7 @@
     <config name="testVersion" value="7.4-"/>
 
     <!-- Files and directories to check -->
-    <file>./convert-to-webp-lite.php</file>
+    <file>./poetry-convert-to-webp.php</file>
     <file>./includes</file>
 
     <!-- Exclude patterns -->
@@ -41,9 +41,9 @@
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
             <property name="prefixes" type="array">
-                <element value="convert_to_webp_lite"/>
-                <element value="convert_to_webp_lite"/>
-                <element value="ConvertToWebpLite"/>
+                <element value="poetry_convert_to_webp"/>
+                <element value="poetry_convert_to_webp"/>
+                <element value="PoetryConvertToWebp"/>
             </property>
         </properties>
     </rule>

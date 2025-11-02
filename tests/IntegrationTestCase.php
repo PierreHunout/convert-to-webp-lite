@@ -4,11 +4,11 @@
  *
  * Provides common functionality for all integration tests with WordPress test framework.
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Tests;
+namespace PoetryConvertToWebp\Tests;
 
 use WP_UnitTestCase;
 
@@ -57,8 +57,8 @@ abstract class IntegrationTestCase extends WP_UnitTestCase {
 		}
 
 		// Set default options
-		update_option( 'convert_to_webp_lite_quality', 85 );
-		update_option( 'convert_to_webp_lite_replace_mode', 0 );
+		update_option( 'poetry_convert_to_webp_quality', 85 );
+		update_option( 'poetry_convert_to_webp_replace_mode', 0 );
 		update_option( 'delete_webp_on_deactivate', 0 );
 		update_option( 'delete_webp_on_uninstall', 0 );
 	}
@@ -76,8 +76,8 @@ abstract class IntegrationTestCase extends WP_UnitTestCase {
 		$this->clean_uploads_dir();
 
 		// Reset options
-		delete_option( 'convert_to_webp_lite_quality' );
-		delete_option( 'convert_to_webp_lite_replace_mode' );
+		delete_option( 'poetry_convert_to_webp_quality' );
+		delete_option( 'poetry_convert_to_webp_replace_mode' );
 		delete_option( 'delete_webp_on_deactivate' );
 		delete_option( 'delete_webp_on_uninstall' );
 

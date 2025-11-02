@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPUnit Bootstrap for ConvertToWebpLite\Tests
+ * PHPUnit Bootstrap for PoetryConvertToWebp\Tests
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
 // Prevent direct access.
@@ -11,8 +11,8 @@ if ( ! defined( 'PHPUNIT_COMPOSER_INSTALL' ) && ! defined( 'PHPUNIT_TESTSUITE' )
 }
 
 // Define plugin constants for testing.
-if ( ! defined( 'CONVERT_TO_WEBP_LITE_TESTING' ) ) {
-	define( 'CONVERT_TO_WEBP_LITE_TESTING', true );
+if ( ! defined( 'POETRY_CONVERT_TO_WEBP_TESTING' ) ) {
+	define( 'POETRY_CONVERT_TO_WEBP_TESTING', true );
 }
 
 // Load Composer autoloader.
@@ -82,7 +82,7 @@ if ( $is_integration ) {
 	 * Manually load the plugin for integration testing.
 	 */
 	function _manually_load_plugin() {
-		require dirname( __DIR__ ) . '/convert-to-webp-lite.php';
+		require dirname( __DIR__ ) . '/poetry-convert-to-webp.php';
 	}
 	tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 

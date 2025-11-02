@@ -1,4 +1,4 @@
-# Convert to WebP Lite
+# Poetry Convert to WebP
 
 ![A simple and efficient WordPress plugin to convert your images to the WebP format for better performance and reduced bandwidth.](./assets/images/banner.png "Plugin Banner")
 
@@ -44,7 +44,7 @@ This plugin uses Composer for dependency management and provides several useful 
 
 ```bash
 # Navigate to the plugin directory
-cd wp-content/plugins/convert-to-webp-lite
+cd wp-content/plugins/poetry-convert-to-webp
 
 # Install dependencies
 composer install
@@ -128,7 +128,7 @@ composer run phpcs:report
 
 The plugin uses PSR-4 autoloading for better code organization:
 
-- Namespace: `ConvertToWebpLite\`
+- Namespace: `PoetryConvertToWebp\`
 - Classes are located in the `includes/` directory
 
 ## Usage

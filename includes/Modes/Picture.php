@@ -2,14 +2,14 @@
 /**
  * Handles replacement of <img> tags with <picture> elements containing WebP sources in WordPress content.
  *
- * @package ConvertToWebpLite
+ * @package PoetryConvertToWebp
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Modes;
+namespace PoetryConvertToWebp\Modes;
 
-use ConvertToWebpLite\Utils\Helpers;
-use ConvertToWebpLite\Modes\Image;
+use PoetryConvertToWebp\Utils\Helpers;
+use PoetryConvertToWebp\Modes\Image;
 use RuntimeException;
 
 /**

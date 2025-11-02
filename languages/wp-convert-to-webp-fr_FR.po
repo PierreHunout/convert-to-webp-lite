@@ -2,8 +2,8 @@
 # This file is distributed under the GPL-3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Convert to WebP Lite 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convert-to-webp-lite\n"
+"Project-Id-Version: Poetry Convert to WebP 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/poetry-convert-to-webp\n"
 "POT-Creation-Date: 2025-10-27T00:45:30+00:00\n"
 "PO-Revision-Date: 2025-10-27 16:47+0000\n"
 "Last-Translator: Automatically generated\n"
@@ -14,15 +14,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.8\n"
-"X-Domain: convert-to-webp-lite\n"
+"X-Domain: poetry-convert-to-webp\n"
 
 #. Plugin Name of the plugin
-#: convert-to-webp-lite.php
-msgid "Convert to WebP Lite"
+#: poetry-convert-to-webp.php
+msgid "Poetry Convert to WebP"
 msgstr "Convertir en WebP"
 
 #. Description of the plugin
-#: convert-to-webp-lite.php
+#: poetry-convert-to-webp.php
 msgid "Automatically convert images to WebP format upon upload in WordPress. Improve website performance with optimized images."
 msgstr "Convertissez automatiquement les images au format WebP dès leur téléchargement dans WordPress. Améliorez les performances de votre site web grâce à des images optimisées."
 
@@ -107,10 +107,10 @@ msgstr "Activer les logs de débogage"
 
 #: includes/Admin/Settings.php:206
 msgid ""
-" Logs can be viewed in the <code>convert-to-webp-lite-logs</code> folder, in your <code>wp-content</"
+" Logs can be viewed in the <code>poetry-convert-to-webp-logs</code> folder, in your <code>wp-content</"
 "code> folder."
 msgstr ""
-" Les logs peuvent être consultés dans le dossier <code>convert-to-webp-lite-logs</code>, dans votre "
+" Les logs peuvent être consultés dans le dossier <code>poetry-convert-to-webp-logs</code>, dans votre "
 "dossier <code>wp-content</code>."
 
 #: includes/Admin/Settings.php:214
@@ -201,21 +201,21 @@ msgstr "Le fichier n'est pas accessible en écriture : %s"
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:176
 #, php-format
-msgid "[Convert to WebP Lite] Invalid argument in deletion preparation: %s"
-msgstr "[Convert to WebP Lite] Argument invalide dans la préparation de suppression : %s"
+msgid "[Poetry Convert to WebP] Invalid argument in deletion preparation: %s"
+msgstr "[Poetry Convert to WebP] Argument invalide dans la préparation de suppression : %s"
 
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:189
 #, php-format
-msgid "[Convert to WebP Lite] Runtime error in deletion preparation: %s"
-msgstr "[Convert to WebP Lite] Erreur d'exécution dans la préparation de suppression : %s"
+msgid "[Poetry Convert to WebP] Runtime error in deletion preparation: %s"
+msgstr "[Poetry Convert to WebP] Erreur d'exécution dans la préparation de suppression : %s"
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Cleaner.php:202
 #, php-format
-msgid "[Convert to WebP Lite] Unexpected error preparing deletion: %1$s in %2$s on line %3$d"
+msgid "[Poetry Convert to WebP] Unexpected error preparing deletion: %1$s in %2$s on line %3$d"
 msgstr ""
-"[Convert to WebP Lite] Erreur inattendue lors de la préparation de suppression : %1$s dans %2$s à la "
+"[Poetry Convert to WebP] Erreur inattendue lors de la préparation de suppression : %1$s dans %2$s à la "
 "ligne %3$d"
 
 #: includes/Utils/Cleaner.php:247 includes/Utils/Converter.php:251
@@ -274,42 +274,42 @@ msgstr "Fichier WebP supprimé avec succès : %s"
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:315
 #, php-format
-msgid "[Convert to WebP Lite] Invalid argument in WebP deletion: %s"
-msgstr "[Convert to WebP Lite] Argument invalide dans la suppression WebP : %s"
+msgid "[Poetry Convert to WebP] Invalid argument in WebP deletion: %s"
+msgstr "[Poetry Convert to WebP] Argument invalide dans la suppression WebP : %s"
 
 #. translators: %s is the error message
 #: includes/Utils/Cleaner.php:328
 #, php-format
-msgid "[Convert to WebP Lite] Runtime error in WebP deletion: %s"
-msgstr "[Convert to WebP Lite] Erreur d'exécution dans la suppression WebP : %s"
+msgid "[Poetry Convert to WebP] Runtime error in WebP deletion: %s"
+msgstr "[Poetry Convert to WebP] Erreur d'exécution dans la suppression WebP : %s"
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Cleaner.php:341
 #, php-format
-msgid "[Convert to WebP Lite] Unexpected error deleting WebP file: %1$s in %2$s on line %3$d"
+msgid "[Poetry Convert to WebP] Unexpected error deleting WebP file: %1$s in %2$s on line %3$d"
 msgstr ""
-"[Convert to WebP Lite] Erreur inattendue lors de la suppression du fichier WebP : %1$s dans %2$s à la "
+"[Poetry Convert to WebP] Erreur inattendue lors de la suppression du fichier WebP : %1$s dans %2$s à la "
 "ligne %3$d"
 
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:176
 #, php-format
-msgid "[Convert to WebP Lite] Invalid argument in conversion preparation: %s"
-msgstr "[Convert to WebP Lite] Argument invalide dans la préparation de conversion : %s"
+msgid "[Poetry Convert to WebP] Invalid argument in conversion preparation: %s"
+msgstr "[Poetry Convert to WebP] Argument invalide dans la préparation de conversion : %s"
 
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:189
 #, php-format
-msgid "[Convert to WebP Lite] Runtime error in conversion preparation: %s"
-msgstr "[Convert to WebP Lite] Erreur d'exécution dans la préparation de conversion : %s"
+msgid "[Poetry Convert to WebP] Runtime error in conversion preparation: %s"
+msgstr "[Poetry Convert to WebP] Erreur d'exécution dans la préparation de conversion : %s"
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Converter.php:202
 #, php-format
-msgid "[Convert to WebP Lite] Unexpected error preparing conversion: %1$s in %2$s on line %3$d"
+msgid "[Poetry Convert to WebP] Unexpected error preparing conversion: %1$s in %2$s on line %3$d"
 msgstr ""
-"[Convert to WebP Lite] Erreur inattendue lors de la préparation de conversion : %1$s dans %2$s à la "
+"[Poetry Convert to WebP] Erreur inattendue lors de la préparation de conversion : %1$s dans %2$s à la "
 "ligne %3$d"
 
 #. translators: %s is the basename of the WebP file that already exists
@@ -345,45 +345,45 @@ msgstr "Échec de l'enregistrement du fichier WebP : %s"
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:349
 #, php-format
-msgid "[Convert to WebP Lite] Invalid argument in file conversion: %s"
-msgstr "[Convert to WebP Lite] Argument invalide dans la conversion du fichier : %s"
+msgid "[Poetry Convert to WebP] Invalid argument in file conversion: %s"
+msgstr "[Poetry Convert to WebP] Argument invalide dans la conversion du fichier : %s"
 
 #. translators: %s is the error message
 #: includes/Utils/Converter.php:362
 #, php-format
-msgid "[Convert to WebP Lite] Runtime error in file conversion: %s"
-msgstr "[Convert to WebP Lite] Erreur d'exécution dans la conversion du fichier : %s"
+msgid "[Poetry Convert to WebP] Runtime error in file conversion: %s"
+msgstr "[Poetry Convert to WebP] Erreur d'exécution dans la conversion du fichier : %s"
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
 #: includes/Utils/Converter.php:375
 #, php-format
-msgid "[Convert to WebP Lite] Unexpected error converting file: %1$s in %2$s on line %3$d"
+msgid "[Poetry Convert to WebP] Unexpected error converting file: %1$s in %2$s on line %3$d"
 msgstr ""
-"[Convert to WebP Lite] Erreur inattendue lors de la conversion du fichier : %1$s dans %2$s à la ligne "
+"[Poetry Convert to WebP] Erreur inattendue lors de la conversion du fichier : %1$s dans %2$s à la ligne "
 "%3$d"
 
 #. translators: %s is the folder path that doesn't exist
-#: convert-to-webp-lite.php:151
+#: poetry-convert-to-webp.php:151
 #, php-format
 msgid "The folder at %s does not exist"
 msgstr "Le dossier %s n'existe pas"
 
-#: convert-to-webp-lite.php:158
+#: poetry-convert-to-webp.php:158
 msgid "Unable to resolve includes directory path"
 msgstr "Impossible de résoudre le chemin du répertoire includes"
 
 #. translators: %1$s is the class name, %2$s is the error message, %3$s is the filename, %4$d is the line number
-#: convert-to-webp-lite.php:235 convert-to-webp-lite.php:251
+#: poetry-convert-to-webp.php:235 poetry-convert-to-webp.php:251
 #, php-format
-msgid "[Convert to WebP Lite] Error running %1$s: %2$s in %3$s on line %4$d"
-msgstr "[Convert to WebP Lite] Erreur lors de l'exécution de %1$s : %2$s dans %3$s à la ligne %4$d"
+msgid "[Poetry Convert to WebP] Error running %1$s: %2$s in %3$s on line %4$d"
+msgstr "[Poetry Convert to WebP] Erreur lors de l'exécution de %1$s : %2$s dans %3$s à la ligne %4$d"
 
 #. translators: %1$s is the error message, %2$s is the filename, %3$d is the line number
-#: convert-to-webp-lite.php:265
+#: poetry-convert-to-webp.php:265
 #, php-format
-msgid "[Convert to WebP Lite] Error in autoload(): %1$s in %2$s on line %3$d"
-msgstr "[Convert to WebP Lite] Erreur de la fonction autoload() : %1$s dans %2$s à la ligne %3$d"
+msgid "[Poetry Convert to WebP] Error in autoload(): %1$s in %2$s on line %3$d"
+msgstr "[Poetry Convert to WebP] Erreur de la fonction autoload() : %1$s dans %2$s à la ligne %3$d"
 
-#: convert-to-webp-lite.php:303
+#: poetry-convert-to-webp.php:303
 msgid "Settings"
 msgstr "Paramètres"

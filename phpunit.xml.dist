@@ -52,7 +52,7 @@
         <env name="WP_CORE_DIR" value=""/>
         
         <!-- Plugin specific constants (WP_DEBUG and WP_TESTS_* are defined in wp-tests-config.php) -->
-        <const name="CONVERT_TO_WEBP_LITE_TESTING" value="true"/>
+        <const name="POETRY_CONVERT_TO_WEBP_TESTING" value="true"/>
     </php>
 
     <!-- Logging -->

@@ -4,20 +4,20 @@
  *
  * Tests bulk deletion of WebP files.
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Tests\Integration\Admin;
+namespace PoetryConvertToWebp\Tests\Integration\Admin;
 
-use ConvertToWebpLite\Tests\IntegrationTestCase;
-use ConvertToWebpLite\Admin\BulkDelete;
+use PoetryConvertToWebp\Tests\IntegrationTestCase;
+use PoetryConvertToWebp\Admin\BulkDelete;
 
 /**
  * Class BulkDeleteTest
  *
  * @since 1.0.0
- * @covers \ConvertToWebpLite\Admin\BulkDelete
+ * @covers \PoetryConvertToWebp\Admin\BulkDelete
  */
 class BulkDeleteTest extends IntegrationTestCase {
 
@@ -209,7 +209,7 @@ class BulkDeleteTest extends IntegrationTestCase {
 		BulkDelete::delete_all_webp();
 
 		// Check transient was set
-		$transient_data = get_transient( 'convert_to_webp_lite_deletion_data' );
+		$transient_data = get_transient( 'poetry_convert_to_webp_deletion_data' );
 
 		$this->assertNotFalse( $transient_data, 'Deletion data should be stored in transient' );
 		$this->assertIsArray( $transient_data, 'Transient data should be an array' );
@@ -388,7 +388,7 @@ class BulkDeleteTest extends IntegrationTestCase {
 
 		BulkDelete::delete_all_webp();
 
-		$transient_data = get_transient( 'convert_to_webp_lite_deletion_data' );
+		$transient_data = get_transient( 'poetry_convert_to_webp_deletion_data' );
 
 		$this->assertIsArray( $transient_data, 'Transient data should be an array' );
 
@@ -411,7 +411,7 @@ class BulkDeleteTest extends IntegrationTestCase {
 		remove_all_filters( 'wp_redirect' );
 
 		// Delete transient
-		delete_transient( 'convert_to_webp_lite_deletion_data' );
+		delete_transient( 'poetry_convert_to_webp_deletion_data' );
 
 		parent::tear_down();
 	}

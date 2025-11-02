@@ -2,13 +2,13 @@
 /**
  * Tests for Converter class
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  */
 
-namespace ConvertToWebpLite\Tests\Unit\Utils;
+namespace PoetryConvertToWebp\Tests\Unit\Utils;
 
-use ConvertToWebpLite\Tests\TestCase;
-use ConvertToWebpLite\Utils\Converter;
+use PoetryConvertToWebp\Tests\TestCase;
+use PoetryConvertToWebp\Utils\Converter;
 use Brain\Monkey\Functions as BrainMonkey;
 use Mockery;
 use RuntimeException;
@@ -40,10 +40,10 @@ class ConverterTest extends TestCase {
 		BrainMonkey\when( 'wp_kses' )->returnArg();
 		BrainMonkey\when( '__' )->returnArg();
 		BrainMonkey\when( 'get_option' )->alias( function( $option, $default = false ) {
-			if ( $option === 'convert_to_webp_lite_quality' ) {
+			if ( $option === 'poetry_convert_to_webp_quality' ) {
 				return 85;
 			}
-			if ( $option === 'convert_to_webp_lite_debug_mode' ) {
+			if ( $option === 'poetry_convert_to_webp_debug_mode' ) {
 				return false;
 			}
 			return $default;
@@ -64,7 +64,7 @@ class ConverterTest extends TestCase {
 	 * instantiation of the Converter class.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::__construct
+	 * @covers \PoetryConvertToWebp\Utils\Converter::__construct
 	 * @return void
 	 */
 	public function test_constructor_is_private(): void {
@@ -78,7 +78,7 @@ class ConverterTest extends TestCase {
 	 * of the Converter singleton instance.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::__clone
+	 * @covers \PoetryConvertToWebp\Utils\Converter::__clone
 	 * @return void
 	 */
 	public function test_clone_is_private(): void {
@@ -92,7 +92,7 @@ class ConverterTest extends TestCase {
 	 * "Cannot unserialize a singleton." to prevent singleton deserialization.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::__wakeup
+	 * @covers \PoetryConvertToWebp\Utils\Converter::__wakeup
 	 * @return void
 	 */
 	public function test_wakeup_throws_exception(): void {
@@ -111,7 +111,7 @@ class ConverterTest extends TestCase {
 	 * called with an invalid attachment ID (0 or negative).
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Converter::prepare
 	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_attachment_id(): void {
@@ -134,7 +134,7 @@ class ConverterTest extends TestCase {
 	 * called with empty or invalid attachment metadata.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Converter::prepare
 	 * @return void
 	 */
 	public function test_prepare_throws_exception_for_invalid_metadata(): void {
@@ -156,7 +156,7 @@ class ConverterTest extends TestCase {
 	 * WP_Filesystem initialization fails.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Converter::prepare
 	 * @return void
 	 */
 	public function test_prepare_returns_error_when_filesystem_fails(): void {
@@ -181,7 +181,7 @@ class ConverterTest extends TestCase {
 	 * the attachment file does not exist on the filesystem.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::prepare
+	 * @covers \PoetryConvertToWebp\Utils\Converter::prepare
 	 * @return void
 	 */
 	public function test_prepare_handles_missing_file(): void {
@@ -214,7 +214,7 @@ class ConverterTest extends TestCase {
 	 * called with an empty or invalid file path.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::convert
+	 * @covers \PoetryConvertToWebp\Utils\Converter::convert
 	 * @return void
 	 */
 	public function test_convert_throws_exception_for_invalid_filepath(): void {
@@ -235,7 +235,7 @@ class ConverterTest extends TestCase {
 	 * WP_Filesystem initialization fails.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::convert
+	 * @covers \PoetryConvertToWebp\Utils\Converter::convert
 	 * @return void
 	 */
 	public function test_convert_returns_error_when_filesystem_fails(): void {
@@ -259,7 +259,7 @@ class ConverterTest extends TestCase {
 	 * the source file does not exist on the filesystem.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::convert
+	 * @covers \PoetryConvertToWebp\Utils\Converter::convert
 	 * @return void
 	 */
 	public function test_convert_handles_missing_file(): void {
@@ -291,7 +291,7 @@ class ConverterTest extends TestCase {
 	 * attempting to convert a file that is already in WebP format.
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::convert
+	 * @covers \PoetryConvertToWebp\Utils\Converter::convert
 	 * @return void
 	 */
 	public function test_convert_handles_already_webp_file(): void {
@@ -329,7 +329,7 @@ class ConverterTest extends TestCase {
 	 * given a path with no filename (directory only).
 	 *
 	 * @since 1.0.0
-	 * @covers \ConvertToWebpLite\Utils\Converter::convert
+	 * @covers \PoetryConvertToWebp\Utils\Converter::convert
 	 * @return void
 	 */
 	public function test_convert_handles_invalid_path_structure(): void {

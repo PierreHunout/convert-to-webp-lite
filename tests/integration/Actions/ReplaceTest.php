@@ -4,21 +4,21 @@
  *
  * Tests automatic replacement of img tags with picture elements.
  *
- * @package ConvertToWebpLite\Tests
+ * @package PoetryConvertToWebp\Tests
  * @since 1.0.0
  */
 
-namespace ConvertToWebpLite\Tests\Integration\Actions;
+namespace PoetryConvertToWebp\Tests\Integration\Actions;
 
-use ConvertToWebpLite\Tests\IntegrationTestCase;
-use ConvertToWebpLite\Actions\Replace;
-use ConvertToWebpLite\Actions\Add;
+use PoetryConvertToWebp\Tests\IntegrationTestCase;
+use PoetryConvertToWebp\Actions\Replace;
+use PoetryConvertToWebp\Actions\Add;
 
 /**
  * Class ReplaceTest
  *
  * @since 1.0.0
- * @covers \ConvertToWebpLite\Actions\Replace
+ * @covers \PoetryConvertToWebp\Actions\Replace
  */
 class ReplaceTest extends IntegrationTestCase {
 
@@ -55,7 +55,7 @@ class ReplaceTest extends IntegrationTestCase {
 		$this->replace->init(); // Initialize hooks
 
 		// Set default mode to Image (0 = image mode with simple <img>, 1 = picture mode with <picture> element)
-		update_option( 'convert_to_webp_lite_replace_mode', 0 );
+		update_option( 'poetry_convert_to_webp_replace_mode', 0 );
 
 		// Create a test post
 		$this->post_id = $this->factory->post->create(
@@ -74,7 +74,7 @@ class ReplaceTest extends IntegrationTestCase {
 		$webp_path  = $this->get_webp_path( $image_path );
 
 		if ( ! file_exists( $webp_path ) ) {
-			$converter = \ConvertToWebpLite\Utils\Converter::get_instance();
+			$converter = \PoetryConvertToWebp\Utils\Converter::get_instance();
 			$converter->convert( $image_path );
 		}
 	}
@@ -125,7 +125,7 @@ class ReplaceTest extends IntegrationTestCase {
 		$result = apply_filters( 'the_content', $content );
 
 		// Should contain img tag based on replace mode
-		$replace_mode = get_option( 'convert_to_webp_lite_replace_mode', 0 );
+		$replace_mode = get_option( 'poetry_convert_to_webp_replace_mode', 0 );
 
 		if ( $replace_mode ) {
 			// Picture mode (option enabled): should contain picture element
@@ -332,11 +332,11 @@ class ReplaceTest extends IntegrationTestCase {
 		$content   = '<img src="' . esc_url( $image_url ) . '" alt="Test" />';
 
 		// Test image mode (default - 0)
-		update_option( 'convert_to_webp_lite_replace_mode', 0 );
+		update_option( 'poetry_convert_to_webp_replace_mode', 0 );
 		$result_image = apply_filters( 'the_content', $content );
 
 		// Test picture mode (enabled - 1)
-		update_option( 'convert_to_webp_lite_replace_mode', 1 );
+		update_option( 'poetry_convert_to_webp_replace_mode', 1 );
 		$result_picture = apply_filters( 'the_content', $content );
 
 		// Results should differ based on mode

@@ -14,7 +14,7 @@
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * GitHub Plugin URI:  PierreHunout/poetry-convert-to-webp
- * 
+ *
  * @since             1.0.0
  * @package           PoetryConvertToWebp
  */

@@ -90,7 +90,7 @@ class BulkDelete {
 	 * @return void
 	 */
 	public static function init(): void {
-		add_action( 'admin_post_delete_all_webp', [ __CLASS__, 'delete_all_webp' ] );
+		add_action( 'admin_post_poetry_convert_to_webp_clean_files', [ __CLASS__, 'clean_webp' ] );
 	}
 
 	/**
@@ -100,8 +100,8 @@ class BulkDelete {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function delete_all_webp(): void {
-		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'delete_all_webp' ) ) {
+	public static function clean_webp(): void {
+		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'poetry_convert_to_webp_clean_files' ) ) {
 			wp_die( esc_html__( 'Not allowed', 'poetry-convert-to-webp' ) );
 		}
 

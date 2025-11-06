@@ -69,7 +69,7 @@ class Uninstall {
 	 */
 	public static function uninstall(): void {
 		// Check if the user requested to delete WebP files on uninstall
-		$delete_webp = (bool) get_option( 'delete_webp_on_uninstall', false );
+		$delete_webp = (bool) get_option( 'poetry_convert_to_webp_delete_on_uninstall', false );
 
 		if ( ! $delete_webp ) {
 			// If not requested, exit without doing anything
@@ -98,8 +98,8 @@ class Uninstall {
 		}
 
 		// Remove plugin options from the database
-		delete_option( 'delete_webp_on_uninstall' );
-		delete_option( 'delete_webp_on_deactivate' );
+		delete_option( 'poetry_convert_to_webp_delete_on_uninstall' );
+		delete_option( 'poetry_convert_to_webp_delete_on_deactivate' );
 		delete_option( 'poetry_convert_to_webp_quality' );
 		delete_option( 'poetry_convert_to_webp_replace_mode' );
 	}

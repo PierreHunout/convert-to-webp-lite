@@ -493,8 +493,8 @@ class SettingsTest extends TestCase {
 		$_POST['action']                       = 'save_options';
 		$_POST['poetry_convert_to_webp_quality']      = '90';
 		$_POST['poetry_convert_to_webp_replace_mode'] = '1';
-		$_POST['delete_webp_on_deactivate']    = '1';
-		$_POST['delete_webp_on_uninstall']     = '1';
+		$_POST['poetry_convert_to_webp_delete_on_deactivate']    = '1';
+		$_POST['poetry_convert_to_webp_delete_on_uninstall']     = '1';
 		$_POST['_wpnonce']                     = 'valid-nonce';
 
 		$saved_options = [];
@@ -523,8 +523,8 @@ class SettingsTest extends TestCase {
 
 		$this->assertEquals( 90, $saved_options['poetry_convert_to_webp_quality'] );
 		$this->assertEquals( 1, $saved_options['poetry_convert_to_webp_replace_mode'] );
-		$this->assertEquals( 1, $saved_options['delete_webp_on_deactivate'] );
-		$this->assertEquals( 1, $saved_options['delete_webp_on_uninstall'] );
+		$this->assertEquals( 1, $saved_options['poetry_convert_to_webp_delete_on_deactivate'] );
+		$this->assertEquals( 1, $saved_options['poetry_convert_to_webp_delete_on_uninstall'] );
 	}
 
 	/**

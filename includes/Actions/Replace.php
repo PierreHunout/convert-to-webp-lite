@@ -2,8 +2,9 @@
 /**
  * Handles replacement of <img> tags in WordPress content with <picture> elements including WebP sources.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Actions;

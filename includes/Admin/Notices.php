@@ -2,8 +2,9 @@
 /**
  * Displays admin notices for the Poetry Convert to WebP plugin.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Admin;

@@ -2,8 +2,9 @@
 /**
  * Handles AJAX actions for the bulk conversion WebP process and progress bar.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Admin;

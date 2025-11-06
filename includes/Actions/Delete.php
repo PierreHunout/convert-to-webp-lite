@@ -2,8 +2,9 @@
 /**
  * Handles deletion of WebP files when attachments are deleted in WordPress.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Actions;

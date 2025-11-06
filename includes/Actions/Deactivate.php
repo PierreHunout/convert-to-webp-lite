@@ -2,8 +2,9 @@
 /**
  * Handles plugin deactivation and cleanup of WebP files and options.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Actions;

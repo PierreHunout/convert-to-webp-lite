@@ -2,8 +2,9 @@
 /**
  * Handles automatic conversion of uploaded images to WebP format.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Actions;

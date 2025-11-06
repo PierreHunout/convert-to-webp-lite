@@ -5,8 +5,9 @@
  * This class handles the deletion of WebP files
  * when the original image file is deleted or when cleaning up the uploads directory.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Utils;

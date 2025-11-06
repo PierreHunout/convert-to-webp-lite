@@ -4,8 +4,9 @@
  *
  * This class provides utility functions for handling WebP files in WordPress.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Utils;

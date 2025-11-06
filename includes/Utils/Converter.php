@@ -4,8 +4,9 @@
  *
  * This class handles the conversion of image files to WebP format.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Utils;

@@ -2,9 +2,9 @@
 /**
  * This file is responsible for handling the debugging functionality.
  *
- * @package PoetryConvertToWebp
- *
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Utils;

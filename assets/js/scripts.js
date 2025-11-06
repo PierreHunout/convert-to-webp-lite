@@ -1,8 +1,9 @@
 /**
  * Handles the UI logic for the WebP comparison tool in the WordPress admin.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 // Get the comparison container and range slider elements

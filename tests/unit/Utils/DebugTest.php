@@ -106,6 +106,11 @@ class DebugTest extends TestCase {
 	 * @return void
 	 */
 	public function test_log_returns_early_when_filesystem_fails(): void {
+		// Mock wp_upload_dir
+		BrainMonkey\expect( 'wp_upload_dir' )
+			->once()
+			->andReturn( [ 'basedir' => '/fake/uploads' ] );
+
 		// Mock get_filesystem to return false
 		BrainMonkey\expect( 'WP_Filesystem' )
 			->once()
@@ -129,6 +134,11 @@ class DebugTest extends TestCase {
 	 * @return void
 	 */
 	public function test_log_creates_log_file(): void {
+		// Mock wp_upload_dir
+		BrainMonkey\expect( 'wp_upload_dir' )
+			->once()
+			->andReturn( [ 'basedir' => '/fake/uploads' ] );
+
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
 
@@ -136,7 +146,7 @@ class DebugTest extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$path = WP_CONTENT_DIR . '/poetry-convert-to-webp-logs/';
+		$path = '/fake/uploads/poetry-convert-to-webp-logs/';
 
 		$filesystem->shouldReceive( 'is_dir' )
 			->once()
@@ -207,6 +217,11 @@ class DebugTest extends TestCase {
 	 * @return void
 	 */
 	public function test_log_writes_to_existing_directory(): void {
+		// Mock wp_upload_dir
+		BrainMonkey\expect( 'wp_upload_dir' )
+			->once()
+			->andReturn( [ 'basedir' => '/fake/uploads' ] );
+
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
 
@@ -214,7 +229,7 @@ class DebugTest extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$path = WP_CONTENT_DIR . '/poetry-convert-to-webp-logs/';
+		$path = '/fake/uploads/poetry-convert-to-webp-logs/';
 
 		$filesystem->shouldReceive( 'is_dir' )
 			->once()
@@ -252,6 +267,11 @@ class DebugTest extends TestCase {
 	 * @return void
 	 */
 	public function test_log_handles_different_data_types(): void {
+		// Mock wp_upload_dir
+		BrainMonkey\expect( 'wp_upload_dir' )
+			->once()
+			->andReturn( [ 'basedir' => '/fake/uploads' ] );
+
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
 
@@ -294,6 +314,11 @@ class DebugTest extends TestCase {
 	 * @return void
 	 */
 	public function test_log_includes_timestamp_in_json(): void {
+		// Mock wp_upload_dir
+		BrainMonkey\expect( 'wp_upload_dir' )
+			->once()
+			->andReturn( [ 'basedir' => '/fake/uploads' ] );
+
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
 
@@ -336,6 +361,11 @@ class DebugTest extends TestCase {
 	 * @return void
 	 */
 	public function test_log_sanitizes_file_name(): void {
+		// Mock wp_upload_dir
+		BrainMonkey\expect( 'wp_upload_dir' )
+			->once()
+			->andReturn( [ 'basedir' => '/fake/uploads' ] );
+
 		$filesystem               = Mockery::mock( 'WP_Filesystem_Base' );
 		$GLOBALS['wp_filesystem'] = $filesystem;
 

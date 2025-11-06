@@ -76,8 +76,8 @@ class BulkDeleteTest extends IntegrationTestCase {
 	 */
 	public function test_admin_post_action_registered(): void {
 		$this->assertIsInt(
-			has_action( 'admin_post_delete_all_webp', [ BulkDelete::class, 'delete_all_webp' ] ),
-			'delete_all_webp admin_post action should be registered'
+			has_action( 'admin_post_poetry_convert_to_webp_clean_files', [ BulkDelete::class, 'clean_webp' ] ),
+			'poetry_convert_to_webp_clean_files admin_post action should be registered'
 		);
 	}
 
@@ -105,13 +105,13 @@ class BulkDeleteTest extends IntegrationTestCase {
 		}
 
 		// Set nonce
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 
 		// Prevent actual redirect
 		add_filter( 'wp_redirect', '__return_false' );
 
 		// Execute bulk delete
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		// Verify all WebP files were deleted
 		foreach ( $webp_paths as $webp_path ) {
@@ -136,11 +136,11 @@ class BulkDeleteTest extends IntegrationTestCase {
 		$subscriber_id = $this->factory->user->create( [ 'role' => 'subscriber' ] );
 		wp_set_current_user( $subscriber_id );
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 
 		$this->expectException( \WPDieException::class );
 
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 	}
 
 	/**
@@ -154,7 +154,7 @@ class BulkDeleteTest extends IntegrationTestCase {
 
 		$this->expectException( \WPDieException::class );
 
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 	}
 
 	/**
@@ -177,13 +177,13 @@ class BulkDeleteTest extends IntegrationTestCase {
 			wp_delete_attachment( $attachment_id, true );
 		}
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 
 		// Prevent redirect
 		add_filter( 'wp_redirect', '__return_false' );
 
 		// Should handle gracefully
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		$this->assertTrue( true, 'Should handle no attachments gracefully' );
 	}
@@ -200,13 +200,13 @@ class BulkDeleteTest extends IntegrationTestCase {
 			$this->create_test_attachment( "transient-test-{$i}.jpg" );
 		}
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 
 		// Prevent redirect
 		add_filter( 'wp_redirect', '__return_false' );
 
 		// Execute deletion
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		// Check transient was set
 		$transient_data = get_transient( 'poetry_convert_to_webp_deletion_data' );
@@ -229,13 +229,13 @@ class BulkDeleteTest extends IntegrationTestCase {
 		// Cache some attachment data
 		wp_cache_set( "attachment_{$attachment_id}", 'cached_data', 'posts' );
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 
 		// Prevent redirect
 		add_filter( 'wp_redirect', '__return_false' );
 
 		// Execute deletion
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		// Cache should be flushed (though specific implementation may vary)
 		$this->assertTrue( true, 'Cache flush should be called' );
@@ -260,10 +260,10 @@ class BulkDeleteTest extends IntegrationTestCase {
 		$this->assertFileExists( $jpg_webp, 'JPEG WebP should exist' );
 		$this->assertFileExists( $png_webp, 'PNG WebP should exist' );
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 		add_filter( 'wp_redirect', '__return_false' );
 
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		$this->assertFileDoesNotExist( $jpg_webp, 'JPEG WebP should be deleted' );
 		$this->assertFileDoesNotExist( $png_webp, 'PNG WebP should be deleted' );
@@ -301,10 +301,10 @@ class BulkDeleteTest extends IntegrationTestCase {
 			$this->assertFileExists( $webp_path, 'Thumbnail WebP should exist before deletion' );
 		}
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 		add_filter( 'wp_redirect', '__return_false' );
 
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		// Verify all thumbnail WebP files were deleted
 		foreach ( $webp_paths as $webp_path ) {
@@ -325,7 +325,7 @@ class BulkDeleteTest extends IntegrationTestCase {
 		// Create test attachment
 		$this->create_test_attachment( 'redirect-test.jpg' );
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 
 		// Capture redirect URL
 		$redirect_url = '';
@@ -337,7 +337,7 @@ class BulkDeleteTest extends IntegrationTestCase {
 			}
 		);
 
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		$this->assertNotEmpty( $redirect_url, 'Redirect URL should be set' );
 		$this->assertStringContainsString( 'deleted=1', $redirect_url, 'URL should contain deleted parameter' );
@@ -362,11 +362,11 @@ class BulkDeleteTest extends IntegrationTestCase {
 
 		$this->assertFileDoesNotExist( $webp_path, 'WebP should not exist' );
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 		add_filter( 'wp_redirect', '__return_false' );
 
 		// Should handle gracefully
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		$this->assertTrue( true, 'Should handle missing WebP files gracefully' );
 	}
@@ -383,10 +383,10 @@ class BulkDeleteTest extends IntegrationTestCase {
 			$this->create_test_attachment( "result-test-{$i}.jpg" );
 		}
 
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'delete_all_webp' );
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'poetry_convert_to_webp_clean_files' );
 		add_filter( 'wp_redirect', '__return_false' );
 
-		BulkDelete::delete_all_webp();
+		BulkDelete::clean_webp();
 
 		$transient_data = get_transient( 'poetry_convert_to_webp_deletion_data' );
 

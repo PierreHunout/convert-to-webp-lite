@@ -104,7 +104,7 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate returns early when delete option is false.
 	 *
-	 * Verifies that when the 'delete_webp_on_deactivate' option is false,
+	 * Verifies that when the 'poetry_convert_to_webp_delete_on_deactivate' option is false,
 	 * the deactivate() method returns early without processing.
 	 *
 	 * @since 1.0.0
@@ -114,7 +114,7 @@ class DeactivateTest extends TestCase {
 	public function test_deactivate_returns_early_when_delete_option_false(): void {
 		BrainMonkey\expect( 'get_option' )
 			->once()
-			->with( 'delete_webp_on_deactivate', false )
+			->with( 'poetry_convert_to_webp_delete_on_deactivate', false )
 			->andReturn( false );
 
 		// If option is false, should return early and not call other functions
@@ -126,7 +126,7 @@ class DeactivateTest extends TestCase {
 	/**
 	 * Test deactivate processes when delete option is enabled.
 	 *
-	 * Verifies that when the 'delete_webp_on_deactivate' option is enabled,
+	 * Verifies that when the 'poetry_convert_to_webp_delete_on_deactivate' option is enabled,
 	 * the cleanup process is triggered without errors.
 	 *
 	 * @since 1.0.0
@@ -136,7 +136,7 @@ class DeactivateTest extends TestCase {
 	public function test_deactivate_option_enabled_triggers_cleanup(): void {
 		BrainMonkey\expect( 'get_option' )
 			->once()
-			->with( 'delete_webp_on_deactivate', false )
+			->with( 'poetry_convert_to_webp_delete_on_deactivate', false )
 			->andReturn( true );
 
 		// Mock get_attachments to return empty array (early return)
@@ -153,7 +153,7 @@ class DeactivateTest extends TestCase {
 	 * Test that delete_option is called for plugin options.
 	 *
 	 * Verifies that deactivate() deletes the correct plugin options:
-	 * delete_webp_on_deactivate, poetry_convert_to_webp_quality, and poetry_convert_to_webp_replace_mode.
+	 * poetry_convert_to_webp_delete_on_deactivate, poetry_convert_to_webp_quality, and poetry_convert_to_webp_replace_mode.
 	 *
 	 * @since 1.0.0
 	 * @covers \PoetryConvertToWebp\Actions\Deactivate::deactivate
@@ -162,13 +162,13 @@ class DeactivateTest extends TestCase {
 	public function test_deactivate_deletes_correct_options(): void {
 		// Test the list of options that should be deleted
 		$expected_options = [
-			'delete_webp_on_deactivate',
+			'poetry_convert_to_webp_delete_on_deactivate',
 			'poetry_convert_to_webp_quality',
 			'poetry_convert_to_webp_replace_mode',
 		];
 
 		$this->assertCount( 3, $expected_options );
-		$this->assertContains( 'delete_webp_on_deactivate', $expected_options );
+		$this->assertContains( 'poetry_convert_to_webp_delete_on_deactivate', $expected_options );
 		$this->assertContains( 'poetry_convert_to_webp_quality', $expected_options );
 		$this->assertContains( 'poetry_convert_to_webp_replace_mode', $expected_options );
 	}

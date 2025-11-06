@@ -263,7 +263,7 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_validates_quality_minimum(): void {
-		$_POST['action']                  = 'save_options';
+		$_POST['action']                  = 'poetry_convert_to_webp_save_options';
 		$_POST['poetry_convert_to_webp_quality'] = '-10';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
@@ -309,7 +309,7 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_validates_quality_maximum(): void {
-		$_POST['action']                  = 'save_options';
+		$_POST['action']                  = 'poetry_convert_to_webp_save_options';
 		$_POST['poetry_convert_to_webp_quality'] = '150';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
@@ -355,7 +355,7 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_saves_valid_quality(): void {
-		$_POST['action']                  = 'save_options';
+		$_POST['action']                  = 'poetry_convert_to_webp_save_options';
 		$_POST['poetry_convert_to_webp_quality'] = '75';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
@@ -401,7 +401,7 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_saves_replace_mode_enabled(): void {
-		$_POST['action']                       = 'save_options';
+		$_POST['action']                       = 'poetry_convert_to_webp_save_options';
 		$_POST['poetry_convert_to_webp_quality']      = '85';
 		$_POST['poetry_convert_to_webp_replace_mode'] = '1';
 		$_POST['_wpnonce']                     = 'valid-nonce';
@@ -446,7 +446,7 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_saves_replace_mode_disabled(): void {
-		$_POST['action']                  = 'save_options';
+		$_POST['action']                  = 'poetry_convert_to_webp_save_options';
 		$_POST['poetry_convert_to_webp_quality'] = '85';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
@@ -490,11 +490,11 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_saves_all_options(): void {
-		$_POST['action']                       = 'save_options';
+		$_POST['action']                       = 'poetry_convert_to_webp_save_options';
 		$_POST['poetry_convert_to_webp_quality']      = '90';
 		$_POST['poetry_convert_to_webp_replace_mode'] = '1';
-		$_POST['delete_webp_on_deactivate']    = '1';
-		$_POST['delete_webp_on_uninstall']     = '1';
+		$_POST['poetry_convert_to_webp_delete_on_deactivate']    = '1';
+		$_POST['poetry_convert_to_webp_delete_on_uninstall']     = '1';
 		$_POST['_wpnonce']                     = 'valid-nonce';
 
 		$saved_options = [];
@@ -523,8 +523,8 @@ class SettingsTest extends TestCase {
 
 		$this->assertEquals( 90, $saved_options['poetry_convert_to_webp_quality'] );
 		$this->assertEquals( 1, $saved_options['poetry_convert_to_webp_replace_mode'] );
-		$this->assertEquals( 1, $saved_options['delete_webp_on_deactivate'] );
-		$this->assertEquals( 1, $saved_options['delete_webp_on_uninstall'] );
+		$this->assertEquals( 1, $saved_options['poetry_convert_to_webp_delete_on_deactivate'] );
+		$this->assertEquals( 1, $saved_options['poetry_convert_to_webp_delete_on_uninstall'] );
 	}
 
 	/**
@@ -538,7 +538,7 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_adds_admin_notice_on_success(): void {
-		$_POST['action']                  = 'save_options';
+		$_POST['action']                  = 'poetry_convert_to_webp_save_options';
 		$_POST['poetry_convert_to_webp_quality'] = '85';
 		$_POST['_wpnonce']                = 'valid-nonce';
 
@@ -727,7 +727,7 @@ class SettingsTest extends TestCase {
 	 * @return void
 	 */
 	public function test_save_settings_uses_default_quality_when_not_provided(): void {
-		$_POST['action']   = 'save_options';
+		$_POST['action']   = 'poetry_convert_to_webp_save_options';
 		$_POST['_wpnonce'] = 'valid-nonce';
 
 		$updated_quality = null;

@@ -131,8 +131,8 @@ class Settings {
 		$webp_quality         = (int) get_option( 'poetry_convert_to_webp_quality', 85 );
 		$replace_mode         = (bool) get_option( 'poetry_convert_to_webp_replace_mode', false );
 		$debug_mode           = (bool) get_option( 'poetry_convert_to_webp_debug_mode', false );
-		$delete_on_deactivate = (bool) get_option( 'delete_webp_on_deactivate', false );
-		$delete_on_uninstall  = (bool) get_option( 'delete_webp_on_uninstall', false );
+		$delete_on_deactivate = (bool) get_option( 'poetry_convert_to_webp_delete_on_deactivate', false );
+		$delete_on_uninstall  = (bool) get_option( 'poetry_convert_to_webp_delete_on_uninstall', false );
 		?>
 		<div class="wrap poetry-convert-to-webp">
 			<h1 class="poetry-convert-to-webp__title"><?php esc_html_e( 'Manage WebP Conversion', 'poetry-convert-to-webp' ); ?></h1>
@@ -216,7 +216,7 @@ class Settings {
 									?>
 								</h2>
 								<div class="poetry-convert-to-webp__inputs">
-									<input type="checkbox" class="poetry-convert-to-webp__input poetry-convert-to-webp__input--toggle" name="delete_webp_on_deactivate" value="1" <?php checked( $delete_on_deactivate, 1 ); ?> />
+									<input type="checkbox" class="poetry-convert-to-webp__input poetry-convert-to-webp__input--toggle" name="poetry_convert_to_webp_delete_on_deactivate" value="1" <?php checked( $delete_on_deactivate, 1 ); ?> />
 									<p class="poetry-convert-to-webp__label"><?php esc_html_e( 'Delete WebP files and options', 'poetry-convert-to-webp' ); ?></p>
 								</div>
 							</div>
@@ -228,13 +228,13 @@ class Settings {
 									?>
 								</h2>
 								<div class="poetry-convert-to-webp__inputs">
-									<input type="checkbox" class="poetry-convert-to-webp__input poetry-convert-to-webp__input--toggle" name="delete_webp_on_uninstall" value="1" <?php checked( $delete_on_uninstall, 1 ); ?> />
+									<input type="checkbox" class="poetry-convert-to-webp__input poetry-convert-to-webp__input--toggle" name="poetry_convert_to_webp_delete_on_uninstall" value="1" <?php checked( $delete_on_uninstall, 1 ); ?> />
 									<p class="poetry-convert-to-webp__label"><?php esc_html_e( 'Delete WebP files and options', 'poetry-convert-to-webp' ); ?></p>
 								</div>
 							</div>
 						</div>
 						<div class="poetry-convert-to-webp__submit">
-							<input type="hidden" name="action" value="save_options">
+							<input type="hidden" name="action" value="poetry_convert_to_webp_save_options">
 							<button type="submit" class="button button-primary poetry-convert-to-webp__button poetry-convert-to-webp__button--primary"><?php esc_html_e( 'Save options', 'poetry-convert-to-webp' ); ?></button>
 						</div>
 					</form>
@@ -257,12 +257,12 @@ class Settings {
 
 					<!-- Delete all WebP files form -->
 					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="poetry-convert-to-webp__form poetry-convert-to-webp__form--delete" onsubmit="return confirm('<?php echo esc_js( __( 'Are you sure you want to delete all WebP files?', 'poetry-convert-to-webp' ) ); ?>');">
-						<?php wp_nonce_field( 'delete_all_webp' ); ?>
+						<?php wp_nonce_field( 'poetry_convert_to_webp_clean_files' ); ?>
 						<div class="poetry-convert-to-webp__table">
 							<div class="poetry-convert-to-webp__row">
 								<h2 class="poetry-convert-to-webp__subtitle"><?php esc_html_e( 'Delete all WebP files', 'poetry-convert-to-webp' ); ?></h2>
 								<div class="poetry-convert-to-webp__submit poetry-convert-to-webp__submit--secondary">
-									<input type="hidden" name="action" value="delete_all_webp">
+									<input type="hidden" name="action" value="poetry_convert_to_webp_clean_files">
 									<button type="submit" id="poetry-convert-to-webp-delete-all" class="button button-danger poetry-convert-to-webp__button poetry-convert-to-webp__button--danger"><?php esc_html_e( 'Delete all WebP files', 'poetry-convert-to-webp' ); ?></button>
 								</div>
 							</div>
@@ -338,7 +338,7 @@ class Settings {
 		}
 
 		if (
-			isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'save_options'
+			isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'poetry_convert_to_webp_save_options'
 			&& check_admin_referer( 'poetry_convert_to_webp_save_options' )
 		) {
 			$quality = (int) ( isset( $_POST['poetry_convert_to_webp_quality'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['poetry_convert_to_webp_quality'] ) ) ) : 85 );
@@ -353,14 +353,14 @@ class Settings {
 
 			$mode       = (int) isset( $_POST['poetry_convert_to_webp_replace_mode'] ) && sanitize_text_field( wp_unslash( $_POST['poetry_convert_to_webp_replace_mode'] ) ) === '1' ? 1 : 0;
 			$debug_mode = (int) isset( $_POST['poetry_convert_to_webp_debug_mode'] ) && sanitize_text_field( wp_unslash( $_POST['poetry_convert_to_webp_debug_mode'] ) ) === '1' ? 1 : 0;
-			$deactivate = (int) isset( $_POST['delete_webp_on_deactivate'] ) && sanitize_text_field( wp_unslash( $_POST['delete_webp_on_deactivate'] ) ) === '1' ? 1 : 0;
-			$uninstall  = (int) isset( $_POST['delete_webp_on_uninstall'] ) && sanitize_text_field( wp_unslash( $_POST['delete_webp_on_uninstall'] ) ) === '1' ? 1 : 0;
+			$deactivate = (int) isset( $_POST['poetry_convert_to_webp_delete_on_deactivate'] ) && sanitize_text_field( wp_unslash( $_POST['poetry_convert_to_webp_delete_on_deactivate'] ) ) === '1' ? 1 : 0;
+			$uninstall  = (int) isset( $_POST['poetry_convert_to_webp_delete_on_uninstall'] ) && sanitize_text_field( wp_unslash( $_POST['poetry_convert_to_webp_delete_on_uninstall'] ) ) === '1' ? 1 : 0;
 
 			update_option( 'poetry_convert_to_webp_quality', $quality );
 			update_option( 'poetry_convert_to_webp_replace_mode', $mode );
 			update_option( 'poetry_convert_to_webp_debug_mode', $debug_mode );
-			update_option( 'delete_webp_on_deactivate', $deactivate );
-			update_option( 'delete_webp_on_uninstall', $uninstall );
+			update_option( 'poetry_convert_to_webp_delete_on_deactivate', $deactivate );
+			update_option( 'poetry_convert_to_webp_delete_on_uninstall', $uninstall );
 
 			// Add admin notice for successful save
 			add_action(

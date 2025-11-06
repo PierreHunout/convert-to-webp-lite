@@ -91,7 +91,7 @@ class BulkDeleteTest extends TestCase {
 	/**
 	 * Test that init registers admin_post action.
 	 *
-	 * Verifies that the init() method registers the admin_post_delete_all_webp
+	 * Verifies that the init() method registers the admin_post_poetry_convert_to_webp_clean_files
 	 * WordPress action hook for handling bulk deletion requests.
 	 *
 	 * @since 1.0.0
@@ -110,28 +110,28 @@ class BulkDeleteTest extends TestCase {
 
 		BulkDelete::init();
 
-		$this->assertContains( 'admin_post_delete_all_webp', $hooks );
+		$this->assertContains( 'admin_post_poetry_convert_to_webp_clean_files', $hooks );
 		$this->assertCount( 1, $hooks );
 	}
 
 	/**
-	 * Test delete_all_webp method exists and is public static.
+	 * Test clean_webp method exists and is public static.
 	 *
-	 * Verifies that the delete_all_webp() method exists, is public and static,
+	 * Verifies that the clean_webp() method exists, is public and static,
 	 * allowing it to be called as an action hook callback.
 	 *
 	 * @since 1.0.0
-	 * @covers \PoetryConvertToWebp\Admin\BulkDelete::delete_all_webp
+	 * @covers \PoetryConvertToWebp\Admin\BulkDelete::clean_webp
 	 * @return void
 	 */
-	public function test_delete_all_webp_method_exists(): void {
+	public function test_clean_webp_method_exists(): void {
 		$this->assertTrue(
-			method_exists( BulkDelete::class, 'delete_all_webp' ),
-			'BulkDelete class should have a delete_all_webp method'
+			method_exists( BulkDelete::class, 'clean_webp' ),
+			'BulkDelete class should have a clean_webp method'
 		);
 
 		$reflection = new ReflectionClass( BulkDelete::class );
-		$method     = $reflection->getMethod( 'delete_all_webp' );
+		$method     = $reflection->getMethod( 'clean_webp' );
 		$this->assertTrue( $method->isPublic() );
 		$this->assertTrue( $method->isStatic() );
 	}

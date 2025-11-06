@@ -104,7 +104,7 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall returns early when delete option is false.
 	 *
-	 * Verifies that when the 'delete_webp_on_uninstall' option is false,
+	 * Verifies that when the 'poetry_convert_to_webp_delete_on_uninstall' option is false,
 	 * the uninstall() method returns early without processing.
 	 *
 	 * @since 1.0.0
@@ -114,7 +114,7 @@ class UninstallTest extends TestCase {
 	public function test_uninstall_returns_early_when_delete_option_false(): void {
 		BrainMonkey\expect( 'get_option' )
 			->once()
-			->with( 'delete_webp_on_uninstall', false )
+			->with( 'poetry_convert_to_webp_delete_on_uninstall', false )
 			->andReturn( false );
 
 		// If option is false, should return early and not call other functions
@@ -126,7 +126,7 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test uninstall processes when delete option is enabled.
 	 *
-	 * Verifies that when the 'delete_webp_on_uninstall' option is enabled,
+	 * Verifies that when the 'poetry_convert_to_webp_delete_on_uninstall' option is enabled,
 	 * the cleanup process is triggered without errors.
 	 *
 	 * @since 1.0.0
@@ -136,7 +136,7 @@ class UninstallTest extends TestCase {
 	public function test_uninstall_option_enabled_triggers_cleanup(): void {
 		BrainMonkey\expect( 'get_option' )
 			->once()
-			->with( 'delete_webp_on_uninstall', false )
+			->with( 'poetry_convert_to_webp_delete_on_uninstall', false )
 			->andReturn( true );
 
 		// Mock get_attachments to return empty array (early return)
@@ -152,8 +152,8 @@ class UninstallTest extends TestCase {
 	/**
 	 * Test that uninstall deletes all plugin options.
 	 *
-	 * Verifies that uninstall() deletes all 4 plugin options: delete_webp_on_uninstall,
-	 * delete_webp_on_deactivate, poetry_convert_to_webp_quality, and poetry_convert_to_webp_replace_mode.
+	 * Verifies that uninstall() deletes all 4 plugin options: poetry_convert_to_webp_delete_on_uninstall,
+	 * poetry_convert_to_webp_delete_on_deactivate, poetry_convert_to_webp_quality, and poetry_convert_to_webp_replace_mode.
 	 *
 	 * @since 1.0.0
 	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
@@ -162,15 +162,15 @@ class UninstallTest extends TestCase {
 	public function test_uninstall_deletes_all_plugin_options(): void {
 		// Test the list of options that should be deleted
 		$expected_options = [
-			'delete_webp_on_uninstall',
-			'delete_webp_on_deactivate',
+			'poetry_convert_to_webp_delete_on_uninstall',
+			'poetry_convert_to_webp_delete_on_deactivate',
 			'poetry_convert_to_webp_quality',
 			'poetry_convert_to_webp_replace_mode',
 		];
 
 		$this->assertCount( 4, $expected_options );
-		$this->assertContains( 'delete_webp_on_uninstall', $expected_options );
-		$this->assertContains( 'delete_webp_on_deactivate', $expected_options );
+		$this->assertContains( 'poetry_convert_to_webp_delete_on_uninstall', $expected_options );
+		$this->assertContains( 'poetry_convert_to_webp_delete_on_deactivate', $expected_options );
 		$this->assertContains( 'poetry_convert_to_webp_quality', $expected_options );
 		$this->assertContains( 'poetry_convert_to_webp_replace_mode', $expected_options );
 	}
@@ -239,7 +239,7 @@ class UninstallTest extends TestCase {
 	 * Test uninstall deletes more options than deactivate.
 	 *
 	 * Verifies that uninstall() removes more options than deactivate(),
-	 * specifically 4 options vs 3, including the delete_webp_on_uninstall option.
+	 * specifically 4 options vs 3, including the poetry_convert_to_webp_delete_on_uninstall option.
 	 *
 	 * @since 1.0.0
 	 * @covers \PoetryConvertToWebp\Actions\Uninstall::uninstall
@@ -247,14 +247,14 @@ class UninstallTest extends TestCase {
 	 */
 	public function test_uninstall_deletes_more_options_than_deactivate(): void {
 		$uninstall_options = [
-			'delete_webp_on_uninstall',
-			'delete_webp_on_deactivate',
+			'poetry_convert_to_webp_delete_on_uninstall',
+			'poetry_convert_to_webp_delete_on_deactivate',
 			'poetry_convert_to_webp_quality',
 			'poetry_convert_to_webp_replace_mode',
 		];
 
 		$deactivate_options = [
-			'delete_webp_on_deactivate',
+			'poetry_convert_to_webp_delete_on_deactivate',
 			'poetry_convert_to_webp_quality',
 			'poetry_convert_to_webp_replace_mode',
 		];

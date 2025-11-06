@@ -59,8 +59,8 @@ abstract class IntegrationTestCase extends WP_UnitTestCase {
 		// Set default options
 		update_option( 'poetry_convert_to_webp_quality', 85 );
 		update_option( 'poetry_convert_to_webp_replace_mode', 0 );
-		update_option( 'delete_webp_on_deactivate', 0 );
-		update_option( 'delete_webp_on_uninstall', 0 );
+		update_option( 'poetry_convert_to_webp_delete_on_deactivate', 0 );
+		update_option( 'poetry_convert_to_webp_delete_on_uninstall', 0 );
 	}
 
 	/**
@@ -78,8 +78,8 @@ abstract class IntegrationTestCase extends WP_UnitTestCase {
 		// Reset options
 		delete_option( 'poetry_convert_to_webp_quality' );
 		delete_option( 'poetry_convert_to_webp_replace_mode' );
-		delete_option( 'delete_webp_on_deactivate' );
-		delete_option( 'delete_webp_on_uninstall' );
+		delete_option( 'poetry_convert_to_webp_delete_on_deactivate' );
+		delete_option( 'poetry_convert_to_webp_delete_on_uninstall' );
 
 		parent::tear_down();
 	}

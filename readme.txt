@@ -185,7 +185,7 @@ Go to **Settings → Poetry Convert to WebP** and enable **"Debug mode"**. Logs 
 = I'm getting conversion errors. What should I do? =
 
 1. Enable **Debug mode** in the settings
-2. Check the log files in `/wp-content/poetry-convert-to-webp-logs/`
+2. Check the log files in `/uploads/poetry-convert-to-webp-logs/`
 3. Verify your server has GD extension with WebP support
 4. Increase PHP memory limit if needed (add `define('WP_MEMORY_LIMIT', '256M');` to wp-config.php)
 5. Contact support with the error logs

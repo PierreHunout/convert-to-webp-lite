@@ -1,9 +1,10 @@
 /**
  * Handles the UI logic for the legacy WebP conversion process in the WordPress admin.
  * Manages popup display, progress donut chart, success counter, and disables the delete button during conversion.
- *
- * @package PoetryConvertToWebp
+ * 
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 document.addEventListener('DOMContentLoaded', function () {

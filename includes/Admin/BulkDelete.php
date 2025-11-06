@@ -2,8 +2,9 @@
 /**
  * Handles actions for bulk deletion of WebP files.
  *
- * @package PoetryConvertToWebp
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Admin;

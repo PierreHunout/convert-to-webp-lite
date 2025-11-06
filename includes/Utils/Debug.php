@@ -2,9 +2,9 @@
 /**
  * This file is responsible for handling the debugging functionality.
  *
- * @package PoetryConvertToWebp
- *
  * @since 1.0.0
+ * @package PoetryConvertToWebp
+ * @author Pierre Hunout
  */
 
 namespace PoetryConvertToWebp\Utils;
@@ -62,7 +62,7 @@ class Debug {
 	/**
 	 * Logs data to a specified file.
 	 *
-	 * Creates JSON log files in wp-content/poetry-convert-to-webp-logs/ directory
+	 * Creates JSON log files in uploads/poetry-convert-to-webp-logs/ directory
 	 * with timestamp, data type, and the actual data being logged.
 	 *
 	 * @since 1.0.0
@@ -71,8 +71,10 @@ class Debug {
 	 * @return void
 	 */
 	public static function log( string $file, mixed $data ): void {
-		// Store logs in wp-content/poetry-convert-to-webp-logs/ for persistence and security
-		$path       = (string) WP_CONTENT_DIR . '/poetry-convert-to-webp-logs/';
+		// Store logs in uploads/poetry-convert-to-webp-logs/ for persistence and security
+		$upload_dir = wp_upload_dir();
+		$base_dir   = isset( $upload_dir['basedir'] ) ? $upload_dir['basedir'] : WP_CONTENT_DIR . '/uploads';
+		$path       = (string) $base_dir . '/poetry-convert-to-webp-logs/';
 		$filesystem = Helpers::get_filesystem();
 
 		if ( false === $filesystem ) {
